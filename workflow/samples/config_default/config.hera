@@ -1,17 +1,12 @@
 #!/usr/bin/env bash
-# default resource settings on Jet
-# the VARiable hierarchy
-#   Use VAR.${task_id} if it exists and has a value, otherwise use VAR
-#   if VAR does not have a value, the associated item will not be written out to the xml
-export ACCOUNT="wrfruc"
-export ACCOUNT2="wrfruc"
-export QUEUE="batch"
-export QUEUE2="batch"
-export PARTITION=""
-export PARTITION2=""
+# Jet-specific settings
+export ACCOUNT=${ACCOUNT:-rtrr}
+export QUEUE=${QUEUE:-batch}
+export PARTITION=${PARTITION:-hera}
 export RESERVATION=""
-export RESERVATION2=""
-export NODES="<nodes>1:ppn=1</nodes>"
-export WALLTIME="00:30:00"
-export NATIVE=""
-export MEMORY=""
+export NODES=${NODES:-"<nodes>1:ppn=1</nodes>"} #the NODES variable has to include the tag <nodes> or <cores>
+export WALLTIME=${WALLTIME:-"00:30:00"}
+export NATIVE=${NATIVE:-""}
+export MEMORY=${MEMORY:-""}
+#
+export COMINgfs="/scratch2/BMC/rtrr/FIX_RRFS2/staged_data/ops/GFS"

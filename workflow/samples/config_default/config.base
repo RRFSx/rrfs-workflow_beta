@@ -13,9 +13,6 @@ export FIXrrfs="${HOMErrfs}/fix"
 # resource settings: ACCOUNT, QUEUE, PARTITION, RESERVATION, NODES,  NATIVE, WALLTIME, MEMORY
 # the VARiable cascade: A_B_C_D: if this VAR is NOT defined, check A_B_C; repeat until VAR is defined or empty
 #
-export RESERVATION=""
-export ACCOUNT="nrtrr"
-export QUEUE="batch"
 export DEADLINE=""
 export STARTTIME=""
 export NODES=${NODES:-"<nodes>1:ppn=1</nodes>"} #the NODES variable has to include the tag <nodes> or <cores>
