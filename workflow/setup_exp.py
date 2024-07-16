@@ -69,8 +69,7 @@ configdir=f'{HOMErrfs}/workflow/samples/config_{config_sample}'
 exp_configdir=f'{expdir}/config'
 if os.path.exists(exp_configdir):
   shutil.rmtree(exp_configdir)
-if config_sample!="default": #copy default first if a non_default sample is selected
-  shutil.copytree(config_default,exp_configdir)
+shutil.copytree(config_default,exp_configdir) #copy the default one first
 for file in glob.glob(f'{configdir}/*'): #overwrite default config files using the selected sample
   shutil.copy(file,exp_configdir)
 
