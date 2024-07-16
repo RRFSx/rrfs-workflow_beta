@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+rundir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+HOMErrfs="$(dirname "$rundir")"
+
+cd ${HOMErrfs}/sorc
+
+./build.wps  | tee ./log.build.wps
+./build.mpas | tee ./log.build.mpas
+./build.rdas | tee ./log.build.rdas
+
+exit 0

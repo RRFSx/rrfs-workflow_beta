@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Jet-specific settings
+export ACCOUNT=${ACCOUNT:-nrtrr}
+export ACCOUNT2=${ACCOUNT2:-${ACCOUNT}}
+export QUEUE=${QUEUE:-batch}
+export QUEUE2=${QUEUE2:-${QUEUE}}
+export PARTITION=${PARTITION:-kjet}
+export PARTITION2=${PARTITION2:-${PARTITION}}
+export RESERVATION=${RESERVATION:-""}
+export RESERVATION2=${RESERVATION2:-${RESERVATION}}
+export NODES=${NODES:-"<nodes>1:ppn=1</nodes>"} #the NODES variable has to include the tag <nodes> or <cores>
+export WALLTIME=${WALLTIME:-"00:30:00"}
+export NATIVE=${NATIVE:-""}
+export MEMORY=${MEMORY:-""}
+#
+export COMINgfs="/lfs5/BMC/wrfruc/data.ops/GFS"
