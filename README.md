@@ -1,7 +1,7 @@
 # Build
 `git clone --recursive git@github.com:NOAA-GSL/rrfs2.git`
 
-Build from source codes and this will take a very long time:    
+`cd sorc` and run the following command to build the system. This will take a very long time at the moment:    
 `build.all`
 
 or you may open 3 terminals, with each terminal running one of the following commands:  
