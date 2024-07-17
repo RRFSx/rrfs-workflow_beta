@@ -3,7 +3,7 @@
 # config.base -> config.${MACHINE}-> config.${task_id} -> config.${task_id}_spinup -> config.${NET}
 #
 export MACHINE=${MACHINE:-"@MACHINE@"} #comes from config.exp
-export HOMErrfs=${HOMErrfs:"@HOMErrfs@"} #comes from the workflow at runtime
+export HOMErrfs=${HOMErrfs:-"@HOMErrfs@"} #comes from the workflow at runtime
 export EXECrrfs="${HOMErrfs}/exec"
 export PARMrrfs="${HOMErrfs}/parm"
 export SCRIPTSrrfs="${HOMErrfs}/scripts"
@@ -20,3 +20,4 @@ export MAXTRIES="2"
 #
 export KEEPDATA="YES"  #YES or NO
 #
+export PROD_BGN_HRS="3 15" # HRS to begin a new PROD cycle
