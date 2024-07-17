@@ -38,7 +38,7 @@ def setup_xml(expdir):
     ic(xmlFile,expdir)
     lbc(xmlFile,expdir)
     da(xmlFile,expdir)
-    #fcst(xmlFile,expdir)
+    fcst(xmlFile,expdir)
   
     wflow_end(xmlFile)
 

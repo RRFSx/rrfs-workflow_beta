@@ -56,7 +56,39 @@ def fcst(xmlFile, expdir):
     '_PLACEHOLDER_': 'just a place holder',
   }
   # dependencies
-  dependencies=""
+  offset=3
+  hrs=os.getenv('PROD_BGN_HRS', '3 5')
+  hrs=hrs.split(' ')
+  streqs=""; strneqs=""; first=True
+  for hr in hrs:
+    hr=f"{hr:0>2}"
+    if first:
+      first=False
+      streqs=streqs  +f"        <streq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></streq>"
+      strneqs=strneqs+f"        <strneq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></strneq>"
+    else:
+      streqs=streqs  +f"\n        <streq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></streq>"
+      strneqs=strneqs+f"\n        <strneq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></strneq>"
+
+  dependencies=f'''
+  <dependency>
+  <or>
+    <and>
+      <or>
+{streqs}
+      </or>
+      <taskdep task="ic"/>
+      <taskdep task="lbc" cycle_offset="-{offset}:00:00"/>
+    </and>
+    <and>
+      <or>
+{strneqs}
+      </or>
+      <taskdep task="lbc" cycle_offset="-{offset}:00:00"/>
+      <taskdep task="da"/>
+    </and>
+  </or>
+  </dependency>'''
 
   #
   xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies)
