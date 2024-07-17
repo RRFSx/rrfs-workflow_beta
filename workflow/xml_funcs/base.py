@@ -186,19 +186,19 @@ def xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv={},dependencies="",metat
     'command': f'{HOMErrfs}/jobs/rocoto/launch.sh JRRFS_'+f'{meta_id}'.upper(),
     'join': f'{COMROOT}/{NET}/{VERSION}/logs/{RUN}.@Y@m@d/@H/{task_id}_{TAG}_@Y@m@d@H.log',
     'jobname': f'{task_id}_@H_{TAG}',
-    'account': get_cascade_env(f'ACCOUNT_{task_id}'),
-    'queue': get_cascade_env(f'QUEUE_{task_id}'),
-    'partition': get_cascade_env(f"PARTITION_{task_id}"),
-    'walltime': get_cascade_env(f"WALLTIME_{task_id}"),
-    'nodes': get_cascade_env(f"NODES_{task_id}"),
-    'reservation': get_cascade_env(f"RESERVATION_{task_id}"),
-    'native': get_cascade_env(f"NATIVE_{task_id}")
+    'account': get_cascade_env(f'ACCOUNT_{task_id}'.upper()),
+    'queue': get_cascade_env(f'QUEUE_{task_id}'.upper()),
+    'partition': get_cascade_env(f"PARTITION_{task_id}".upper()),
+    'walltime': get_cascade_env(f"WALLTIME_{task_id}".upper()),
+    'nodes': get_cascade_env(f"NODES_{task_id}".upper()),
+    'reservation': get_cascade_env(f"RESERVATION_{task_id}".upper()),
+    'native': get_cascade_env(f"NATIVE_{task_id}".upper())
   }
 
   myObjTask=objTask(
           task_id=task_id,
           cycledefs=cycledefs,
-          maxtries=get_cascade_env(f"MAXTRIES_{task_id}"),
+          maxtries=get_cascade_env(f"MAXTRIES_{task_id}".upper()),
           dcTaskRes=dcTaskRes,
           dcTaskEnv=dcTaskEnv,
           dependencies=dependencies,

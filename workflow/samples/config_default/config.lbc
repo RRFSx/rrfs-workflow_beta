@@ -3,4 +3,5 @@
 export LBC_OFFSET_HRS="6"
 export LBC_INTERVAL_HRS="3"
 export LBC_LENGTH_HRS=${FCST_LENGTH_HRS:-"12"}
+export LBC_LENGTH_HRS=$((LBC_LENGTH_HRS+3))
 export NODES="<nodes>1:ppn=40</nodes>"
