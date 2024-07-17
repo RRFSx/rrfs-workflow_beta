@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -x
 cpreq=${cpreq:-cpreq}
-prefix='GFS'
-
+prefix=${IC_PREFIX:-GFS}
 ic_offset=${IC_OFFSET_HRS:-3}
 FHR=$(printf %03d ${ic_offset})
 CDATEic=$($NDATE -${FHR} ${CDATE})
@@ -38,8 +37,20 @@ init_case=7
 decomp_file_prefix='conus12km_mpas.graph.info.part.'
 nvertlevels=55
 nsoillevels=4
-nfglevels=58 # 51 RAP/HRRR; 66 RRFS; 32 GEFFS; 58 GFS
-nfgsoillevels=4 # 9 RAP/HRRR and RRFS; 4 GEFS and GFS
+if [[ "${prefix}" == "RAP" || "${prefix}" == "HRRR" ]]; then
+  nfglevels=51
+  nfgsoillevels=9
+elif  [[ "${prefix}" == "RRFS" ]]; then
+  nfglevels=66
+  nfgsoillevels=9
+elif  [[ "${prefix}" == "GFS" ]]; then
+  nfglevels=58
+  nfgsoillevels=4
+elif  [[ "${prefix}" == "GEFS" ]]; then
+  nfglevels=32
+  nfgsoillevels=4
+fi
+
 file_content=$(< ${PARMrrfs}/rrfs/namelist.init_atmosphere) # read in all content
 eval "echo \"${file_content}\"" > namelist.init_atmosphere
 

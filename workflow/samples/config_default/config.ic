@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 # task-specific settigs
+export IC_PREFIX="GFS"
 export IC_OFFSET_HRS="3"
 export NODES="<nodes>1:ppn=40</nodes>"
