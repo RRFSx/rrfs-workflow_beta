@@ -13,7 +13,7 @@ cd ${DATA}/ungrib
 ${cpreq} ${FIXrrfs}/Vtables/Vtable.${prefix} Vtable
 for knt in $(seq 1 $((nfiles+1)) ); do
   FHR=$( printf %03d $(( lbc_offset + (knt-1)*lbc_interval )) )
-  ${cpreq} ${COMINgfs}/gfs.${CDATElbc:0:8}/${CDATElbc:8:2}/gfs.t${CDATElbc:8:2}z.prb2.0p25.f${FHR}  $(${USHrrfs}/num_to_GRIBFILE.XXX.sh ${knt})
+  ${cpreq} ${COMINgfs}/gfs.${CDATElbc:0:8}/${CDATElbc:8:2}/gfs.t${CDATElbc:8:2}z.pgrb2.0p25.f${FHR}  $(${USHrrfs}/num_to_GRIBFILE.XXX.sh ${knt})
 done
 #
 # generate the namelist on the fly

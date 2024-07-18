@@ -8,7 +8,7 @@ CDATEic=$($NDATE -${FHR} ${CDATE})
 
 cd ${DATA}/ungrib
 ${cpreq} ${FIXrrfs}/Vtables/Vtable.${prefix} Vtable
-${cpreq} ${COMINgfs}/gfs.${CDATEic:0:8}/${CDATEic:8:2}/gfs.t${CDATEic:8:2}z.prb2.0p25.f${FHR} GRIBFILE.AAA
+${cpreq} ${COMINgfs}/gfs.${CDATEic:0:8}/${CDATEic:8:2}/gfs.t${CDATEic:8:2}z.pgrb2.0p25.f${FHR} GRIBFILE.AAA
 #
 # generate the namelist on the fly
 start_time=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H:%M:%S) 
