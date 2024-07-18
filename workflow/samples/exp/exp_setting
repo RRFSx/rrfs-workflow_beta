@@ -1,9 +1,11 @@
-#!/usr/bin/env bash
 # Aloha!
 #
-exp_basedir=/lfs5/BMC/wrfruc/gge/OPSROOT/exp  # ***** require user inputs
-comroot=/lfs5/BMC/wrfruc/gge/OPSROOT/com # input and output data as well as logs for tasks
-dataroot=/lfs5/BMC/wrfruc/gge/OPSROOT/stmp # contains task workdirs ($DATA) which to be removed immediately upon task completion unless KEEPDATA=yes 
+# NOTE: this is a regular file containing settings for setup_exp.py
+#  This is not a BASH file and does not support BASH variables
+#
+exp_basedir=/lfs5/BMC/wrfruc/gge/nco/exp # exp config files and xml files
+comroot=/lfs5/BMC/wrfruc/gge/nco/com     # task input and output data as well as logs
+dataroot=/lfs5/BMC/wrfruc/gge/nco/stmp   # task workdirs ($DATA) which to be removed immediately upon task completion unless KEEPDATA=yes 
 version=1.0.1
 net=rrfs_12km
 run=rrfs
@@ -12,7 +14,8 @@ tag=c3v95
 config_sample=default # a config sample from the sample store
 #
 realtime=fasle
-realtime_length=2m  #eg: 2m(months) or 2d(days)
-retro_period='2024070200-2024071200'
-start_cyc_spinup='03 15'
-start_cyc_prod='09 21'
+realtime_days=90  #eg. 90 means to do real-time runs for 90 days
+#
+retro_period=2024052700-2024052800
+retro_cyclethrottle=6
+retro_taskthrottle=100

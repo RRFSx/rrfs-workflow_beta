@@ -9,4 +9,4 @@ export WALLTIME=${WALLTIME:-"00:30:00"}
 export NATIVE=${NATIVE:-""}
 export MEMORY=${MEMORY:-""}
 #
-export COMINgfs="/scratch2/BMC/rtrr/FIX_RRFS2/staged_data/ops/GFS"
+export COMINgfs=${COMINgfs:-"/scratch2/BMC/rtrr/FIX_RRFS2/staged_data/ops/GFS"}

@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-src="/lfs4/BMC/wrfruc/Chunhua.Zhou/data/GFS"
-dst="/lfs4/BMC/wrfruc/data.ops/GFS"
+export TZ="GMT"
+src="/public/data/grids/gfs/0p25deg/grib2"
+dst="/lfs5/BMC/nrtrr/NCO_data/gfs"
 
 #2414818000078
 #gfs.yyymmdd/HH/gfs.t12z.pgrb2.0p25.f002 
+jdate=$(date -u +%y%j)
 for file in ${src}/*; do
   fname=${file##*/}
   echo ${fname}
@@ -16,5 +18,5 @@ for file in ${src}/*; do
 
   fpath=${dst}/gfs.${yyyymmdd}/${HH}
   mkdir -p ${fpath}
-  ln -snf ${file} ${fpath}/gfs.t${HH}z.prb2.0p25.f${fhr} #do hard links by the file owner if possible
+  ln -snf ${file} ${fpath}/gfs.t${HH}z.pgrb2.0p25.f${fhr} #do hard links by the file owner if possible
 done

@@ -44,11 +44,13 @@ def setup_xml(expdir):
 
   fPath=f"{expdir}/run_rocoto.sh"
   with open(fPath,'w') as rocotoFile:
-    text='''\
-#!/usr/bin/env bash\n\
-source /etc/profile\n\
-module load rocoto\n\
-rocotorun -w rrfs.xml -d rrfs.db\n'''
+    text=f'''
+#!/usr/bin/env bash
+source /etc/profile
+module load rocoto
+cd {expdir}
+rocotorun -w rrfs.xml -d rrfs.db
+'''
     rocotoFile.write(text)
 
   # set run_rocoto.sh to be executable

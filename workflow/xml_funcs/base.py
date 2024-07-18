@@ -58,8 +58,13 @@ def header_end(xmlFile):
 
 ### wflow_begin
 def wflow_begin(xmlFile):
-  text='<workflow realtime="F" scheduler="slurm" cyclethrottle="26" cyclelifespan="01:00:00:00">'
-  #text='<wflow realtime="F" scheduler="slurm" cyclethrottle="3" taskthrottle="25">' #retro
+  realtime=os.getenv("REALTIME","false").upper()
+  cyclethrottle=os.getenv("RETRO_CYCLETHROTTLE","3")
+  taskthrottle=os.getenv("RETRO_TASKTHROTTLE","30")
+  if realtime == "TRUE":
+    text='<workflow realtime="T" scheduler="slurm" cyclethrottle="26" cyclelifespan="01:00:00:00">'
+  else:
+    text=f'<workflow realtime="F" scheduler="slurm" cyclethrottle="{cyclethrottle}" taskthrottle="{taskthrottle}">'
   xmlFile.write(f'\n{text}\n')
 
 ### wflow_end

@@ -5,14 +5,14 @@ prefix=${LBC_PREFIX:-GFS}
 lbc_offset=${LBC_OFFSET_HRS:-6}
 lbc_interval=${LBC_INTERVAL_HRS:-3}
 lbc_length=${LBC_LENGTH_HRS:-12}
-nfiles=$((lbc_length/lbc_interval))
+nfiles=$((10#$lbc_length/10#$lbc_interval))
 
 CDATElbc=$($NDATE -${lbc_offset} ${CDATE})
 
 cd ${DATA}/ungrib
 ${cpreq} ${FIXrrfs}/Vtables/Vtable.${prefix} Vtable
-for knt in $(seq 1 $((nfiles+1)) ); do
-  FHR=$( printf %03d $(( lbc_offset + (knt-1)*lbc_interval )) )
+for knt in $(seq 1 $((10#$nfiles+1)) ); do
+  FHR=$( printf %03d $((10#$lbc_offset+(10#$knt-1)*10#$lbc_interval )) )
   ${cpreq} ${COMINgfs}/gfs.${CDATElbc:0:8}/${CDATElbc:8:2}/gfs.t${CDATElbc:8:2}z.pgrb2.0p25.f${FHR}  $(${USHrrfs}/num_to_GRIBFILE.XXX.sh ${knt})
 done
 #
@@ -20,7 +20,7 @@ done
 start_time=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H:%M:%S) 
 EDATE=$($NDATE ${lbc_length} ${CDATE})
 end_time=$(date -d "${EDATE:0:8} ${EDATE:8:2}" +%Y-%m-%d_%H:%M:%S)
-interval_seconds=$((lbc_interval*3600))
+interval_seconds=$((10#$lbc_interval*3600))
 sed -e "s/@start_time@/${start_time}/" -e "s/@end_time@/${end_time}/" \
     -e "s/@interval_seconds@/${interval_seconds}/" \
     -e "s/@prefix@/${prefix}/" ${PARMrrfs}/rrfs/namelist.wps > namelist.wps
