@@ -11,8 +11,6 @@ def ic(xmlFile, expdir):
     '_PLACEHOLDER_': 'just a place holder',
   }
   # dependencies
-  machine=os.getenv('MACHINE','UNKNOWN')
-  source(f'{expdir}/config/config.{machine}')
   source(f'{expdir}/config/config.{task_id}')
   prefix=os.getenv('IC_PREFIX','GFS')
   offset=os.getenv('IC_OFFSET_HRS','3')
@@ -51,8 +49,6 @@ def lbc(xmlFile, expdir):
     '_PLACEHOLDER_': 'just a place holder',
   }
   # dependencies
-  machine=os.getenv('MACHINE','UNKNOWN')
-  source(f'{expdir}/config/config.{machine}')
   source(f'{expdir}/config/config.{task_id}')
   prefix=os.getenv('LBC_PREFIX','GFS')
   offset=int(os.getenv('LBC_OFFSET_HRS','6'))
@@ -103,9 +99,35 @@ def da(xmlFile, expdir):
     '_PLACEHOLDER_': 'just a place holder',
   }
   # dependencies
+  hrs=os.getenv('PROD_BGN_HRS', '3 15')
+  hrs=hrs.split(' ')
+  streqs=""; strneqs=""; first=True
+  for hr in hrs:
+    hr=f"{hr:0>2}"
+    if first:
+      first=False
+      streqs=streqs  +f"        <streq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></streq>"
+      strneqs=strneqs+f"        <strneq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></strneq>"
+    else:
+      streqs=streqs  +f"\n        <streq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></streq>"
+      strneqs=strneqs+f"\n        <strneq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></strneq>"
+
   dependencies=f'''
   <dependency>
-  <taskdep task="fcst" cycle_offset="-1:00:00"/>
+  <or>
+    <and>
+      <or>
+{streqs}
+      </or>
+      <taskdep task="ic"/>
+    </and>
+    <and>
+      <or>
+{strneqs}
+      </or>
+      <taskdep task="fcst" cycle_offset="-1:00:00"/>
+    </and>
+  </or>
   </dependency>'''
   #
   xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies)
@@ -120,7 +142,7 @@ def fcst(xmlFile, expdir):
     '_PLACEHOLDER_': 'just a place holder',
   }
   # dependencies
-  hrs=os.getenv('PROD_BGN_HRS', '3 5')
+  hrs=os.getenv('PROD_BGN_HRS', '3 15')
   hrs=hrs.split(' ')
   streqs=""; strneqs=""; first=True
   for hr in hrs:
@@ -136,14 +158,16 @@ def fcst(xmlFile, expdir):
   dependencies=f'''
   <dependency>
   <and>
-  <taskdep task="lbc" cycle_offset="0:00:00"/>
-  <taskdep task="lbc" cycle_offset="-1:00:00"/>
-  <taskdep task="lbc" cycle_offset="-2:00:00"/>
-  <taskdep task="lbc" cycle_offset="-3:00:00"/>
-  <taskdep task="lbc" cycle_offset="-4:00:00"/>
-  <taskdep task="lbc" cycle_offset="-5:00:00"/>
-  <taskdep task="lbc" cycle_offset="-6:00:00"/>
-  <or>
+   <or>
+    <taskdep task="lbc" cycle_offset="0:00:00"/>
+    <taskdep task="lbc" cycle_offset="-1:00:00"/>
+    <taskdep task="lbc" cycle_offset="-2:00:00"/>
+    <taskdep task="lbc" cycle_offset="-3:00:00"/>
+    <taskdep task="lbc" cycle_offset="-4:00:00"/>
+    <taskdep task="lbc" cycle_offset="-5:00:00"/>
+    <taskdep task="lbc" cycle_offset="-6:00:00"/>
+   </or>
+   <or>
     <and>
       <or>
 {streqs}
@@ -156,7 +180,7 @@ def fcst(xmlFile, expdir):
       </or>
       <taskdep task="da"/>
     </and>
-  </or>
+   </or>
   </and>
   </dependency>'''
   #

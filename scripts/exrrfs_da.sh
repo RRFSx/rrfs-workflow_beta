@@ -5,6 +5,18 @@ prefix='GFS'
 BUMPLOC=${BUMPLOC:-"conus12km-401km11levels"}
 
 cd ${DATA}
+CDATEm1=$($NDATE -1 ${CDATE})
+start_time=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H:%M:%S) 
+timestr=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H.%M.%S) 
+# determine whether to begin new cycles
+IFS=' ' read -r -a array <<< "${PROD_BGN_HRS}"
+begin="NO"
+for hr in "${array[@]}"; do
+  if [[ "${cyc}" == "$(printf '%02d' ${hr})" ]]; then
+    begin="YES"; break
+  fi
+done
+#
 ${cpreq} ${FIXrrfs}/physics/* .
 mkdir -p graphinfo stream_list
 ${cpreq} ${FIXrrfs}/graphinfo/* graphinfo/
@@ -13,10 +25,15 @@ ${cpreq} ${FIXrrfs}/jedi/keptvars.yaml .
 ${cpreq} ${FIXrrfs}/jedi/geovars.yaml . 
 cpreq ${FIXrrfs}/stream_list/* stream_list/
 mkdir -p data; cd data                   
-mkdir -p bumploc bkg obs ens
-${cpreq} ${FIXrrfs}/fix/bumploc/${BUMPLOC} bumploc/
+mkdir -p bumploc obs ens
+${cpreq} ${FIXrrfs}/bumploc/${BUMPLOC} bumploc/
 ${cpreq} ${FIXrrfs}/meshes/static.nc .
-#${cpreq} ${COMINrrfs}/..../restart.2024-05-27_00.00.00.nc .  
+if [[ "${begin}" == "YES" ]]; then
+  # mpasjedi cannot run on init.nc due to the miss of pressure values
+  : #do nothing
+else
+  ${cpreq} ${COMINrrfs}/${RUN}.${CDATEm1:0:8}/${CDATEm1:8:2}/fcst/restart.${timestr}.nc .
+fi
 #${cpreq} ${COMINioda}/..../obs/* obs/                            
 #${cpreq} ${COMINgdas}/..../ens/* ens/
 #
@@ -40,4 +57,9 @@ export err=$?
 err_chk
 
 # copy output to COMOUT
-#${cpreq} ${DATA}/init.nc ${COMOUT}/${task_id}/
+if [[ "${begin}" == "YES" ]]; then
+  # mpasjedi cannot run on init.nc due to the miss of pressure values
+  : #do nothing
+else
+  ${cpreq} ${DATA}/data/restart.${timestr}.nc ${COMOUT}/${task_id}/
+fi

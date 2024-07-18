@@ -4,8 +4,8 @@ cpreq=${cpreq:-cpreq}
 prefix='GFS'
 
 cd ${DATA}
-start_time=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H:%M:%S) 
-# determine whether to begin new cycles and then get ic differently
+timestr=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H.%M.%S) 
+# determine whether to begin new cycles
 IFS=' ' read -r -a array <<< "${PROD_BGN_HRS}"
 begin="NO"
 for hr in "${array[@]}"; do
@@ -17,10 +17,10 @@ if [[ "${begin}" == "YES" ]]; then
   ${cpreq} ${COMINrrfs}/${RUN}.${PDY}/${cyc}/ic/init.nc .
   do_restart='false'
 else
-  ${cpreq} ${COMINrrfs}/${RUN}.${PDY}/${cyc}/da/restart.${start_time}.nc .
+  ${cpreq} ${COMINrrfs}/${RUN}.${PDY}/${cyc}/da/restart.${timestr}.nc .
   do_restart='true'
 fi
-offset=3
+offset=$((cyc%6))
 CDATElbc=$($NDATE -${offset} ${CDATE})
 ${cpreq} ${COMINrrfs}/${RUN}.${CDATElbc:0:8}/${CDATElbc:8:2}/lbc/lbc*.nc .
 ${cpreq} ${FIXrrfs}/physics/* .
@@ -30,7 +30,8 @@ ${cpreq} ${FIXrrfs}/graphinfo/* graphinfo/
 cpreq ${FIXrrfs}/stream_list/* stream_list/
 
 # generate the namelist on the fly
-# start_time, do_restart are already assigned in the above
+# do_restart already defined in the above
+start_time=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H:%M:%S) 
 run_duration=${FCST_LENGTH_HRS:-6}:00:00
 physics_suite=${PHYSICS_SUITE:-'mesoscale_reference'}
 jedi_da="false" #true
@@ -61,8 +62,13 @@ set -x
 source prep_step
 srun ${EXECrrfs}/atmosphere_model.x 
 # check the status
-export err=$?
-err_chk
+if [[ -s './log.atmosphere.0000.err' ]]; then
+  echo "FATAL ERROR: MPAS model run failed"
+  export err=99
+  err_exit
+fi
 
 # copy output to COMOUT
-#${cpreq} ${DATA}/init.nc ${COMOUT}/${task_id}/
+CDATEp1=$($NDATE 1 ${CDATE})
+timestr=$(date -d "${CDATEp1:0:8} ${CDATEp1:8:2}" +%Y-%m-%d_%H.%M.%S) 
+${cpreq} ${DATA}/restart.${timestr}.nc ${COMOUT}/${task_id}/

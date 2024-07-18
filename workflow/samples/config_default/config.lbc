@@ -2,7 +2,7 @@
 # task-specific settigs
 export LBC_PREFIX="GFS"
 export LBC_OFFSET_HRS="6"
-export LBC_INTERVAL_HRS="3"
+export LBC_INTERVAL_HRS="1"
 export LBC_LENGTH_HRS=${FCST_LENGTH_HRS:-"12"}
 export LBC_LENGTH_HRS=$((LBC_LENGTH_HRS+6)) # lbc runs every 6 hours # this variable means how many hours going forward from the LBC CDATE
 export NODES="<nodes>1:ppn=40</nodes>"
