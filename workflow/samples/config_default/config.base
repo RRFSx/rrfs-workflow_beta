@@ -21,3 +21,4 @@ export MAXTRIES="2"
 export KEEPDATA="YES"  #YES or NO
 #
 export PROD_BGN_HRS="3 15" # HRS to begin a new PROD cycle
+export FCST_LENGTH_HRS=12
