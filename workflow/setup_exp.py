@@ -23,10 +23,15 @@ dcExp={  #default vaules for some variables
   'comroot': f'/tmp/${user_id}/ptmp',
   'dataroot': f'/tmp/${user_id}/stmp',
   'version': 'community',
+  'net': 'rrfs',
+  'run': 'rrfs',
   'exp_name': '',
+  'tag': 'rrfs',
   'config_sample': 'default',
   'realtime': False,
-  'retro_period': '2024070200-2024071200'
+  'retro_period': '2024070200-2024071200',
+  'retro_cyclethrottle': '5',
+  'retro_taskthrottle': '100'
 }
 for line in open(fpath): #read exp_setting
   sline=line.strip()
@@ -80,9 +85,10 @@ for file in glob.glob(f'{configdir}/*'): #overwrite default config files using t
 # the goal is to create cycledefs smartly
 # 
 realtime=dcExp['realtime']
-realtime_length=dcExp['realtime_length']
+realtime_days=dcExp['realtime_days']
 retro_period=dcExp['retro_period']
-smart_cycledefs_text=smart_cycledefs(realtime,realtime_length,retro_period)
+_period=dcExp['retro_period']
+smart_cycledefs_text=smart_cycledefs(realtime,realtime_days,retro_period)
 
 # generate an alternate version of exp_setting for workflow setup
 source(f'{HOMErrfs}/ush/detect_machine.sh')
@@ -92,6 +98,8 @@ if machine=='UNKNOWN':
 tag=dcExp['tag']
 net=dcExp['net']
 run=dcExp['run']
+retro_cyclethrottle=dcExp['retro_cyclethrottle']
+retro_taskthrottle=dcExp['retro_taskthrottle']
 text=f'#!/usr/bin/env bash\n\
 export EXPDIR={expdir}\n\
 export COMROOT={comroot}\n\
@@ -103,8 +111,10 @@ export NET={net}\n\
 export RUN={run}\n\
 export TAG={tag}\n\
 export REALTIME={realtime}\n\
-export REALTIME_LENGTH={realtime_length}\n\
+export REALTIME_DAYS={realtime_days}\n\
 export RETRO_PERIOD={retro_period}\n\
+export RETRO_CYCLETHROTTLE={retro_cyclethrottle}\n\
+export RETRO_TASKTHROTTLE={retro_taskthrottle}\n\
 {smart_cycledefs_text}\n\
 #\n\
 # for reference purpose only\n\
@@ -124,5 +134,7 @@ Or we can exit this program, fine-tune configurations under expdir, and then run
 response=get_yes_or_no('Do you want to create an xml file right now(y/n):\n')
 if response in ['yes', 'y']:
   setup_xml(expdir) 
+else:
+  print(f'when you complete fine-tuning configurations, run\n  ./setup.xml.py {expdir}\nto generate an xml file for rocoto')
 #
 # end of setup_exp.py

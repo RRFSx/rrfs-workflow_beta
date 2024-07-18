@@ -20,7 +20,7 @@ else
   ${cpreq} ${COMINrrfs}/${RUN}.${PDY}/${cyc}/da/restart.${timestr}.nc .
   do_restart='true'
 fi
-offset=$((cyc%6))
+offset=$((10#${cyc}%6))
 CDATElbc=$($NDATE -${offset} ${CDATE})
 ${cpreq} ${COMINrrfs}/${RUN}.${CDATElbc:0:8}/${CDATElbc:8:2}/lbc/lbc*.nc .
 ${cpreq} ${FIXrrfs}/physics/* .

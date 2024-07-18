@@ -1,15 +1,34 @@
 #!/usr/bin/env python
 import os
+from datetime import datetime, timedelta
 from xml_funcs.base import source, get_cascade_env
-
-def smart_cycledefs(realtime,reatime_length,retro_period):
-  text='''
-\n\
-export CYCLEDEF_IC="202405270300 202405270500 12:00:00"\n\
-export CYCLEDEF_LBC="202405270000 202405270100 06:00:00"\n\
-export CYCLEDEF_SPINUP="00 03-08,15-20 26,27 05 2024 *"\n\
-export CYCLEDEF_PROD="202405270300 202405270500 01:00:00"\n\
-export CYCLEDEF_PROD_LONG='00 00,12 26 05 2024 *'
+0
+def smart_cycledefs(realtime,reatime_days,retro_period):
+  if realtime.upper() == "TRUE":
+    now=datetime.now()
+    end=now+timedelta(days=realtime_days)
+    pdy=now.strftime("%Y%m%d")
+    pdy2=end.strftime("%Y%m%d")
+    hr_bgn=now.hour
+    hr_end='23'
+  else:
+    retrodates=retro_period.split("-")
+    pdy=retrodates[0][:8]
+    hr_bgn=retrodates[0][8:]
+    pdy2=retrodates[1][:8]
+    hr_end=retrodates[1][8:]
+    print(f'{hr_bgn} and {hr_end}')
+  #
+  if int(hr_bgn) <= 3:
+    ic_bgn='03'
+    lbc_bgn='00'
+  else:
+    ic_bgn='15'
+    lbc_bgn='12'
+  text=f'''
+export CYCLEDEF_IC="{pdy}{ic_bgn}00 {pdy2}{hr_end}00 12:00:00"
+export CYCLEDEF_LBC="{pdy}{lbc_bgn}00 {pdy2}{hr_end}00 06:00:00"
+export CYCLEDEF_PROD="{pdy}{ic_bgn}00 {pdy2}{hr_end}00 01:00:00"
 '''
   return text
 #export CYCLEDEF_PROD="00 00-23 26,27 05 2024 *"\n\
