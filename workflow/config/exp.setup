@@ -11,8 +11,8 @@ export NET=rrfs_12km
 export RUN=rrfs
 export TAG=c3v95
 #
-export REALTIME=fasle
-export REALTIME_DAYS=90   #eg. 90 means to do real-time runs for 90 days
+export REALTIME=true     # true, false
+export REALTIME_DAYS=90   # eg. 90 means to do real-time runs for 90 days
 #
 export RETRO_PERIOD=2024052700-2024052800
 export RETRO_CYCLETHROTTLE=5

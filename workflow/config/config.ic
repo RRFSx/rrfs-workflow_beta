@@ -3,3 +3,4 @@
 export IC_PREFIX="GFS"
 export IC_OFFSET_HRS="3"
 export NODES="<nodes>1:ppn=40</nodes>"
+export DEADLINE_IC="24:00:00"

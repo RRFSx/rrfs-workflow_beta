@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 import os
 from datetime import datetime, timedelta
-from xml_funcs.base import source, get_cascade_env
+from xml_funcs.base import source
 0
-def smart_cycledefs(realtime,reatime_days,retro_period):
+def smart_cycledefs(realtime,realtime_days,retro_period):
   if realtime.upper() == "TRUE":
     now=datetime.now()
-    end=now+timedelta(days=realtime_days)
+    end=now+timedelta(days=int(realtime_days))
     pdy=now.strftime("%Y%m%d")
     pdy2=end.strftime("%Y%m%d")
     hr_bgn=now.hour

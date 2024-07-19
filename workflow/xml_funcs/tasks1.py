@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os
-from xml_funcs.base import xml_task, source
+from xml_funcs.base import xml_task, source, get_cascade_env
 
 ### begin of ic --------------------------------------------------------
 def ic(xmlFile, expdir):
@@ -32,10 +32,18 @@ def ic(xmlFile, expdir):
   else:
     fpath=f'/not_supported_IC_PREFIX'
 
+  timedep=""
+  realtime=os.getenv("REALTIME","false")
+  starttime=get_cascade_env(f"STARTTIME_{task_id}".upper())
+  if realtime.upper() == "TRUE":
+    timedep=f'\n  <timedep><cyclestr offset="{starttime}">@Y@m@d@H@M00</cyclestr></timedep>'
   dependencies=f'''
   <dependency>
+  <and>{timedep}
   <datadep age="00:05:00"><cyclestr offset="-{offset}:00:00">{fpath}</cyclestr></datadep>
+  </and>
   </dependency>'''
+
   #
   xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies)
 ### end of ic --------------------------------------------------------
@@ -80,9 +88,14 @@ def lbc(xmlFile, expdir):
     else:
       datadep=datadep+f'\n    <datadep age="00:05:00"><cyclestr offset="-{offset}:00:00">{fpath}.f{fhr:>03}</cyclestr></datadep>'
 
+  timedep=""
+  realtime=os.getenv("REALTIME","false")
+  starttime=get_cascade_env(f"STARTTIME_{task_id}".upper())
+  if realtime.upper() == "TRUE":
+    timedep=f'\n    <timedep><cyclestr offset="{starttime}">@Y@m@d@H@M00</cyclestr></timedep>'
   dependencies=f'''
   <dependency>
-  <and>
+  <and>{timedep}
 {datadep}
   </and>
   </dependency>'''
@@ -106,28 +119,35 @@ def da(xmlFile, expdir):
     hr=f"{hr:0>2}"
     if first:
       first=False
-      streqs=streqs  +f"        <streq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></streq>"
-      strneqs=strneqs+f"        <strneq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></strneq>"
+      streqs=streqs  +f"          <streq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></streq>"
+      strneqs=strneqs+f"          <strneq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></strneq>"
     else:
-      streqs=streqs  +f"\n        <streq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></streq>"
-      strneqs=strneqs+f"\n        <strneq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></strneq>"
+      streqs=streqs  +f"\n          <streq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></streq>"
+      strneqs=strneqs+f"\n          <strneq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></strneq>"
 
+  timedep=""
+  realtime=os.getenv("REALTIME","false")
+  starttime=get_cascade_env(f"STARTTIME_{task_id}".upper())
+  if realtime.upper() == "TRUE":
+    timedep=f'\n    <timedep><cyclestr offset="{starttime}">@Y@m@d@H@M00</cyclestr></timedep>'
   dependencies=f'''
   <dependency>
-  <or>
-    <and>
-      <or>
+  <and>{timedep}
+    <or>
+      <and>
+        <or>
 {streqs}
-      </or>
-      <taskdep task="ic"/>
-    </and>
-    <and>
-      <or>
+        </or>
+        <taskdep task="ic"/>
+      </and>
+      <and>
+        <or>
 {strneqs}
-      </or>
-      <taskdep task="fcst" cycle_offset="-1:00:00"/>
-    </and>
-  </or>
+        </or>
+        <taskdep task="fcst" cycle_offset="-1:00:00"/>
+      </and>
+    </or>
+  </and>
   </dependency>'''
   #
   xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies)
@@ -155,9 +175,14 @@ def fcst(xmlFile, expdir):
       streqs=streqs  +f"\n        <streq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></streq>"
       strneqs=strneqs+f"\n        <strneq><left><cyclestr>@H</cyclestr></left><right>{hr}</right></strneq>"
 
+  timedep=""
+  realtime=os.getenv("REALTIME","false")
+  starttime=get_cascade_env(f"STARTTIME_{task_id}".upper())
+  if realtime.upper() == "TRUE":
+    timedep=f'\n   <timedep><cyclestr offset="{starttime}">@Y@m@d@H@M00</cyclestr></timedep>'
   dependencies=f'''
   <dependency>
-  <and>
+  <and>{timedep}
    <or>
     <taskdep task="lbc" cycle_offset="0:00:00"/>
     <taskdep task="lbc" cycle_offset="-1:00:00"/>
