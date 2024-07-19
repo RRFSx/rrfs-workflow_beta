@@ -15,6 +15,7 @@ fpath = sys.argv[1]
 
 # find the HOMErrfs directory
 HOMErrfs=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.system(f'{HOMErrfs}/ush/init.sh')
 #
 source(fpath)
 user_id=os.getlogin()
