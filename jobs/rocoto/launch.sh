@@ -3,7 +3,7 @@
 #
 set +x # supress messy output in the module load process
 source /etc/profile
-source ${EXPDIR}/config.exp
+source ${EXPDIR}/exp.setup
 module purge
 module use ${HOMErrfs}/sorc/RDASApp/modulefiles
 module load RDAS/${MACHINE}.intel

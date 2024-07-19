@@ -18,9 +18,9 @@ under the rrfs2 top directory, make sure python3 is available in your current en
 
 ```
 cd workflow
-cp samples/exp/exp_setting .
-vi exp_setting  # modfiy exp_setting for your situation (especially the first 3 variables)
-./setup_exp.py exp_setting
+cp config/exp_setup .
+vi exp_setup  # modfiy exp_setup for your situation (especially the first 3 variables)
+./setup_exp.py exp_setup
 vi config/config.jet # or config.hera if on hera. set up your slurm account/queue/partition/reservation, etc
 ./setup_xml.py ${expdir}
 ```

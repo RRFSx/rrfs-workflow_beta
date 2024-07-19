@@ -2,14 +2,12 @@ exec/
 fix/.agent
 fix/tmp
 fix/INIT_DONE
-ush/config.sh
 *.swp
 __pycache__
 expr
 expt
 expdir
 log*
-workflow/config
 tmp.xml
 workflow/*db
-workflow/exp_setting
+workflow/exp.setup
