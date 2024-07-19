@@ -44,8 +44,8 @@ def setup_xml(expdir):
 
   fPath=f"{expdir}/run_rocoto.sh"
   with open(fPath,'w') as rocotoFile:
-    text=f'''
-#!/usr/bin/env bash
+    text= \
+f'''#!/usr/bin/env bash
 source /etc/profile
 module load rocoto
 cd {expdir}
