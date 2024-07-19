@@ -7,10 +7,10 @@ from xml_funcs.smart_cycledefs import smart_cycledefs
 from setup_xml import setup_xml
 
 if len(sys.argv) != 2:
-  print("Usage: setup_exp.py exp_setting")
+  print("Usage: setup_exp.py exp.setup")
   sys.exit(1)
 
-# Retrieve arguments - the path to the exp_setting file
+# Retrieve arguments - path to exp.setup
 fpath = sys.argv[1]
 
 # find the HOMErrfs directory
@@ -18,28 +18,22 @@ HOMErrfs=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # create a dcionary for all EXP settings
 user_id=os.getlogin()
-dcExp={  #default vaules for some variables
-  'exp_basedir': f'/tmp/{user_id}',
-  'comroot': f'/tmp/${user_id}/ptmp',
-  'dataroot': f'/tmp/${user_id}/stmp',
-  'version': 'community',
-  'net': 'rrfs',
-  'run': 'rrfs',
-  'exp_name': '',
-  'tag': 'rrfs',
-  'config_sample': 'default',
-  'realtime': False,
-  'retro_period': '2024070200-2024071200',
-  'retro_cyclethrottle': '5',
-  'retro_taskthrottle': '100'
+source(fpath)
+dcExp={
+  'exp_basedir': os.getenv('EXP_BASEDIR',f'/tmp/{user_id}'),
+  'comroot': os.getenv('COMROOT',f'/tmp/${user_id}/com'),
+  'dataroot': os.getenv('DATAROOT',f'/tmp/${user_id}/stmp'),
+  'version': os.getenv('VERSION','community'),
+  'net': os.getenv('NET','rrfs'),
+  'run': os.getenv('RUN','rrfs'),
+  'exp_name': os.getenv('EXP_NAME',''),
+  'tag': os.getenv('TAG','rrfs'),
+  'realtime': os.getenv('REALTIME','false'),
+  'realtime_days': os.getenv('REALTIME_DAYS','60'),
+  'retro_period': os.getenv('RETRO_PERIOD','2024070200-2024071200'),
+  'retro_cyclethrottle': os.getenv('RETRO_CYCLETHROTTLE','5'),
+  'retro_taskthrottle': os.getenv('RETRO_TASKTHROTTLE','100')
 }
-for line in open(fpath): #read exp_setting
-  sline=line.strip()
-  if (not sline.startswith("#")) and ("=" in sline):
-    key,value=sline.strip().split("=",1)
-    if "#" in value:
-      value,comment=value.split("#",1)
-    dcExp[key.strip().strip('"').strip("'")]=value.strip().strip('"').strip("'")
 
 # create comroot (no matter exists or not)
 comroot=dcExp['comroot']
@@ -67,19 +61,15 @@ if os.path.exists(expdir):
 else:
   os.makedirs(expdir)
 
-# copy config_default first and then files from the selected config_sample
-config_sample=dcExp['config_sample']
-config_default=f'{HOMErrfs}/workflow/samples/config_default'
-configdir=f'{HOMErrfs}/workflow/samples/config_{config_sample}'
+# copy the config directory
+configdir=f'{HOMErrfs}/workflow/config'
 exp_configdir=f'{expdir}/config'
 if os.path.exists(exp_configdir):
   if os.path.isfile(exp_configdir):
     os.remove(exp_configdir)
   else:
     shutil.rmtree(exp_configdir)
-shutil.copytree(config_default,exp_configdir) #copy the default one first
-for file in glob.glob(f'{configdir}/*'): #overwrite default config files using the selected sample
-  shutil.copy(file,exp_configdir)
+shutil.copytree(configdir,exp_configdir)
 
 # generate cycledefs
 # the goal is to create cycledefs smartly
@@ -90,7 +80,7 @@ retro_period=dcExp['retro_period']
 _period=dcExp['retro_period']
 smart_cycledefs_text=smart_cycledefs(realtime,realtime_days,retro_period)
 
-# generate an alternate version of exp_setting for workflow setup
+# generate exp.setup under $expdir
 source(f'{HOMErrfs}/ush/detect_machine.sh')
 machine=os.getenv('MACHINE')
 if machine=='UNKNOWN':
@@ -116,18 +106,15 @@ export RETRO_PERIOD={retro_period}\n\
 export RETRO_CYCLETHROTTLE={retro_cyclethrottle}\n\
 export RETRO_TASKTHROTTLE={retro_taskthrottle}\n\
 {smart_cycledefs_text}\n\
-#\n\
-# for reference purpose only\n\
-#config_sample={config_sample}\n\
 '
-fpath=f'{expdir}/config.exp'
+fpath=f'{expdir}/exp.setup'
 with open(fpath, 'w') as file:
   file.write(text)
 
 # print out information for users
 print(f'\
-Aloha!\n\n\
-Based on the "{config_sample}" config sample,expdir created at:\n\
+Aloha!\n\
+expdir created at:\n\
   {expdir}\n\
 We can now create an rocoto xml file if no intention to further fine-tune configurations, \n\
 Or we can exit this program, fine-tune configurations under expdir, and then run "set_xml.py expdir" to create an xml file')

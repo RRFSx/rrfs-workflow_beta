@@ -2,7 +2,7 @@
 # config cascade
 # config.base -> config.${MACHINE}-> config.${task_id} -> config.${task_id}_spinup -> config.${NET}
 #
-export MACHINE=${MACHINE:-"@MACHINE@"} #comes from config.exp
+export MACHINE=${MACHINE:-"@MACHINE@"}
 export HOMErrfs=${HOMErrfs:-"@HOMErrfs@"} #comes from the workflow at runtime
 export EXECrrfs="${HOMErrfs}/exec"
 export PARMrrfs="${HOMErrfs}/parm"

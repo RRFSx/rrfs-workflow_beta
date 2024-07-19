@@ -6,7 +6,7 @@ export PS4='+ $SECONDS + '
 export task_id=${task_id:-'lbc'}
 #
 # source the config cascade
-source ${EXPDIR}/config.exp
+source ${EXPDIR}/exp.setup
 source ${EXPDIR}/config/config.base
 source ${EXPDIR}/config/config.${MACHINE}
 source ${EXPDIR}/config/config.${task_id}

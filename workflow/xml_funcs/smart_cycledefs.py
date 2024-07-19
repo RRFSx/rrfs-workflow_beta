@@ -17,7 +17,6 @@ def smart_cycledefs(realtime,reatime_days,retro_period):
     hr_bgn=retrodates[0][8:]
     pdy2=retrodates[1][:8]
     hr_end=retrodates[1][8:]
-    print(f'{hr_bgn} and {hr_end}')
   #
   if int(hr_bgn) <= 3:
     ic_bgn='03'
@@ -25,10 +24,10 @@ def smart_cycledefs(realtime,reatime_days,retro_period):
   else:
     ic_bgn='15'
     lbc_bgn='12'
-  text=f'''
-export CYCLEDEF_IC="{pdy}{ic_bgn}00 {pdy2}{hr_end}00 12:00:00"
-export CYCLEDEF_LBC="{pdy}{lbc_bgn}00 {pdy2}{hr_end}00 06:00:00"
-export CYCLEDEF_PROD="{pdy}{ic_bgn}00 {pdy2}{hr_end}00 01:00:00"
-'''
+  text=f'\
+export CYCLEDEF_IC="{pdy}{ic_bgn}00 {pdy2}{hr_end}00 12:00:00"\n\
+export CYCLEDEF_LBC="{pdy}{lbc_bgn}00 {pdy2}{hr_end}00 06:00:00"\n\
+export CYCLEDEF_PROD="{pdy}{ic_bgn}00 {pdy2}{hr_end}00 01:00:00"\n\
+'
   return text
 #export CYCLEDEF_PROD="00 00-23 26,27 05 2024 *"\n\

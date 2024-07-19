@@ -8,7 +8,7 @@ from xml_funcs.tasks1 import ic, lbc, da, fcst
 ### setup_xml
 def setup_xml(expdir):
   # source the config cascade
-  source(f'{expdir}/config.exp')
+  source(f'{expdir}/exp.setup')
   source(f"{expdir}/config/config.base")
   machine=os.getenv('MACHINE').lower()
   source(f"{expdir}/config/config.{machine}")
