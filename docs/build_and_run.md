@@ -1,5 +1,5 @@
 # Build
-`git clone --recursive git@github.com:guoqing-NOAA/rrfs-workflow.git`
+`git clone --recursive git@github.com:rrfs2/rrfs-workflow.git`
 
 `cd sorc` and run the following command to build the system. This will take a very long time at the moment:    
 `build.all`
