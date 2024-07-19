@@ -44,7 +44,7 @@ if os.path.exists(expdir):
 else:
   os.makedirs(expdir)
 
-# copy the config directory
+# copy the default config first and then sub to substitute the default one
 configdir=f'{HOMErrfs}/workflow/config'
 exp_configdir=f'{expdir}/config'
 if os.path.exists(exp_configdir):
@@ -52,7 +52,18 @@ if os.path.exists(exp_configdir):
     os.remove(exp_configdir)
   else:
     shutil.rmtree(exp_configdir)
-shutil.copytree(configdir,exp_configdir)
+os.makedirs(exp_configdir,exist_ok=True)
+for cfile in glob.glob(f'{configdir}/config.*'):
+  shutil.copy(cfile,exp_configdir)
+#
+sub=os.getenv("CONFIG_SUB","")
+if sub != "":
+  subdir=f'{configdir}/{sub}'
+  if os.path.isdir(subdir):
+    for subfile in glob.glob(f'{subdir}/*'):
+      shutil.copy(subfile,exp_configdir)
+  else:
+    print(f'"subdir" does not exist')
 
 # generate cycledefs
 # the goal is to create cycledefs smartly
