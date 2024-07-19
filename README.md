@@ -1,30 +1,14 @@
-# Build
-`git clone --recursive git@github.com:guoqing-NOAA/rrfs-workflow.git`
+# rrfs-workflow
 
-`cd sorc` and run the following command to build the system. This will take a very long time at the moment:    
-`build.all`
+Workflow for the Rapid Refresh Forecast System (RRFS)
 
-or you may open 3 terminals, with each terminal running one of the following commands:  
+Team Charter (draft): https://docs.google.com/document/d/1uLbPx-pOWp7eECz_7VHRt_tQyD8PLFdrwo8dr4oMgjo/edit?usp=sharing
 
-```
-./build.wps  | tee ./log.build.wps
-./build.mpas | tee ./log.build.mpas
-./build.rdas | tee ./log.build.rdas
+### Currently supported platforms
+-   NOAA RDHPCS Hera
+-   NOAA RDHPCS Jet
 
-```
-
-# run
-under the rrfs-workflow top directory, make sure python3 is available in your current enviroment
-
-```
-cd workflow
-vi exp/exp_setup
-  # modfiy exp_setup for your situation (especially the first 3 variables)
-./setup_exp.py exp/exp_setup
-  # answer 'n' when asked and go to ${expdir} to double check config files, edit config.jet (or hera, etc) to set up slurm information
-./setup_xml.py ${expdir}
-```
-Go to ${expdir}, use `./run_rocoto.sh` to run the experiment
-
-### note
-The workflow depends on the environmental variables. If your environment defines and exports rrfs-workflow-specific environmental variables in an unexpected way or your environment is corrupt, the setup step may fail or generate unexpected results. Check the `rrfs.xml` file before `run_rocoto.sh`. Starting from a fresh terminal or `module purge` usually solves the problem.
+## [How to build and run rrfs experiments?](docs/build_and_run.md)
+## [How to deploy a realtime run in Jet?](docs/jet_rt.md)
+## [How to use a handy rocoto tool to check the running status of realtime or retro experiments?](docs/srocoto.md)
+## [rrfs-workflow code norms](https://github.com/rrfs2/rrfs-workflow/wiki/rrfs%E2%80%90workflow-code-norm)
