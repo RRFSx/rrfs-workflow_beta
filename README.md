@@ -18,19 +18,13 @@ under the rrfs-workflow top directory, make sure python3 is available in your cu
 
 ```
 cd workflow
-cp config/exp_setup .
-vi exp_setup  # modfiy exp_setup for your situation (especially the first 3 variables)
-./setup_exp.py exp_setup
-vi config/config.jet # or config.hera if on hera. set up your slurm account/queue/partition/reservation, etc
+vi exp/exp_setup
+  # modfiy exp_setup for your situation (especially the first 3 variables)
+./setup_exp.py exp/exp_setup
+  # answer 'n' when asked and go to ${expdir} to double check config files, edit config.jet (or hera, etc) to set up slurm information
 ./setup_xml.py ${expdir}
 ```
-Go to the ${expdir}, use `./run_rocoto.sh` to run the experiment
+Go to ${expdir}, use `./run_rocoto.sh` to run the experiment
 
-### tips
-1. The workflow depends on the environmental variables. If your environment defines and exports rrfs-workflow environmental variables in an unexpected way or your environment is corrupt, the setup step may fail or generate unexpected results. Check the `rrfs.xml` file before `run_rocoto.sh`. Starting from a fresh terminal will solve the problem.
-2. You may export variables as follows to skip step 5 in section 2 (i.e. vi config/config.jet):
-```
-export RESERVATION="rrfsens"
-export ACCOUNT="rtwrfruc"
-export QUEUE="rth"
-```
+### note
+The workflow depends on the environmental variables. If your environment defines and exports rrfs-workflow-specific environmental variables in an unexpected way or your environment is corrupt, the setup step may fail or generate unexpected results. Check the `rrfs.xml` file before `run_rocoto.sh`. Starting from a fresh terminal or `module purge` usually solves the problem.
