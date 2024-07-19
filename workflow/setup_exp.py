@@ -15,36 +15,19 @@ fpath = sys.argv[1]
 
 # find the HOMErrfs directory
 HOMErrfs=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# create a dcionary for all EXP settings
-user_id=os.getlogin()
+#
 source(fpath)
-dcExp={
-  'exp_basedir': os.getenv('EXP_BASEDIR',f'/tmp/{user_id}'),
-  'comroot': os.getenv('COMROOT',f'/tmp/${user_id}/com'),
-  'dataroot': os.getenv('DATAROOT',f'/tmp/${user_id}/stmp'),
-  'version': os.getenv('VERSION','community'),
-  'net': os.getenv('NET','rrfs'),
-  'run': os.getenv('RUN','rrfs'),
-  'exp_name': os.getenv('EXP_NAME',''),
-  'tag': os.getenv('TAG','rrfs'),
-  'realtime': os.getenv('REALTIME','false'),
-  'realtime_days': os.getenv('REALTIME_DAYS','60'),
-  'retro_period': os.getenv('RETRO_PERIOD','2024070200-2024071200'),
-  'retro_cyclethrottle': os.getenv('RETRO_CYCLETHROTTLE','5'),
-  'retro_taskthrottle': os.getenv('RETRO_TASKTHROTTLE','100')
-}
-
+user_id=os.getlogin()
 # create comroot (no matter exists or not)
-comroot=dcExp['comroot']
-dataroot=dcExp['dataroot']
+comroot=os.getenv('COMROOT',f'/tmp/${user_id}/com')
+dataroot=os.getenv('DATAROOT',f'/tmp/${user_id}/stmp')
 os.makedirs(comroot,exist_ok=True)
 os.makedirs(dataroot,exist_ok=True)
 
 # set the expdir variable
-basedir=dcExp["exp_basedir"]
-version=dcExp["version"]
-exp_name=dcExp["exp_name"]
+basedir=os.getenv('EXP_BASEDIR',f'/tmp/{user_id}')
+version=os.getenv('VERSION','community')
+exp_name=os.getenv('EXP_NAME','')
 expdir=f'{basedir}/{version}'
 if exp_name !="":
   expdir=f'{expdir}/{exp_name}'
@@ -74,10 +57,9 @@ shutil.copytree(configdir,exp_configdir)
 # generate cycledefs
 # the goal is to create cycledefs smartly
 # 
-realtime=dcExp['realtime']
-realtime_days=dcExp['realtime_days']
-retro_period=dcExp['retro_period']
-_period=dcExp['retro_period']
+realtime=os.getenv('REALTIME','false')
+realtime_days=os.getenv('REALTIME_DAYS','60')
+retro_period=os.getenv('RETRO_PERIOD','2024070200-2024071200')
 smart_cycledefs_text=smart_cycledefs(realtime,realtime_days,retro_period)
 
 # generate exp.setup under $expdir
@@ -85,28 +67,31 @@ source(f'{HOMErrfs}/ush/detect_machine.sh')
 machine=os.getenv('MACHINE')
 if machine=='UNKNOWN':
     print(f'WARNING: machine is UNKNOWN! ')
-tag=dcExp['tag']
-net=dcExp['net']
-run=dcExp['run']
-retro_cyclethrottle=dcExp['retro_cyclethrottle']
-retro_taskthrottle=dcExp['retro_taskthrottle']
-text=f'#!/usr/bin/env bash\n\
-export EXPDIR={expdir}\n\
-export COMROOT={comroot}\n\
-export DATAROOT={dataroot}\n\
-export HOMErrfs={HOMErrfs}\n\
-export VERSION={version}\n\
-export MACHINE={machine}\n\
-export NET={net}\n\
-export RUN={run}\n\
-export TAG={tag}\n\
-export REALTIME={realtime}\n\
-export REALTIME_DAYS={realtime_days}\n\
-export RETRO_PERIOD={retro_period}\n\
+tag=os.getenv('TAG','rrfs')
+net=os.getenv('NET','rrfs')
+run=os.getenv('RUN','rrfs')
+retro_cyclethrottle=os.getenv('RETRO_CYCLETHROTTLE','6')
+retro_taskthrottle=os.getenv('RETRO_TASKTHROTTLE','100')
+text=f'''#!/usr/bin/env bash
+export EXPDIR={expdir}
+export COMROOT={comroot}
+export DATAROOT={dataroot}
+export HOMErrfs={HOMErrfs}
+export VERSION={version}
+export MACHINE={machine}
+export NET={net}
+export RUN={run}
+export TAG={tag}
+export REALTIME={realtime}
+'''
+#
+if realtime.upper() == "FALSE": 
+  text=text+f'\
 export RETRO_CYCLETHROTTLE={retro_cyclethrottle}\n\
 export RETRO_TASKTHROTTLE={retro_taskthrottle}\n\
-{smart_cycledefs_text}\n\
 '
+#
+text=text+f'{smart_cycledefs_text}\n'
 fpath=f'{expdir}/exp.setup'
 with open(fpath, 'w') as file:
   file.write(text)

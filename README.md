@@ -1,5 +1,5 @@
 # Build
-`git clone --recursive git@github.com:NOAA-GSL/rrfs2.git`
+`git clone --recursive git@github.com:guoqing-NOAA/rrfs-workflow.git`
 
 `cd sorc` and run the following command to build the system. This will take a very long time at the moment:    
 `build.all`
@@ -14,7 +14,7 @@ or you may open 3 terminals, with each terminal running one of the following com
 ```
 
 # run
-under the rrfs2 top directory, make sure python3 is available in your current enviroment
+under the rrfs-workflow top directory, make sure python3 is available in your current enviroment
 
 ```
 cd workflow
@@ -27,7 +27,7 @@ vi config/config.jet # or config.hera if on hera. set up your slurm account/queu
 Go to the ${expdir}, use `./run_rocoto.sh` to run the experiment
 
 ### tips
-1. The workflow depends on the environmental variables. If your environment defines and exports rrfs2-workflow environmental variables in an unexpected way or your environment is corrupt, the setup step may fail or generate unexpected results. Check the `rrfs.xml` file before `run_rocoto.sh`. Starting from a fresh terminal will solve the problem.
+1. The workflow depends on the environmental variables. If your environment defines and exports rrfs-workflow environmental variables in an unexpected way or your environment is corrupt, the setup step may fail or generate unexpected results. Check the `rrfs.xml` file before `run_rocoto.sh`. Starting from a fresh terminal will solve the problem.
 2. You may export variables as follows to skip step 5 in section 2 (i.e. vi config/config.jet):
 ```
 export RESERVATION="rrfsens"

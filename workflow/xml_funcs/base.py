@@ -6,7 +6,7 @@ def source(bash_file,optional=False):
   """
   Source a Bash file and capture the environment variables
   """
-  #check if bash_file exists #gge.debug
+  #check if bash_file exists
   command = f"source {bash_file} && env"
   proc = subprocess.Popen(
     ['bash', '-c', command],
@@ -85,11 +85,14 @@ def wflow_cycledefs(xmlFile,dcCycledef):
 
 ### objTask
 class objTask:
-  def __init__(self,task_id,cycledefs,maxtries,dcTaskRes,dcTaskEnv={},dependencies="",metatask=False,meta_id="",dcMetaVar={}):
+  def __init__(self,task_id,cycledefs,maxtries,dcTaskRes,realtime=False,deadline="", \
+              dcTaskEnv={},dependencies="",metatask=False,meta_id="",dcMetaVar={}):
     self.task_id=task_id
     self.cycledefs=cycledefs
     self.maxtries=maxtries
     self.dcTaskRes=dcTaskRes
+    self.realtime=realtime
+    self.deadline=deadline
     self.dcTaskEnv=dcTaskEnv
     self.dependencies=dependencies
     self.metatask=metatask
@@ -123,6 +126,9 @@ class objTask:
       if self.dcTaskRes["reservation"]!="":
         native_text=native_text+f' --reservation={self.dcTaskRes["reservation"]}'
       text=text+f'  <native>{native_text}</native>\n'
+    #
+    if self.realtime:
+      text=text+f'  <deadline><cyclestr offset="{self.deadline}">@Y@m@d@H@M</cyclestr></deadline>\n'
     #
     text=text+"  &task_common_vars;\n" #add an empty line before the <envar> block for readability
     for key,value in self.dcTaskEnv.items():
@@ -181,6 +187,8 @@ def xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv={},dependencies="",metat
   TAG=os.getenv('TAG','TAG_NOT_DEFINED')
   NET=os.getenv('NET','NET_NOT_DEFINED')
   VERSION=os.getenv('VERSION','VERSION_NOT_DEFINED')
+  realtime=os.getenv('REALTIME','false')
+  deadline=get_cascade_env(f'DEADLINE_{task_id}'.upper())
   if metatask == False:
     meta_id=task_id
     source(f"{expdir}/config/config.{meta_id}")
@@ -205,6 +213,8 @@ def xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv={},dependencies="",metat
           cycledefs=cycledefs,
           maxtries=get_cascade_env(f"MAXTRIES_{task_id}".upper()),
           dcTaskRes=dcTaskRes,
+          realtime=realtime.upper()=="TRUE",
+          deadline=deadline,
           dcTaskEnv=dcTaskEnv,
           dependencies=dependencies,
           metatask=False,

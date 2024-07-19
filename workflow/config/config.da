@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
 # task-specific settigs
+export DEADLINE_DA="24:00:00"

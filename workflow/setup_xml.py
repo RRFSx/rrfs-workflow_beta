@@ -2,7 +2,7 @@
 #
 import os, sys, stat
 from xml_funcs.base import header_begin, header_entities, header_end, source, \
-  wflow_begin, wflow_log, wflow_cycledefs, wflow_end, get_cascade_env
+  wflow_begin, wflow_log, wflow_cycledefs, wflow_end
 from xml_funcs.tasks1 import ic, lbc, da, fcst
 
 ### setup_xml
@@ -69,5 +69,8 @@ if __name__ == "__main__":
   
   # Retrieve arguments - the path to the exp_setting file
   expdir = sys.argv[1]
+  if not os.path.isdir(expdir):
+    print(f'"{expdir}" is not a directory')
+    sys.exit(1)
 
   setup_xml(expdir)
