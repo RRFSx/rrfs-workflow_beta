@@ -5,7 +5,7 @@ from xml_funcs.base import header_begin, header_entities, header_end, source, \
   wflow_begin, wflow_log, wflow_cycledefs, wflow_end
 from xml_funcs.tasks1 import ic, lbc, da, fcst
 from xml_funcs.tasks2 import mpassit, upp
-from xml_funcs.tasksX import clean #archive, graphics
+from xml_funcs.tasksX import clean, graphics #archive
 
 ### setup_xml
 def setup_xml(expdir):
@@ -36,16 +36,17 @@ def setup_xml(expdir):
     wflow_log(xmlFile,log_fpath)
     wflow_cycledefs(xmlFile,dcCycledef)
     
-    # assemble tasks for an experiment
+    # assemble tasks for an experiment or setup/generate an xml file
     ic(xmlFile,expdir)
     lbc(xmlFile,expdir)
     da(xmlFile,expdir)
     fcst(xmlFile,expdir)
-    if os.getenv("REALTIME").upper() == "TRUE": # write out the clean task for realtime runs and retros don't need it
-      clean(xmlFile,expdir)
     if machine == "jet": #currently only support mpassit on jet using pre-compiled mpassit
       mpassit(xmlFile,expdir)
       upp(xmlFile,expdir)
+      graphics(xmlFile,expdir)
+    if os.getenv("REALTIME").upper() == "TRUE": # write out the clean task for realtime runs and retros don't need it
+      clean(xmlFile,expdir)
   
     wflow_end(xmlFile)
 

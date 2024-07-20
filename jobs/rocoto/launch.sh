@@ -23,7 +23,7 @@ export COMINrrfs="${COMROOT}/${NET}/${rrfs_ver}" # we may need to use data from 
 export NTASKS=${SLURM_NTASKS}
 #
 case ${task_id} in
-  clean)
+  clean|graphics)
     ${HOMErrfs}/jobs/rocoto/${task_id}.sh
     ;;
   *)
