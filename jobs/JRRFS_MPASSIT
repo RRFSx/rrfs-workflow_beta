@@ -16,10 +16,11 @@ export RUN=${RUN:-rrfs}
 export jobid=${jobid:-${RUN}_${task_id}_${cyc}}
 
 export DATA=${DATA:-${DATAROOT}/${jobid}}
-if [ -d ${DATA} ]; then #remove the ${DATA} directory before a new run
-  rm -rf ${DATA}
+if [ -d ${DATA}/${FHR} ]; then #remove the ${DATA}/${FHR} directory before a new run
+  rm -rf ${DATA}/${FHR}
 fi
 mkdir -p ${DATA}
+mkdir -p ${DATA}/${FHR}
 #
 export COMINrrfs=${COMINrrfs:-$(compath.py $envir/rrfs/$rrfs_ver)}
 export COMOUT=${COMOUT:-$(compath.py -o ${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc})}

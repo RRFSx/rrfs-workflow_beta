@@ -85,8 +85,7 @@ def wflow_cycledefs(xmlFile,dcCycledef):
 
 ### objTask
 class objTask:
-  def __init__(self,task_id,cycledefs,maxtries,dcTaskRes,realtime=False,deadline="", \
-              dcTaskEnv={},dependencies="",metatask=False,meta_id="",dcMetaVar={}):
+  def __init__(self,task_id,cycledefs,maxtries,dcTaskRes,realtime=False,deadline="",dcTaskEnv={},dependencies=""):
     self.task_id=task_id
     self.cycledefs=cycledefs
     self.maxtries=maxtries
@@ -95,14 +94,6 @@ class objTask:
     self.deadline=deadline
     self.dcTaskEnv=dcTaskEnv
     self.dependencies=dependencies
-    self.metatask=metatask
-    self.meta_id=meta_id
-    self.dcMetaVar=dcMetaVar
-
-  def wflow_metatask_begin(self,xmlFile):
-    text=f'\n<metatask name="{self.meta_id}">\n'
-    for key,value in self.dcMetaVar.items():
-      text=text+f'<var name="{key}">{value}</var>\n'
 
   def wflow_task_begin(self,xmlFile):
     text=f'\n<task name="{self.task_id}" cycledefs="{self.cycledefs}" maxtries="{self.maxtries}">\n'
@@ -140,9 +131,6 @@ class objTask:
 
   def wflow_task_dependencies(self,xmlFile):
     xmlFile.write(f"{self.dependencies}\n")
-
-  def wflow_metatask_end(self,xmlFile):
-    xmlFile.write("</metatask>\n")
 ### end of objTask
 
 ### get_cascade_env
@@ -177,8 +165,8 @@ def get_yes_or_no(prompt):
 ### end of get_yes_or_no
 
 ### xml_task
-def xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv={},dependencies="",metatask=False,meta_id='',dcMetaVar={}):
-  # for non-meta tasks, task_id=meta_id; for meta tasks, task_id=${meta_id}_$suffix 
+def xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv={},dependencies="",metatask=False,meta_id='',meta_bgn="",meta_end=""):
+  # for non-meta tasks, task_id=meta_id; for meta tasks, task_id=${meta_id}_xxx
   # metatask is a group of tasks who share a very similar functionality at the same cycle, for example, post_f01, post_f02, ensembles, etc
   # It is recommended to use separate tasks (i.e. non-metatask) for spinup and prod cycles for simplicity
   COMROOT=os.getenv('COMROOT','/COMROOT_NOT_DEFINED')
@@ -198,7 +186,7 @@ def xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv={},dependencies="",metat
   dcTaskRes={
     'command': f'{HOMErrfs}/jobs/rocoto/launch.sh JRRFS_'+f'{meta_id}'.upper(),
     'join': f'{COMROOT}/{NET}/{VERSION}/logs/{RUN}.@Y@m@d/@H/{task_id}_{TAG}_@Y@m@d@H.log',
-    'jobname': f'{TAG}_{task_id}_@H',
+    'jobname': f'{TAG}_{task_id}_c@H',
     'account': get_cascade_env(f'ACCOUNT_{task_id}'.upper()),
     'queue': get_cascade_env(f'QUEUE_{task_id}'.upper()),
     'partition': get_cascade_env(f"PARTITION_{task_id}".upper()),
@@ -216,13 +204,14 @@ def xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv={},dependencies="",metat
           realtime=realtime.upper()=="TRUE",
           deadline=deadline,
           dcTaskEnv=dcTaskEnv,
-          dependencies=dependencies,
-          metatask=False,
-          meta_id=meta_id,
-          dcMetaVar={})
+          dependencies=dependencies)
+  if metatask == True:
+    xmlFile.write(meta_bgn)
   myObjTask.wflow_task_begin(xmlFile)
   myObjTask.wflow_task_part1(xmlFile)
   myObjTask.wflow_task_dependencies(xmlFile)
   myObjTask.wflow_task_end(xmlFile)
+  if metatask == True:
+    xmlFile.write(meta_end)
 ### end of xml_task
 
