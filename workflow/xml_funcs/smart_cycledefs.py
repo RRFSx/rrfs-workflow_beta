@@ -5,7 +5,7 @@ from xml_funcs.base import source
 0
 def smart_cycledefs(realtime,realtime_days,retro_period):
   if realtime.upper() == "TRUE":
-    now=datetime.now()
+    now=datetime.now()+timedelta(days=-1) #go back one day for possible remedy runs
     end=now+timedelta(days=int(realtime_days))
     pdy=now.strftime("%Y%m%d")
     pdy2=end.strftime("%Y%m%d")

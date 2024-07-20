@@ -4,7 +4,7 @@ date
 export PS4='+ $SECONDS + '
 #
 # for debugging
-EXPDIR=/home/role.rtrr/RRFS/1.0.1/conus12km
+#EXPDIR=/home/role.rtrr/RRFS/1.0.1/conus12km
 #
 export task_id=${task_id:-'clean'}
 # source the config cascade
@@ -15,17 +15,15 @@ source ${EXPDIR}/config/config.${task_id}
 rrfs_ver=${VERSION}
 
 # for debugging
-CDATE=2024072000
-CLEAN_HRS_IC=6 #gge.debug
-CLEAN_HRS_LBC=12 #gge.debug
-CLEAN_HRS_DA=6 #gge.debug
-CLEAN_HRS_FCST=6 #gge.debug
-CLEAN_HRS_FCST_HISTORY=3 #gge.debug
-CLEAN_HRS_FCST_RESTART=3 #gge.debug
-CLEAN_HRS_FCST_DIAG=3 #gge.debug
-CLEAN_HRS_LOG=6 #gge.debug
-
-set +x  #gge.debug
+#CDATE=2024072000
+#CLEAN_HRS_IC=6 #gge.debug
+#CLEAN_HRS_LBC=12 #gge.debug
+#CLEAN_HRS_DA=6 #gge.debug
+#CLEAN_HRS_FCST=6 #gge.debug
+#CLEAN_HRS_FCST_HISTORY=3 #gge.debug
+#CLEAN_HRS_FCST_RESTART=3 #gge.debug
+#CLEAN_HRS_FCST_DIAG=3 #gge.debug
+#CLEAN_HRS_LOG=6 #gge.debug
 
 delete_data() {
   local CLEAN_HRS=$1
