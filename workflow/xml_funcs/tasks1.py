@@ -200,9 +200,9 @@ def fcst(xmlFile, expdir):
       <taskdep task="ic"/>
     </and>
     <and>
-      <or>
+      <and>
 {strneqs}
-      </or>
+      </and>
       <taskdep task="da"/>
     </and>
    </or>
