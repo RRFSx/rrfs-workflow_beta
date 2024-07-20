@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -x
+date
+export PS4='+ $SECONDS + '
+#
+export task_id=${task_id:-'upp'}
+#
+# source the config cascade
+source ${EXPDIR}/exp.setup
+source ${EXPDIR}/config/config.base
+source ${EXPDIR}/config/config.${MACHINE}
+source ${EXPDIR}/config/config.${task_id}
+#
+export pid=${pid:-$$}
+export RUN=${RUN:-rrfs}
+export jobid=${jobid:-${RUN}_${task_id}_${cyc}}
+
+export DATA=${DATA:-${DATAROOT}/${jobid}}
+if [ -d ${DATA}/${FHR} ]; then #remove the ${DATA}/${FHR} directory before a new run
+  rm -rf ${DATA}/${FHR}
+fi
+mkdir -p ${DATA}
+mkdir -p ${DATA}/${FHR}
+#
+export COMINrrfs=${COMINrrfs:-$(compath.py $envir/rrfs/$rrfs_ver)}
+export COMOUT=${COMOUT:-$(compath.py -o ${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc})}
+mkdir -p ${COMOUT}/${task_id}
+#
+#----------------------------------------
+# Execute the script.
+#----------------------------------------
+export pgmout="${DATA}/OUTPUT.${task_id}"
+$SCRIPTSrrfs/exrrfs_${task_id}.sh
+export err=$?; err_chk
+
+if [ -e "$pgmout" ]; then
+  cat $pgmout
+fi
+#
+#----------------------------------------
+# Remove the Temporary working directory
+#----------------------------------------
+cd ${DATAROOT}
+KEEPDATA_upp=${KEEPDATA_upp:-${KEEPDATA}}
+[[ "${KEEPDATA_upp}" == "NO" ]] && rm -rf ${DATA}
+#
+date
+echo "JOB ${jobid:-} HAS COMPLETED NORMALLY!"
+exit 0
