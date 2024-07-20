@@ -1,5 +1,6 @@
 # An example on deploying a new version of rrfs for Jet Realtime run 
 ### 1. Clone and build   
+replace `1.0.1` with an appropriate version number
 ```
 cd /lfs5/BMC/nrtrr/RRFS
 git clone --recursive git@github.com:rrfs2/rrfs-workflow.git 1.0.1

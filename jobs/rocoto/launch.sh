@@ -24,7 +24,7 @@ export NTASKS=${SLURM_NTASKS}
 #
 case ${task_id} in
   clean)
-    ${HOMErrfs}/rocoto/${task_id}.sh
+    ${HOMErrfs}/jobs/rocoto/${task_id}.sh
     ;;
   *)
    ${HOMErrfs}/jobs/${COMMAND}
