@@ -4,8 +4,8 @@ import os, sys, stat
 from xml_funcs.base import header_begin, header_entities, header_end, source, \
   wflow_begin, wflow_log, wflow_cycledefs, wflow_end
 from xml_funcs.tasks1 import ic, lbc, da, fcst
-from xml_funcs.tasks2 import mpassit
-from xml_funcs.tasksZ import clean
+from xml_funcs.tasks2 import mpassit, upp
+from xml_funcs.tasksX import clean #archive, graphics
 
 ### setup_xml
 def setup_xml(expdir):
@@ -36,7 +36,7 @@ def setup_xml(expdir):
     wflow_log(xmlFile,log_fpath)
     wflow_cycledefs(xmlFile,dcCycledef)
     
-    #tasks
+    # assemble tasks for an experiment
     ic(xmlFile,expdir)
     lbc(xmlFile,expdir)
     da(xmlFile,expdir)
@@ -45,6 +45,7 @@ def setup_xml(expdir):
       clean(xmlFile,expdir)
     if machine == "jet": #currently only support mpassit on jet using pre-compiled mpassit
       mpassit(xmlFile,expdir)
+      upp(xmlFile,expdir)
   
     wflow_end(xmlFile)
 
