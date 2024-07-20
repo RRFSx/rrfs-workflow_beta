@@ -1,0 +1,11 @@
+&config
+    grid_file_input_grid = "mpassit.init.nc"
+    hist_file_input_grid = "history.@timestr@.nc"
+    diag_file_input_grid = "diag.@timestr@.nc"
+    file_target_grid     = "geo_em_12km.d01.nc"
+    output_file          = "mpassit.@timestr@.nc"
+    interp_diag          = .true.
+    interp_hist          = .true.
+    wrf_mod_vars         = .true.
+    esmf_log             = .false.
+/

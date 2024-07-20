@@ -15,7 +15,11 @@ export MEMORY=${MEMORY:-""}
 #
 export STARTTIME_IC="00:55:00"
 export STARTTIME_LBC="00:00:01"
+export STARTTIME_BUFRIODA="00:00:01"
+export STARTTIME_ENSBE="00:00:01"
 export STARTTIME_DA="00:00:01"
 export STARTTIME_FCST="00:00:01"
+export STARTTIME_MPASSIT="00:00:01"
+export STARTTIME_UPP="00:00:01"
 #
-export COMINgfs=${COMINgfs:-"/lfs5/BMC/nrtrr/NCO_data/gfs/"}
+export COMINgfs=${COMINgfs:-"/lfs5/BMC/nrtrr/NCO_data/gfs"}
