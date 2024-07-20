@@ -67,14 +67,6 @@ def upp(xmlFile, expdir):
 f'''
 <metatask name="{meta_id}">
 <var name="fhr">{meta_hr}</var>'''
-    #  <metatask name="{meta_id}_f#fhr#">
-    #  <var name="mem">ctl</var>
-    #  <var name="mp_scheme">mp_thompson</var>
-    #    <task name="{meta_id}_#mem#_f#fhr#" cycledefs="fcst,fcst_long" maxtries="3">
-    #    </task>
-    #  </metatask>
-    #</metatask>
-
   meta_end=f'\
 </metatask>\n'
 
@@ -103,8 +95,6 @@ f'''
   <datadep age="00:05:00"><cyclestr>{COMROOT}/{NET}/{VERSION}/{RUN}.@Y@m@d/@H/mpassit/</cyclestr><cyclestr offset="#fhr#:00:00">mpassit.@Y-@m-@d_@H.@M.@S.nc</cyclestr></datadep>
   </and>
   </dependency>'''
-
   #
   xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies,True,meta_id,meta_bgn,meta_end)
-
 ### end of upp --------------------------------------------------------
