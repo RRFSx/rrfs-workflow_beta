@@ -4,6 +4,7 @@ import os, sys, stat
 from xml_funcs.base import header_begin, header_entities, header_end, source, \
   wflow_begin, wflow_log, wflow_cycledefs, wflow_end
 from xml_funcs.tasks1 import ic, lbc, da, fcst
+from xml_funcs.tasksZ import clean
 
 ### setup_xml
 def setup_xml(expdir):
@@ -39,6 +40,8 @@ def setup_xml(expdir):
     lbc(xmlFile,expdir)
     da(xmlFile,expdir)
     fcst(xmlFile,expdir)
+    if os.getenv("REALTIME").upper() == "TRUE": # don't need a clean job for retros
+      clean(xmlFile,expdir)
   
     wflow_end(xmlFile)
 

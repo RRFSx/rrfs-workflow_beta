@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # load modules for the rocoto workflow manager
+# This script will NOT be needed by NCO
 #
 set +x # supress messy output in the module load process
 source /etc/profile
@@ -21,4 +22,11 @@ export DATA=${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/${task_id}
 export COMINrrfs="${COMROOT}/${NET}/${rrfs_ver}" # we may need to use data from previous cycles
 export NTASKS=${SLURM_NTASKS}
 #
-${HOMErrfs}/jobs/${COMMAND}
+case ${task_id} in
+  clean)
+    ${HOMErrfs}/rocoto/${task_id}.sh
+    ;;
+  *)
+   ${HOMErrfs}/jobs/${COMMAND}
+   ;;
+esac

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# task-specific settigs
+#
+export CLEAN_HRS_LOG="1440" #60 days
+#
+export CLEAN_HRS_IC="72"
+export CLEAN_HRS_LBC="72"
+#
+export CELAN_HRS_FCST="72"
+export CELAN_HRS_FCST_HISTORY="24"
+export CELAN_HRS_FCST_DIAG="24"
+export CELAN_HRS_FCST_RESTART="24"
+#
+export CLEAN_HRS_DA="72"
+#
+export ACCOUNT_CLEAN=${ACCOUNT2:-ACCOUNT2_NOT_DEFINED}
+export QUEUE_CLEAN=${QUEUE2:-QUEUE2_NOT_DEFINED}
+export PARTITION_CLEAN=${PARTITION2:-PARTITION2_NOT_DEFINED}
+export RESERVATION_CLEAN=""
+export NODES_CLEAN="<nodes>1:ppn=1</nodes>"
