@@ -119,6 +119,6 @@ response=get_yes_or_no('Do you want to create an xml file right now(y/n):\n')
 if response in ['yes', 'y']:
   setup_xml(expdir) 
 else:
-  print(f'when you complete fine-tuning configurations, run\n  ./setup.xml.py {expdir}\nto generate an xml file for rocoto')
+  print(f'when you complete fine-tuning configurations, run\n  ./setup_xml.py {expdir}\nto generate an xml file for rocoto')
 #
 # end of setup_exp.py
