@@ -40,7 +40,7 @@ def setup_xml(expdir):
     lbc(xmlFile,expdir)
     da(xmlFile,expdir)
     fcst(xmlFile,expdir)
-    if os.getenv("REALTIME").upper() == "TRUE": # don't need a clean job for retros
+    if os.getenv("REALTIME").upper() == "TRUE": # write out the clean task for realtime runs and retros don't need it
       clean(xmlFile,expdir)
   
     wflow_end(xmlFile)
