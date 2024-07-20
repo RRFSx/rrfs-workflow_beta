@@ -7,4 +7,4 @@ export LBC_LENGTH_HRS=${FCST_LENGTH_HRS:-"12"}
 export LBC_LENGTH_HRS=$((LBC_LENGTH_HRS+6)) # lbc runs every 6 hours # this variable means how many hours going forward from the LBC CDATE
 export NODES="<nodes>1:ppn=40</nodes>"
 export DEADLINE_LBC="24:00:00"
-export STARTTIME_LBC="00:10:00"
+export STARTTIME_LBC=${STARTTIME_LBC:-"00:10:00"}
