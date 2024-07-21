@@ -2,21 +2,12 @@
 # config cascade
 # config.base -> config.${MACHINE}-> config.${task_id} -> config.${task_id}_spinup -> config.${NET}
 #
-export MACHINE=${MACHINE:-"@MACHINE@"}
-export HOMErrfs=${HOMErrfs:-"@HOMErrfs@"} #comes from the workflow at runtime
+export HOMErrfs=${HOMErrfs} #comes from the workflow at runtime
 export EXECrrfs="${HOMErrfs}/exec"
 export PARMrrfs="${HOMErrfs}/parm"
 export SCRIPTSrrfs="${HOMErrfs}/scripts"
 export USHrrfs="${HOMErrfs}/ush"
 export FIXrrfs="${HOMErrfs}/fix"
-#
-# resource settings: ACCOUNT, QUEUE, PARTITION, RESERVATION, NODES,  NATIVE, WALLTIME, MEMORY
-# the VARiable cascade: A_B_C_D: if this VAR is NOT defined, check A_B_C; repeat until VAR is defined or empty
-#
-export DEADLINE="24:00:00"
-export STARTTIME="01:30:00"
-export NODES="<nodes>1:ppn=1</nodes>" #the NODES variable has to include the tag <nodes> or <cores>
-export MAXTRIES="3"
 #
 export KEEPDATA="YES"  #YES or NO
 #
@@ -24,5 +15,4 @@ export PROD_BGN_HRS="3 15" # HRS to begin a new PROD cycle
 #
 # fcst settings:
 export FCST_LENGTH_HRS=12
-export PIO_NUM_IOTASKS=6
-export PIO_STRIDE=20
+export PHYSICS_SUITE=${PHYSICS_SUITE:-"mesoscale_reference"} # mesoscale_reference, convection_permitting

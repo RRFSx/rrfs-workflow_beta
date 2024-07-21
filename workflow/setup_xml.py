@@ -10,10 +10,18 @@ from xml_funcs.tasksX import clean, graphics #archive
 ### setup_xml
 def setup_xml(expdir):
   # source the config cascade
-  source(f'{expdir}/exp.setup')
-  source(f"{expdir}/config/config.base")
   machine=os.getenv('MACHINE').lower()
+  source(f'{expdir}/exp.setup')
+  #
+  source(f'{expdir}/config/config.pre')
   source(f"{expdir}/config/config.{machine}")
+  source(f"{expdir}/config/config.base")
+  #
+  source(f'{expdir}/config/resources/config.pre')
+  source(f"{expdir}/config/resources/config.{machine}")
+  source(f"{expdir}/config/resources/config.base")
+  if os.getenv("REALTIME").upper() == "TRUE":
+    source(f"{expdir}/config/resources/config.realtime")
   #
   dcCycledef={}
   dcCycledef['ic']=os.getenv('CYCLEDEF_IC')

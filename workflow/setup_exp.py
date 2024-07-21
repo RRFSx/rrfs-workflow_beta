@@ -53,18 +53,11 @@ if os.path.exists(exp_configdir):
     os.remove(exp_configdir)
   else:
     shutil.rmtree(exp_configdir)
-os.makedirs(exp_configdir,exist_ok=True)
-for cfile in glob.glob(f'{configdir}/config.*'):
-  shutil.copy(cfile,exp_configdir)
+shutil.copytree(configdir,exp_configdir)
 #
-sub=os.getenv("CONFIG_SUB","")
-if sub != "":
-  subdir=f'{configdir}/{sub}'
-  if os.path.isdir(subdir):
-    for subfile in glob.glob(f'{subdir}/*'):
-      shutil.copy(subfile,exp_configdir)
-  else:
-    print(f'"subdir" does not exist')
+pre=os.getenv("CONFIG_PRE","default")
+shutil.copy(f'{exp_configdir}/config.pre.{pre}',f'{exp_configdir}/config.pre')
+shutil.copy(f'{exp_configdir}/resources/config.pre.{pre}',f'{exp_configdir}/resources/config.pre')
 
 # generate cycledefs
 # the goal is to create cycledefs smartly
@@ -82,7 +75,6 @@ if machine=='UNKNOWN':
 tag=os.getenv('TAG','rrfs')
 net=os.getenv('NET','rrfs')
 run=os.getenv('RUN','rrfs')
-physics_suite=os.getenv('PHYSICS_SUITE','PHYSICS_SUITE_NOT_DEFINED')
 retro_cyclethrottle=os.getenv('RETRO_CYCLETHROTTLE','6')
 retro_taskthrottle=os.getenv('RETRO_TASKTHROTTLE','100')
 text=f'''#!/usr/bin/env bash
@@ -95,7 +87,6 @@ export MACHINE={machine}
 export NET={net}
 export RUN={run}
 export TAG={tag}
-export PHYSICS_SUITE={physics_suite}
 export REALTIME={realtime}
 '''
 #
