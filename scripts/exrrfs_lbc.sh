@@ -59,8 +59,9 @@ elif  [[ "${prefix}" == "GEFS" ]]; then
   nfglevels=32
   nfgsoillevels=4
 fi
-
-file_content=$(< ${PARMrrfs}/rrfs/namelist.init_atmosphere) # read in all content
+zeta_levels=${FIXrrfs}/meshes/L60.txt
+physics_suite=${PHYSICS_SUITE:-'PHYSICS_SUITE_not_defined'}
+file_content=$(< ${PARMrrfs}/rrfs/${physics_suite}/namelist.init_atmosphere) # read in all content
 eval "echo \"${file_content}\"" > namelist.init_atmosphere
 
 # generate the streams file on the fly using sed as this file contains "filename_template='lbc.$Y-$M-$D_$h.$m.$s.nc'"
@@ -87,7 +88,7 @@ mv streams.init_atmosphere streams.init_atmosphere.ic
 # genereate the namelist on the fly 
 end_time=$(date -d "${EDATE:0:8} ${EDATE:8:2}" +%Y-%m-%d_%H:%M:%S)
 init_case=9
-file_content=$(< ${PARMrrfs}/rrfs/namelist.init_atmosphere) # read in all content
+file_content=$(< ${PARMrrfs}/rrfs/${physics_suite}/namelist.init_atmosphere) # read in all content
 eval "echo \"${file_content}\"" > namelist.init_atmosphere
 
 # generate the streams file on the fly using sed as this file contains "filename_template='lbc.$Y-$M-$D_$h.$m.$s.nc'"
