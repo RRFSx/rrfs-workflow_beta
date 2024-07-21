@@ -35,6 +35,8 @@ start_time=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H:%M:%S)
 run_duration=${FCST_LENGTH_HRS:-6}:00:00
 physics_suite=${PHYSICS_SUITE:-'mesoscale_reference'}
 jedi_da="false" #true
+pio_num_iotasks=${PIO_NUM_IOTASKS:-6}
+pio_stride=${PIO_STRIDE:-20}
 file_content=$(< ${PARMrrfs}/rrfs/namelist.atmosphere) # read in all content
 eval "echo \"${file_content}\"" > namelist.atmosphere
 
