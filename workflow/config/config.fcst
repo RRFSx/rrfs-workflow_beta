@@ -1,10 +1,2 @@
 #!/usr/bin/env bash
 # task-specific settigs
-export FCST_LENGTH_HRS=${FCST_LENGTH_HRS:-12}
-export PIO_NUM_IOTASKS=${PIO_NUM_IOTASKS:-6}
-export PIO_STRIDE=${PIO_STRIDE:-20}
-###
-export NODES_FCST=${NODES_FCST:-"<nodes>3:ppn=40</nodes>"}
-export WALLTIME_FCST=${WALLTIME_FCST:-"00:50:00"}
-export DEADLINE_FCST=${DEADLINE_FCST:-"24:00:00"}
-export STARTTIME_FCST=${STARTTIME_FCST:-"00:10:00"}

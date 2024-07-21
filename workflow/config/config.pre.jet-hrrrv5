@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# preamp some settings 
+export PHYSICS_SUITE="convection_permitting" # mesoscale_reference, convection_permitting

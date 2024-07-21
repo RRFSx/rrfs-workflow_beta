@@ -7,6 +7,7 @@ export task_id=${task_id:-'upp'}
 #
 # source the config cascade
 source ${EXPDIR}/exp.setup
+source ${EXPDIR}/config/config.pre
 source ${EXPDIR}/config/config.base
 source ${EXPDIR}/config/config.${MACHINE}
 source ${EXPDIR}/config/config.${task_id}
