@@ -23,11 +23,11 @@ fi
 offset=$((10#${cyc}%6))
 CDATElbc=$($NDATE -${offset} ${CDATE})
 ${cpreq} ${COMINrrfs}/${RUN}.${CDATElbc:0:8}/${CDATElbc:8:2}/lbc/lbc*.nc .
-${cpreq} ${FIXrrfs}/physics/* .
-ln -snf VEGPARM.TBL.fcst VEGPARM.TBL
+${cpreq} ${FIXrrfs}/physics/${PHYSICS_SUITE}/* .
+ln -snf VEGPARM.TBL.fcst VEGPARM.TBL #gge.debug temp
 mkdir -p graphinfo stream_list
 ${cpreq} ${FIXrrfs}/graphinfo/* graphinfo/
-cpreq ${FIXrrfs}/stream_list/* stream_list/
+cpreq ${FIXrrfs}/stream_list/${PHYSICS_SUITE}/* stream_list/
 
 # generate the namelist on the fly
 # do_restart already defined in the above

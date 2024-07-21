@@ -82,6 +82,7 @@ if machine=='UNKNOWN':
 tag=os.getenv('TAG','rrfs')
 net=os.getenv('NET','rrfs')
 run=os.getenv('RUN','rrfs')
+physics_suite=os.getenv('PHYSICS_SUITE','PHYSICS_SUITE_NOT_DEFINED')
 retro_cyclethrottle=os.getenv('RETRO_CYCLETHROTTLE','6')
 retro_taskthrottle=os.getenv('RETRO_TASKTHROTTLE','100')
 text=f'''#!/usr/bin/env bash
@@ -94,6 +95,7 @@ export MACHINE={machine}
 export NET={net}
 export RUN={run}
 export TAG={tag}
+export PHYSICS_SUITE={physics_suite}
 export REALTIME={realtime}
 '''
 #

@@ -29,12 +29,12 @@ err_chk
 #prepare for init_atmosphere
 cd ${DATA}
 ln -snf ./ungrib/${prefix}:${start_time:0:13} .
-${cpreq} ${FIXrrfs}/meshes/static.nc .
-${cpreq} ${FIXrrfs}/graphinfo/conus12km_mpas.graph.info.part.${NTASKS} .
+${cpreq} ${FIXrrfs}/meshes/${NET}.static.nc static.nc
+${cpreq} ${FIXrrfs}/graphinfo/${NET}_mpas.graph.info.part.${NTASKS} .
 
 # genereate the namelist on the fly
 init_case=7
-decomp_file_prefix='conus12km_mpas.graph.info.part.'
+decomp_file_prefix="${NET}_mpas.graph.info.part."
 nvertlevels=55
 nsoillevels=4
 if [[ "${prefix}" == "RAP" || "${prefix}" == "HRRR" ]]; then

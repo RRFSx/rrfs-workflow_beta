@@ -10,7 +10,7 @@ timestr=$(date -d "${CDATEp:0:8} ${CDATEp:8:2}" +%Y-%m-%d_%H.%M.%S)
 #gge.debug: in operation, does UPP work on COMROOT(wait for the completion of all fcsts?)  or DATAROOT?
 ${cpreq} ${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/fcst/history.${timestr}.nc .
 ${cpreq} ${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/fcst/diag.${timestr}.nc .
-${cpreq} ${FIXrrfs}/mpassit/* .
+${cpreq} ${FIXrrfs}/mpassit/${NET}/* .
 # generate the namelist on the fly
 sed -e "s/@timestr@/${timestr}/" ${PARMrrfs}/rrfs/namelist.mpassit > namelist.mpassit
 
