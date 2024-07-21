@@ -17,17 +17,18 @@ for hr in "${array[@]}"; do
   fi
 done
 #
-${cpreq} ${FIXrrfs}/physics/* .
+${cpreq} ${FIXrrfs}/physics/${PHYSICS_SUITE}/* .
+ln -snf VEGPARM.TBL.da VEGPARM.TBL #gge.debug temp
 mkdir -p graphinfo stream_list
 ${cpreq} ${FIXrrfs}/graphinfo/* graphinfo/
 ${cpreq} ${FIXrrfs}/jedi/obsop_name_map.yaml .                  
 ${cpreq} ${FIXrrfs}/jedi/keptvars.yaml .              
 ${cpreq} ${FIXrrfs}/jedi/geovars.yaml . 
-cpreq ${FIXrrfs}/stream_list/* stream_list/
+${cpreq} ${FIXrrfs}/stream_list/${PHYSICS_SUITE}/* stream_list/
 mkdir -p data; cd data                   
 mkdir -p bumploc obs ens
 ${cpreq} ${FIXrrfs}/bumploc/${BUMPLOC} bumploc/
-${cpreq} ${FIXrrfs}/meshes/static.nc .
+${cpreq} ${FIXrrfs}/meshes/${NET}.static.nc static.nc
 if [[ "${begin}" == "YES" ]]; then
   # mpasjedi cannot run on init.nc due to the miss of pressure values
   : #do nothing

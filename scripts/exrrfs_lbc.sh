@@ -35,15 +35,15 @@ err_chk
 #prepare for init_atmosphere
 cd ${DATA}
 ln -snf ./ungrib/${prefix}* .
-${cpreq} ${FIXrrfs}/meshes/static.nc .
-${cpreq} ${FIXrrfs}/graphinfo/conus12km_mpas.graph.info.part.${NTASKS} .
+${cpreq} ${FIXrrfs}/meshes/${NET}.static.nc static.nc
+${cpreq} ${FIXrrfs}/graphinfo/${NET}_mpas.graph.info.part.${NTASKS} .
 
 #### generate init.nc first -------------------------------------------------------------------
 #### why we need init.nc when generating lbc??
 # generate the namelist on the fly
 end_time=${start_time}
 init_case=7
-decomp_file_prefix='conus12km_mpas.graph.info.part.'
+decomp_file_prefix="${NET}_mpas.graph.info.part."
 nvertlevels=55
 nsoillevels=4
 if [[ "${prefix}" == "RAP" || "${prefix}" == "HRRR" ]]; then
