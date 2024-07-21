@@ -43,7 +43,7 @@ elif [[ "${NET}" == "hrrrv5" ]]; then
   pio_num_iotasks=40
   pio_stride=20
 fi
-file_content=$(< ${PARMrrfs}/rrfs/namelist.atmosphere) # read in all content
+file_content=$(< ${PARMrrfs}/rrfs/${physics_suite}/namelist.atmosphere) # read in all content
 eval "echo \"${file_content}\"" > namelist.atmosphere
 
 # generate the streams file on the fly using sed as this file contains "filename_template='lbc.$Y-$M-$D_$h.$m.$s.nc'"

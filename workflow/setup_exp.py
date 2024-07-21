@@ -56,8 +56,10 @@ if os.path.exists(exp_configdir):
 shutil.copytree(configdir,exp_configdir)
 #
 pre=os.getenv("CONFIG_PRE","default")
-shutil.copy(f'{exp_configdir}/config.pre.{pre}',f'{exp_configdir}/config.pre')
-shutil.copy(f'{exp_configdir}/resources/config.pre.{pre}',f'{exp_configdir}/resources/config.pre')
+if os.path.exists(f'{exp_configdir}/config.pre.{pre}'):
+  shutil.copy(f'{exp_configdir}/config.pre.{pre}',f'{exp_configdir}/config.pre')
+if os.path.exists(f'{exp_configdir}/resources/config.pre.{pre}'):
+  shutil.copy(f'{exp_configdir}/resources/config.pre.{pre}',f'{exp_configdir}/resources/config.pre')
 
 # generate cycledefs
 # the goal is to create cycledefs smartly
