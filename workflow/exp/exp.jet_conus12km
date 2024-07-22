@@ -14,8 +14,4 @@ export TAG=c1v01
 export REALTIME=true      # true, false
 export REALTIME_DAYS=90   # eg. 90 means to do real-time runs for 90 days
 #
-export RETRO_PERIOD=2024052700-2024052800
-export RETRO_CYCLETHROTTLE=5
-export RETRO_TASKTHROTTLE=100
-#
 export CONFIG_PRE="jet_${NET}"

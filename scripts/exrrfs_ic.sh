@@ -10,8 +10,21 @@ cd ${DATA}
 init_case=7
 start_time=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H:%M:%S)
 end_time=${start_time}
-nvertlevels=55
-nsoillevels=4
+case ${NET} in
+  conus12km)
+    nvertlevels=55
+    nsoillevels=4
+    ;;
+  hrrrv5)
+    nvertlevels=59
+    nsoillevels=9
+    ;;
+  *)
+    echo "unknow NET=${NET}"
+    export err=99; err_chk
+    ;;
+esac
+
 if [[ "${prefix}" == "RAP" || "${prefix}" == "HRRR" ]]; then
   nfglevels=51
   nfgsoillevels=9
