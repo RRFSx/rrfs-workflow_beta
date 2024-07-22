@@ -1,40 +1,15 @@
 #!/usr/bin/env bash
 set -x
 cpreq=${cpreq:-cpreq}
-prefix=${IC_PREFIX:-GFS}
-ic_offset=${IC_OFFSET_HRS:-3}
-FHR=$(printf %03d ${ic_offset})
-CDATEic=$($NDATE -${FHR} ${CDATE})
-
-cd ${DATA}/ungrib
-${cpreq} ${FIXrrfs}/Vtables/Vtable.${prefix} Vtable
-${cpreq} ${COMINgfs}/gfs.${CDATEic:0:8}/${CDATEic:8:2}/gfs.t${CDATEic:8:2}z.pgrb2.0p25.f${FHR} GRIBFILE.AAA
-#
-# generate the namelist on the fly
-start_time=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H:%M:%S) 
-end_time=${start_time}
-interval_seconds=3600
-sed -e "s/@start_time@/${start_time}/" -e "s/@end_time@/${end_time}/" \
-    -e "s/@interval_seconds@/${interval_seconds}/" \
-    -e "s/@prefix@/${prefix}/" ${PARMrrfs}/rrfs/namelist.wps > namelist.wps
-
-# run ungrib
-source prep_step
-${EXECrrfs}/ungrib.x
-# check the status
-#outfile=${prefix}:$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H)
-export err=$?
-err_chk
-
-#prepare for init_atmosphere
+prefix=${IC_PREFIX:-IC_PREFIX_not_defined}
 cd ${DATA}
-ln -snf ./ungrib/${prefix}:${start_time:0:13} .
-${cpreq} ${FIXrrfs}/meshes/${NET}.static.nc static.nc
-${cpreq} ${FIXrrfs}/graphinfo/${NET}_mpas.graph.info.part.${NTASKS} .
 
 # genereate the namelist on the fly
+# required variables: init_case, start_time, end_time, nvertlevels, nsoillevels, nfglevles, nfgsoillevels,
+# prefix, inerval_seconds, zeta_levels, decomp_file_prefix
 init_case=7
-decomp_file_prefix="${NET}_mpas.graph.info.part."
+start_time=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H:%M:%S)
+end_time=${start_time}
 nvertlevels=55
 nsoillevels=4
 if [[ "${prefix}" == "RAP" || "${prefix}" == "HRRR" ]]; then
@@ -50,7 +25,10 @@ elif  [[ "${prefix}" == "GEFS" ]]; then
   nfglevels=32
   nfgsoillevels=4
 fi
+interval_seconds=3600 # just a place holder as we use metatask to run lbc hour by hour
 zeta_levels=${FIXrrfs}/meshes/L60.txt
+decomp_file_prefix="${NET}_mpas.graph.info.part."
+#
 physics_suite=${PHYSICS_SUITE:-'PHYSICS_SUITE_not_defined'}
 file_content=$(< ${PARMrrfs}/rrfs/${physics_suite}/namelist.init_atmosphere) # read in all content
 eval "echo \"${file_content}\"" > namelist.init_atmosphere
@@ -58,6 +36,11 @@ eval "echo \"${file_content}\"" > namelist.init_atmosphere
 # generate the streams file on the fly using sed as this file contains "filename_template='lbc.$Y-$M-$D_$h.$m.$s.nc'"
 sed -e "s/@input_stream@/static.nc/" -e "s/@output_stream@/init.nc/" \
     -e "s/@lbc_interval@/3/" ${PARMrrfs}/rrfs/streams.init_atmosphere > streams.init_atmosphere
+
+#prepare for init_atmosphere
+ln -snf ${COMINrrfs}/${RUN}.${PDY}/${cyc}/ungrib/${prefix}:${start_time:0:13} .
+${cpreq} ${FIXrrfs}/meshes/${NET}.static.nc static.nc
+${cpreq} ${FIXrrfs}/graphinfo/${NET}_mpas.graph.info.part.${NTASKS} .
 
 # run init_atmosphere_model
 ### temporarily solution since mpas model uses different modules files that other components
