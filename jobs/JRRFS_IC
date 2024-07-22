@@ -10,7 +10,7 @@ source ${EXPDIR}/exp.setup
 [[ -s ${EXPDIR}/config/config.pre  ]] && source ${EXPDIR}/config/config.pre
 source ${EXPDIR}/config/config.${MACHINE}
 source ${EXPDIR}/config/config.base
-source ${EXPDIR}/config/config.${task_id}
+[[ -s ${EXPDIR}/config/config.${task_id} ]] && source ${EXPDIR}/config/config.${task_id}
 #
 export pid=${pid:-$$}
 export RUN=${RUN:-rrfs}
@@ -21,7 +21,6 @@ if [ -d ${DATA} ]; then #remove the ${DATA} directory before a new run
   rm -rf ${DATA}
 fi
 mkdir -p ${DATA}
-mkdir -p ${DATA}/ungrib
 #
 export COMINgfs=${COMINgfs:-$(compath.py $envir/gfs/$gfs_ver)}
 export COMOUT=${COMOUT:-$(compath.py -o ${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc})}

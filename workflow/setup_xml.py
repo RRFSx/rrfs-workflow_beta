@@ -4,14 +4,14 @@ import os, sys, stat
 from xml_funcs.base import header_begin, header_entities, header_end, source, \
   wflow_begin, wflow_log, wflow_cycledefs, wflow_end
 from xml_funcs.tasks1 import ic, lbc, da, fcst
-from xml_funcs.tasks2 import mpassit, upp
+from xml_funcs.tasks2 import mpassit, upp, ungrib_lbc, ungrib_ic
 from xml_funcs.tasksX import clean, graphics #archive
 
 ### setup_xml
 def setup_xml(expdir):
   # source the config cascade
-  machine=os.getenv('MACHINE').lower()
   source(f'{expdir}/exp.setup')
+  machine=os.getenv('MACHINE').lower()
   #
   source(f'{expdir}/config/config.pre',optional=True)
   source(f"{expdir}/config/config.{machine}")
@@ -45,6 +45,8 @@ def setup_xml(expdir):
     wflow_cycledefs(xmlFile,dcCycledef)
     
     # assemble tasks for an experiment or setup/generate an xml file
+    ungrib_ic(xmlFile,expdir)
+    ungrib_lbc(xmlFile,expdir)
     ic(xmlFile,expdir)
     lbc(xmlFile,expdir)
     da(xmlFile,expdir)

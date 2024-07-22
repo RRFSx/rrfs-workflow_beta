@@ -5,33 +5,11 @@ from xml_funcs.base import xml_task, source, get_cascade_env
 ### begin of ic --------------------------------------------------------
 def ic(xmlFile, expdir):
   task_id='ic'
-  cycledefs='ic'
+  cycledefs='ic,lbc' #don't know why we need init.nc for the lbc process but live with it right now
   # Task-specific EnVars beyond the task_common_vars
-  dcTaskEnv={
-    '_PLACEHOLDER_': 'just a place holder',
-  }
-  # dependencies
-  source(f'{expdir}/config/config.{task_id}')
-  prefix=os.getenv('IC_PREFIX','GFS')
-  offset=os.getenv('IC_OFFSET_HRS','3')
-  COMINgfs=os.getenv("COMINgfs",'COMINgfs_not_defined')
-  COMINrrfs=os.getenv("COMINrrfs",'COMINrrfs_not_defined')
-  COMINrap=os.getenv("COMINrap",'COMINrap_not_defined')
-  COMINhrrr=os.getenv("COMINhrrr",'COMINhrrr_not_defined')
-  COMINgefs=os.getenv("COMINgefs",'COMINgefs_not_defined')
-  if prefix == "GFS":
-    fpath=f'{COMINgfs}/gfs.@Y@m@d/@H/gfs.t@Hz.pgrb2.0p25.f{offset:>03}'
-  elif prefix == "RRFS":
-    fpath=f'{COMINrrfs}/rrfs.@Y@m@d/@H/rrfs.t@Hz.pgrb2.0p25.f{offset:>03}'
-  elif prefix == "RAP":
-    fpath=f'{COMINrap}/rap.@Y@m@d/@H/rap.t@Hz.pgrb2.0p25.f{offset:>03}'
-  elif prefix == "HRRR":
-    fpath=f'{COMINhrrr}/hrrr.@Y@m@d/@H/hrrr.t@Hz.pgrb2.0p25.f{offset:>03}'
-  elif prefix == "GEFS":
-    fpath=f'{COMINgefs}/gefs.@Y@m@d/@H/gefs.t@Hz.pgrb2.0p25.f{offset:>03}'
-  else:
-    fpath=f'/not_supported_IC_PREFIX'
+  dcTaskEnv={}
 
+  # dependencies
   timedep=""
   realtime=os.getenv("REALTIME","false")
   starttime=get_cascade_env(f"STARTTIME_{task_id}".upper())
@@ -40,54 +18,40 @@ def ic(xmlFile, expdir):
   dependencies=f'''
   <dependency>
   <and>{timedep}
-  <datadep age="00:05:00"><cyclestr offset="-{offset}:00:00">{fpath}</cyclestr></datadep>
+  <or>
+    <taskdep task="ungrib_ic"/>
+    <taskdep task="ungrib_lbc_f00"/>
+  </or>
   </and>
   </dependency>'''
-
   #
   xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies)
 ### end of ic --------------------------------------------------------
 
 ### begin of lbc --------------------------------------------------------
 def lbc(xmlFile, expdir):
-  task_id='lbc'
+  meta_id='lbc'
   cycledefs='lbc'
-  # Task-specific EnVars beyond the task_common_vars
-  dcTaskEnv={
-    '_PLACEHOLDER_': 'just a place holder',
-  }
-  # dependencies
-  source(f'{expdir}/config/config.{task_id}')
-  prefix=os.getenv('LBC_PREFIX','GFS')
+  # metatask (nested or not)
+  fhr=os.getenv('FCST_LENGTH_HRS','12')
   offset=int(os.getenv('LBC_OFFSET_HRS','6'))
   length=int(os.getenv('LBC_LENGTH_HRS','18'))
   interval=int(os.getenv('LBC_INTERVAL_HRS','3'))
-  COMINgfs=os.getenv("COMINgfs",'COMINgfs_not_defined')
-  COMINrrfs=os.getenv("COMINrrfs",'COMINrrfs_not_defined')
-  COMINrap=os.getenv("COMINrap",'COMINrap_not_defined')
-  COMINhrrr=os.getenv("COMINhrrr",'COMINhrrr_not_defined')
-  COMINgefs=os.getenv("COMINgefs",'COMINgefs_not_defined')
-  if prefix == "GFS":
-    fpath=f'{COMINgfs}/gfs.@Y@m@d/@H/gfs.t@Hz.pgrb2.0p25'
-  elif prefix == "RRFS":
-    fpath=f'{COMINrrfs}/rrfs.@Y@m@d/@H/rrfs.t@Hz.pgrb2.0p25'
-  elif prefix == "RAP":
-    fpath=f'{COMINrap}/rap.@Y@m@d/@H/rap.t@Hz.pgrb2.0p25'
-  elif prefix == "HRRR":
-    fpath=f'{COMINhrrr}/hrrr.@Y@m@d/@H/hrrr.t@Hz.pgrb2.0p25'
-  elif prefix == "GEFS":
-    fpath=f'{COMINgefs}/gefs.@Y@m@d/@H/gefs.t@Hz.pgrb2.0p25'
-  else:
-    fpath=f'/not_supported_LBC_PREFIX'
+  meta_hr= ''.join(f'{i:02d} ' for i in range(0,int(length)+1,int(interval))).strip()
+  comin_hr=''.join(f'{i:02d} ' for i in range(int(offset),int(length)+int(offset)+1,int(interval))).strip()
+  meta_bgn=f'''
+<metatask name="{meta_id}">
+<var name="fhr">{meta_hr}</var>'''
+  meta_end=f'\
+</metatask>\n'
+  task_id=f'{meta_id}_f#fhr#'
 
-  datadep=""; first=True
-  for fhr in range(offset,offset+length+interval,interval):
-    if first:
-      first=False
-      datadep=datadep+f'    <datadep age="00:05:00"><cyclestr offset="-{offset}:00:00">{fpath}.f{fhr:>03}</cyclestr></datadep>'
-    else:
-      datadep=datadep+f'\n    <datadep age="00:05:00"><cyclestr offset="-{offset}:00:00">{fpath}.f{fhr:>03}</cyclestr></datadep>'
+  # Task-specific EnVars beyond the task_common_vars
+  dcTaskEnv={
+    'FHR': '#fhr#',
+  }
 
+  # dependencies
   timedep=""
   realtime=os.getenv("REALTIME","false")
   starttime=get_cascade_env(f"STARTTIME_{task_id}".upper())
@@ -96,11 +60,12 @@ def lbc(xmlFile, expdir):
   dependencies=f'''
   <dependency>
   <and>{timedep}
-{datadep}
+  <taskdep task="ungrib_lbc_f#fhr#"/>
+  <taskdep task="ic"/>
   </and>
   </dependency>'''
   #
-  xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies)
+  xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies,True,meta_id,meta_bgn,meta_end)
 ### end of lbc --------------------------------------------------------
 
 ### begin of da --------------------------------------------------------
@@ -130,6 +95,11 @@ def da(xmlFile, expdir):
   starttime=get_cascade_env(f"STARTTIME_{task_id}".upper())
   if realtime.upper() == "TRUE":
     timedep=f'\n    <timedep><cyclestr offset="{starttime}">@Y@m@d@H@M00</cyclestr></timedep>'
+  #
+  DATAROOT=os.getenv("DATAROOT","DATAROOT_NOT_DEFINED")
+  RUN=os.getenv("RUN","RUN_NOT_DEFINED")
+  NET=os.getenv("NET","NET_NOT_DEFINED")
+  VERSION=os.getenv("VERSION","VERSION_NOT_DEFINED")
   dependencies=f'''
   <dependency>
   <and>{timedep}
@@ -144,7 +114,7 @@ def da(xmlFile, expdir):
         <or>
 {strneqs}
         </or>
-        <taskdep task="fcst" cycle_offset="-1:00:00"/>
+        <datadep age="00:05:00"><cyclestr>{DATAROOT}/{NET}/{VERSION}/{RUN}.@Y@m@d/@H/fcst/</cyclestr><cyclestr offset="1:00:00">restart.@Y-@m-@d_@H.@M.@S.nc</cyclestr></datadep>
       </and>
     </or>
   </and>
@@ -184,13 +154,13 @@ def fcst(xmlFile, expdir):
   <dependency>
   <and>{timedep}
    <or>
-    <taskdep task="lbc" cycle_offset="0:00:00"/>
-    <taskdep task="lbc" cycle_offset="-1:00:00"/>
-    <taskdep task="lbc" cycle_offset="-2:00:00"/>
-    <taskdep task="lbc" cycle_offset="-3:00:00"/>
-    <taskdep task="lbc" cycle_offset="-4:00:00"/>
-    <taskdep task="lbc" cycle_offset="-5:00:00"/>
-    <taskdep task="lbc" cycle_offset="-6:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="0:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="-1:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="-2:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="-3:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="-4:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="-5:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="-6:00:00"/>
    </or>
    <or>
     <and>

@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
-# Jet-specific settings
+# machine-specific settings
 #
 export COMINgfs=${COMINgfs:-"/lfs5/BMC/nrtrr/FIX_RRFS2/staged_data/ops/GFS"}
+export COMINrap=${COMINrap:-"/not_defined"}
+export COMINhrrr=${COMINhrrr:-"/not_defined"}
+export COMINrrfs=${COMINrrfs:-"/not_defined"}
+export COMINgefs=${COMINgefs:-"/not_defined"}
