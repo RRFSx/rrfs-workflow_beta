@@ -179,9 +179,9 @@ def xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv={},dependencies="",metat
   deadline=get_cascade_env(f'DEADLINE_{task_id}'.upper())
   if metatask == False:
     meta_id=task_id
-    source(f"{expdir}/config/config.{meta_id}")
+    source(f"{expdir}/config/config.{meta_id}",optional=True)
   else: #True
-    source(f"{expdir}/config/config.{meta_id}")
+    source(f"{expdir}/config/config.{meta_id}",optional=True)
     source(f"{expdir}/config/config.{task_id}",optional=True)
   dcTaskRes={
     'command': f'{HOMErrfs}/jobs/rocoto/launch.sh JRRFS_'+f'{meta_id}'.upper(),

@@ -11,7 +11,6 @@ def ic(xmlFile, expdir):
     '_PLACEHOLDER_': 'just a place holder',
   }
   # dependencies
-  source(f'{expdir}/config/config.{task_id}')
   prefix=os.getenv('IC_PREFIX','GFS')
   offset=os.getenv('IC_OFFSET_HRS','3')
   COMINgfs=os.getenv("COMINgfs",'COMINgfs_not_defined')
@@ -57,7 +56,6 @@ def lbc(xmlFile, expdir):
     '_PLACEHOLDER_': 'just a place holder',
   }
   # dependencies
-  source(f'{expdir}/config/config.{task_id}')
   prefix=os.getenv('LBC_PREFIX','GFS')
   offset=int(os.getenv('LBC_OFFSET_HRS','6'))
   length=int(os.getenv('LBC_LENGTH_HRS','18'))

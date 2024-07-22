@@ -31,9 +31,6 @@ f'''
   }
   task_id=f'{meta_id}_f#fhr#'
 
-  # dependencies
-  source(f'{expdir}/config/config.{meta_id}')
-
   timedep=""
   realtime=os.getenv("REALTIME","false")
   starttime=get_cascade_env(f"STARTTIME_{meta_id}".upper())
@@ -75,9 +72,6 @@ f'''
     'FHR': '#fhr#',
   }
   task_id=f'{meta_id}_f#fhr#'
-
-  # dependencies
-  source(f'{expdir}/config/config.{meta_id}')
 
   timedep=""
   realtime=os.getenv("REALTIME","false")

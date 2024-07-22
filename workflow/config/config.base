@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# config cascade
-# config.base -> config.${MACHINE}-> config.${task_id} -> config.${task_id}_spinup -> config.${NET}
 #
 export HOMErrfs=${HOMErrfs} #comes from the workflow at runtime
 export EXECrrfs="${HOMErrfs}/exec"
