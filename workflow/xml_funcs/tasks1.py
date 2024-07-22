@@ -149,13 +149,13 @@ def fcst(xmlFile, expdir):
   <dependency>
   <and>{timedep}
    <or>
-    <taskdep task="lbc" cycle_offset="0:00:00"/>
-    <taskdep task="lbc" cycle_offset="-1:00:00"/>
-    <taskdep task="lbc" cycle_offset="-2:00:00"/>
-    <taskdep task="lbc" cycle_offset="-3:00:00"/>
-    <taskdep task="lbc" cycle_offset="-4:00:00"/>
-    <taskdep task="lbc" cycle_offset="-5:00:00"/>
-    <taskdep task="lbc" cycle_offset="-6:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="0:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="-1:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="-2:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="-3:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="-4:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="-5:00:00"/>
+    <metataskdep metatask="lbc" cycle_offset="-6:00:00"/>
    </or>
    <or>
     <and>
