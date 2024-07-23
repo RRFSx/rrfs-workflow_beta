@@ -2,7 +2,6 @@
 set -x
 cpreq=${cpreq:-cpreq}
 if [[ "${TYPE}" == "IC" ]] || [[ "${TYPE}" == "ic" ]]; then
-  echo $TYPE #gge.deug
   prefix=${IC_PREFIX:-IC_PREFIX_not_defined}
   offset=${IC_OFFSET_HRS:-3}
 else #lbc
@@ -59,9 +58,14 @@ CDATEout=$($NDATE ${FHR} ${CDATE})
 start_time=$(date -d "${CDATEout:0:8} ${CDATEout:8:2}" +%Y-%m-%d_%H:%M:%S) 
 end_time=${start_time}
 interval_seconds=3600
+if [[ "${NET}" == "hrrrv5"   ]]; then
+  dx=3; dy=3
+else
+  dx=12; dy=12
+fi
 sed -e "s/@start_time@/${start_time}/" -e "s/@end_time@/${end_time}/" \
-    -e "s/@interval_seconds@/${interval_seconds}/" \
-    -e "s/@prefix@/${prefix}/" ${PARMrrfs}/rrfs/namelist.wps > namelist.wps
+    -e "s/@interval_seconds@/${interval_seconds}/" -e "s/@prefix@/${prefix}/" \
+    -e "s/@dx@/${dx}/" -e "s/@dy@/${dy}/" ${PARMrrfs}/rrfs/namelist.wps > namelist.wps
 
 # run ungrib
 source prep_step
