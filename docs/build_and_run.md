@@ -22,9 +22,9 @@ vi exp.setup
 ```
 In retro runs, for simplicity, `OPSROOT` provides a top directory for `COMROOT`, `DATAROOT` and `EXPDIR`. But this is NOT a must and you may set them separately without a shared top directory.
     
-Users don't set `EXPDIR`. `setup_exp.py` will set it automatically following this rule: `EXP_BASEDIR/VERSION/EXP_NAME`.     
+Users don't set `EXPDIR` directly. `setup_exp.py` will set it automatically following this rule: `EXP_BASEDIR/VERSION/EXP_NAME`.     
    
-Set `REALTIME=false` and a corresponding `RETRO_PERIOD`, and then `setup_exp.py` will automatically set up `CYCLEDEF_*` variables and write them into the exp.setup file under `EXPDIR`  
+Set `REALTIME=false`, a corresponding `RETRO_PERIOD`, and then `setup_exp.py` will automatically set up `CYCLEDEF_*` variables and write them into the exp.setup file under `EXPDIR`  
 `RETRO_CYCLETHROTTLE` and `RETRO_TASKTHROTTLE` can be modified as needed.
 
 Refer to [this guide](https://github.com/rrfs2/rrfs-workflow/wiki/deploy-a-Jet-realtime-run-in-Jet) for setting up realtime runs. Note: realtime runs under role accounts should be coordinated with the POC of each realtime run.
@@ -32,11 +32,11 @@ Refer to [this guide](https://github.com/rrfs2/rrfs-workflow/wiki/deploy-a-Jet-r
 ### 2.2 setup_exp.py
 `./setup_exp.py exp/exp_setup`   
     
-It creates an experiment directory (i.e. `EXPDIR`), creates `CYCLEDEF_*` smartly, and then copies `exp.setup` and all config files from `HOMErrfs` to `EXPDIR`
+This Python script creates an experiment directory (i.e. `EXPDIR`), defines `CYCLEDEF_*` variables smartly, writes out a final copy of `exp.setup`, and  then copies all config files from `HOMErrfs` to `EXPDIR`.
     
 After that, it will ask `Do you want to create an xml file right now(y/n):`      
     
-In many situations, please answer `n` to have a chance to modify config files further to meet the needs of a target experiment.      
+In many situations, please answer `n` so that you get a chance to modify config files further to meet the needs of a target experiment.      
 
 ### 2.3 setup_xml.py
 `./setup_xml.py EXPDIR`    
