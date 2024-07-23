@@ -75,7 +75,7 @@ rocotorun -w rrfs.xml -d rrfs.db
   st = os.stat(fPath)
   os.chmod(fPath, st.st_mode | stat.S_IEXEC)
 
-  print(f'rrfs.xml and run_rocoto.sh has been created at:\n  {expdir}')
+  print(f'rrfs.xml and run_rocoto.sh have been created at:\n  {expdir}')
 ### end of setup_xml
 
 ### run setup_xml.py from the command line
