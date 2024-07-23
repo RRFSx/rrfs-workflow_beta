@@ -2,7 +2,7 @@
 import os
 from xml_funcs.base import xml_task, source, get_cascade_env
 
-### begin of ungrib_lbc --------------------------------------------------------
+### begin of ungrib_ic --------------------------------------------------------
 def ungrib_ic(xmlFile, expdir):
   task_id='ungrib_ic'
   cycledefs='ic'
@@ -39,7 +39,7 @@ def ungrib_ic(xmlFile, expdir):
   dependencies=f'''
   <dependency>
   <and>{timedep}
-    <datadep age="00:05:00"><cyclestr offset="-{offset}:00:00">{fpath}</cyclestr></datadep>
+  <datadep age="00:05:00"><cyclestr offset="-{offset}:00:00">{fpath}</cyclestr></datadep>
   </and>
   </dependency>'''
   #
@@ -98,7 +98,7 @@ def ungrib_lbc(xmlFile, expdir):
   dependencies=f'''
   <dependency>
   <and>{timedep}
-    <datadep age="00:05:00"><cyclestr offset="-{offset}:00:00">{fpath}</cyclestr></datadep>
+  <datadep age="00:05:00"><cyclestr offset="-{offset}:00:00">{fpath}</cyclestr></datadep>
   </and>
   </dependency>'''
   #
