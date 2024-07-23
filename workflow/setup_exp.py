@@ -6,18 +6,16 @@ from xml_funcs.base import source, get_yes_or_no
 from xml_funcs.smart_cycledefs import smart_cycledefs
 from setup_xml import setup_xml
 
-if len(sys.argv) != 2:
-  print("Usage: setup_exp.py exp.setup")
-  sys.exit(1)
-
-# Retrieve arguments - path to exp.setup
-fpath = sys.argv[1]
+if len(sys.argv) == 2:
+  EXPin = sys.argv[1]
+else:
+  EXPin = "exp.setup"
 
 # find the HOMErrfs directory
 HOMErrfs=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.system(f'{HOMErrfs}/ush/init.sh')
 #
-source(fpath)
+source(EXPin)
 user_id=os.getlogin()
 # create comroot (no matter exists or not)
 comroot=os.getenv('COMROOT',f'/tmp/${user_id}/com')
@@ -99,21 +97,21 @@ export RETRO_TASKTHROTTLE={retro_taskthrottle}\n\
 '
 #
 text=text+f'{smart_cycledefs_text}\n'
-fpath=f'{expdir}/exp.setup'
-with open(fpath, 'w') as file:
+EXPout=f'{expdir}/exp.setup'
+with open(EXPout, 'w') as file:
   file.write(text)
 
 # print out information for users
-print(f'\
-Aloha!\n\
-expdir created at:\n\
-  {expdir}\n\
-We can now create an rocoto xml file if no intention to further fine-tune configurations, \n\
-Or we can exit this program, fine-tune configurations under expdir, and then run "set_xml.py expdir" to create an xml file')
+print(f'''
+Aloha!
+expdir created at:
+  {expdir}
+We can now create a rocoto xml file if no intention to further fine-tune configurations,
+Or we can exit this program, fine-tune configurations under expdir, and then run "set_xml.py expdir" to create an xml file''')
 response=get_yes_or_no('Do you want to create an xml file right now(y/n):\n')
 if response in ['yes', 'y']:
   setup_xml(expdir) 
 else:
-  print(f'when you complete fine-tuning configurations, run\n  ./setup_xml.py {expdir}\nto generate an xml file for rocoto')
+  print(f'when you complete fine-tuning configurations, run\n  ./setup_xml.py {expdir}\nto generate a rocoto xml file')
 #
 # end of setup_exp.py
