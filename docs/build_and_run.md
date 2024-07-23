@@ -30,7 +30,7 @@ Set `REALTIME=false`, a corresponding `RETRO_PERIOD`, and then `setup_exp.py` wi
 Refer to [this guide](https://github.com/rrfs2/rrfs-workflow/wiki/deploy-a-Jet-realtime-run-in-Jet) for setting up realtime runs. Note: realtime runs under role accounts should be coordinated with the POC of each realtime run.
 
 ### 2.2 setup_exp.py
-`./setup_exp.py exp/exp_setup`   
+`./setup_exp.py exp/exp.setup`   
     
 This Python script creates an experiment directory (i.e. `EXPDIR`), defines `CYCLEDEF_*` variables smartly, writes out a final copy of `exp.setup`, and  then copies all config files from `HOMErrfs` to `EXPDIR`.
     
