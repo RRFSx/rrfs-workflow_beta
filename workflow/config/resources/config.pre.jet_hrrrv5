@@ -21,4 +21,7 @@ export STARTTIME_UPP="00:00:01"
 export NODES_FCST="<nodes>40:ppn=20</nodes>"
 export NODES_IC="<nodes>40:ppn=20</nodes>"
 export NODES_LBC="<nodes>40:ppn=20</nodes>"
+export NODES_MPASSIT="<nodes>4:ppn=20</nodes>"
+export NODES_UPP="<nodes>4:ppn=20</nodes>"
 #
+export WALLTIME_FCST="4:00:00"
