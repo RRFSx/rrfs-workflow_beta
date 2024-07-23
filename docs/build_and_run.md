@@ -22,8 +22,7 @@ vi exp.setup
 ```
 In retro runs, for simplicity, `OPSROOT` provides a top directory for `COMROOT`, `DATAROOT` and `EXPDIR`. But this is NOT a must and you may set them separately without a shared top directory.
     
-Users don't set `EXPDIR` at this step. `setup_exp.py` will set it following this rule: `EXP_BASEDIR/VERSION/EXP_NAME`.     
-Users have a chance to make changes after `EXPDIR` is created by `setup_exp.py`
+Users don't set `EXPDIR`. `setup_exp.py` will set it automatically following this rule: `EXP_BASEDIR/VERSION/EXP_NAME`.     
    
 Set `REALTIME=false` and a corresponding `RETRO_PERIOD`, and then `setup_exp.py` will automatically set up `CYCLEDEF_*` variables and write them into the exp.setup file under `EXPDIR`  
 `RETRO_CYCLETHROTTLE` and `RETRO_TASKTHROTTLE` can be modified as needed.
