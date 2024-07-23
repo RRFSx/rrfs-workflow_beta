@@ -114,7 +114,7 @@ def da(xmlFile, expdir):
         <or>
 {strneqs}
         </or>
-        <datadep age="00:05:00"><cyclestr>{DATAROOT}/{NET}/{VERSION}/{RUN}.@Y@m@d/@H/fcst/</cyclestr><cyclestr offset="1:00:00">restart.@Y-@m-@d_@H.@M.@S.nc</cyclestr></datadep>
+        <datadep age="00:05:00"><cyclestr offset="-1:00:00">{DATAROOT}/{NET}/{VERSION}/{RUN}.@Y@m@d/@H/fcst/</cyclestr><cyclestr>restart.@Y-@m-@d_@H.@M.@S.nc</cyclestr></datadep>
       </and>
     </or>
   </and>

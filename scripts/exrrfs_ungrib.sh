@@ -21,23 +21,27 @@ if [[ "${prefix}" == "GFS" ]]; then
   ${cpreq} ${COMINgfs}/gfs.${CDATEin:0:8}/${CDATEin:8:2}/gfs.t${CDATEin:8:2}z.pgrb2.0p25.f${fstr} GRIBFILE.AAA
 elif [[ "${prefix}" == "RAP" ]]; then
   fstr=$(printf %02d ${FHRin})
-  GRIB_FILE=${COMINrap}/rap.${CDATEin:0:8}/rap.t${CDATEin:8:2}z.wrfnatf${fstr}.grib2
+  GRIBFILE=${COMINrap}/rap.${CDATEin:0:8}/rap.t${CDATEin:8:2}z.wrfnatf${fstr}.grib2
   # Interpolate to Lambert conformal grid
-  grid_specs_20km="lambert:-97.5:38.5 -133.174:449:20000.0 5.47114:299:20000.0"
-  ${WGRIB2} ${GRIB_FILE} -set_bitmap 1 -set_grib_type c3 -new_grid_winds grid \
-	 -new_grid_vectors "UGRD:VGRD:USTM:VSTM:VUCSH:VVCSH"               \
-	 -new_grid_interpolation neighbor                                  \
-	 -new_grid ${grid_specs_20km} tmp.grib2
-  # Merge vector field records
-  ${WGRIB2} tmp.grib2 -new_grid_vectors "UGRD:VGRD:USTM:VSTM:VUCSH:VVCSH" -submsg_uv 20km_grid.grib2
-  ln -snf 20km_grid.grib2 GRIBFILE.AAA
+  if true; then #gge.debug need to confirm when to do an interpolation for RAP and RRFS
+    ln -snf ${GRIBFILE} GRIBFILE.AAA
+  else
+    grid_specs_20km="lambert:-97.5:38.5 -133.174:449:20000.0 5.47114:299:20000.0"
+    ${WGRIB2} ${GRIBFILE} -set_bitmap 1 -set_grib_type c3 -new_grid_winds grid \
+           -new_grid_vectors "UGRD:VGRD:USTM:VSTM:VUCSH:VVCSH"               \
+           -new_grid_interpolation neighbor                                  \
+           -new_grid ${grid_specs_20km} tmp.grib2
+    # Merge vector field records
+    ${WGRIB2} tmp.grib2 -new_grid_vectors "UGRD:VGRD:USTM:VSTM:VUCSH:VVCSH" -submsg_uv 20km_grid.grib2
+    ln -snf 20km_grid.grib2 GRIBFILE.AAA
+  fi #skip preprocessing
 
 elif [[ "${prefix}" == "RRFS" ]]; then
   fstr=$(printf %02d ${FHRin})
-  GRIB_FILE=${COMINrrfs1}/rrfs_a.${CDATEin:0:8}/${CDATEin:8:2}/rrfs.t${CDATEin:8:2}z.natlve.f${fstr}.grib2
+  GRIBFILE=${COMINrrfs1}/rrfs_a.${CDATEin:0:8}/${CDATEin:8:2}/rrfs.t${CDATEin:8:2}z.natlve.f${fstr}.grib2
   # variation on the 130 grid at 3 km
   grid_specs="lambert:266:25.000000 234.862000:2000:3000.000000 17.281000:1480:3000.000000"
-  ${WGRIB2} ${GRIB_FILE} -set_bitmap 1 -set_grib_type c3 -new_grid_winds grid \
+  ${WGRIB2} ${GRIBFILE} -set_bitmap 1 -set_grib_type c3 -new_grid_winds grid \
 	 -new_grid_vectors "UGRD:VGRD:USTM:VSTM:VUCSH:VVCSH"               \
 	 -new_grid_interpolation bilinear \
 	 -if "`cat ${FIXrrfs}/ungrib/budget_fields.txt`" -new_grid_interpolation budget -fi \
