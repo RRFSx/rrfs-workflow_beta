@@ -9,6 +9,9 @@ export NATIVE=${NATIVE:-""}
 export MEMORY=${MEMORY:-""}
 export MAXTRIES=${MAXTRIES:-"3"}
 
+# ioda_bufr
+export NODES_IODA_BUFR=${NODES_IODA_BUFR:-"<cores>1</cores>"}
+
 # ic
 export NODES_IC=${NODES_IC:-"<nodes>1:ppn=40</nodes>"}
 
