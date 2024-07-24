@@ -8,4 +8,4 @@ export COMINgefs=${COMINgefs:-"${topdir}/GEFS"}
 export COMINrrfs=${COMINrrfs:-"/COMINrrfs_not_defined"}
 export COMINhrrr=${COMINhrrr:-"/COMINhrrr_not_defined"}
 #
-export OBSINprepbufr=${OBSINprepbufr:-"${topdir}/PREPBUFR"}
+export OBSINprepbufr=${OBSINprepbufr:-"${topdir}/obs_rap"}

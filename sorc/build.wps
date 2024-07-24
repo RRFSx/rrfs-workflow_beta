@@ -30,5 +30,5 @@ echo "19" | ./configure
 
 mkdir -p ${HOMErrfs}/exec
 echo "copy ${EXEC} to ../exec/ungrib.x"
-cp ${EXEC} ${HOMErrfs}/exec/ungrib.x
+ln -snf ${EXEC} ${HOMErrfs}/exec/ungrib.x
 exit 0

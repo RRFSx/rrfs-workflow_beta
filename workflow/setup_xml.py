@@ -6,7 +6,7 @@ from xml_funcs.base import header_begin, header_entities, header_end, source, \
 from xml_funcs.tasks1 import ic, lbc, da, fcst
 from xml_funcs.tasks2 import mpassit, upp, ungrib_lbc, ungrib_ic
 from xml_funcs.tasks3 import ioda_bufr
-from xml_funcs.tasksX import clean, graphics #archive
+from xml_funcs.tasksX import dummy, clean, graphics #archive
 
 ### setup_xml
 def setup_xml(expdir):
@@ -63,6 +63,7 @@ def setup_xml(expdir):
     if os.getenv("REALTIME").upper() == "TRUE": # write out the clean task for realtime runs and retros don't need it
       clean(xmlFile,expdir)
   
+    dummy(xmlFile,expdir) # a dummy task to be used to reboot a cycle without adverse effects
     wflow_end(xmlFile)
 # ---------------------------------------------------------------------------
 
