@@ -14,19 +14,11 @@ module load RDAS/${MACHINE}.intel
 module load netcdf
 module list
 
-echo "compiling WRF..."
-#git clone --recursive https://github.com/wrf-model/WRF
-cd ${HOMErrfs}/sorc/WRF
-echo "16 1" | ./configure
-./compile em_real
-#it take a while to compile WRF
-
 #git clone https://github.com/wrf-model/WPS
 echo "compiling WPS..."
 cd ${HOMErrfs}/sorc/WPS
-export WRF_DIR=../WRF
-echo "19" | ./configure
-./compile
+echo "19" | ./configure --nowrf
+./compile ungrib
 
 mkdir -p ${HOMErrfs}/exec
 echo "copy ${EXEC} to ../exec/ungrib.x"
