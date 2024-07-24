@@ -50,7 +50,7 @@ observations:
 
     ioda:
       backend: netcdf
-      obsdataout: "./prepbufr.gpsipw.nc"
+      obsdataout: "./ioda_gpsipw.nc"
 
 
       dimensions:

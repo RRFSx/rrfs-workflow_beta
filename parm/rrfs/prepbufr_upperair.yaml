@@ -154,7 +154,7 @@ observations:
 
     ioda:
       backend: netcdf
-      obsdataout: "./prepbufr.upperair.nc"
+      obsdataout: "./ioda_upperair.nc"
 
       dimensions:
         - name: Level

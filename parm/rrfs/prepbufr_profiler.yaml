@@ -136,7 +136,7 @@ observations:
 
     ioda:
       backend: netcdf
-      obsdataout: "./prepbufr.profiler.nc"
+      obsdataout: "./ioda_profiler.nc"
 
       dimensions:
         - name: Level

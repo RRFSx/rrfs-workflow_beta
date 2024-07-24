@@ -118,7 +118,7 @@ observations:
           
     ioda:
       backend: netcdf
-      obsdataout: "./prepbufr.mesonet.nc"
+      obsdataout: "./ioda_mesonet.nc"
 
 
       dimensions:

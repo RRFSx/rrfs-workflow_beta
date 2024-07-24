@@ -147,7 +147,7 @@ observations:
 
     ioda:
       backend: netcdf
-      obsdataout: "./prepbufr.surface.nc"
+      obsdataout: "./ioda_surface.nc"
 
 
       dimensions:
