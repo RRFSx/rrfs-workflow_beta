@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 # machine-specific settings
 #
-export COMINgfs=${COMINgfs:-"/lfs5/BMC/nrtrr/FIX_RRFS2/staged_data/ops/GFS"}
-export COMINrap=${COMINrap:-"/not_defined"}
-export COMINhrrr=${COMINhrrr:-"/not_defined"}
-export COMINrrfs=${COMINrrfs:-"/not_defined"}
-export COMINgefs=${COMINgefs:-"/not_defined"}
+topdir=/lfs5/BMC/nrtrr/FIX_RRFS2/staged_data/ops
+export COMINgfs=${COMINgfs:-"${topdir}/GFS"}
+export COMINrap=${COMINrap:-"${topdir}/RAP"}
+export COMINgefs=${COMINgefs:-"${topdir}/GEFS"}
+export COMINrrfs=${COMINrrfs:-"/COMINrrfs_not_defined"}
+export COMINhrrr=${COMINhrrr:-"/COMINhrrr_not_defined"}
+#
+export OBSINprepbufr=${OBSINprepbufr:-"${topdir}/PREPBUFR"}
