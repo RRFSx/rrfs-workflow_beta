@@ -3,18 +3,19 @@
 import os
 from xml_funcs.base import xml_task, source, get_cascade_env
 
+### begin of dummy --------------------------------------------------------
+### this dummy task does nothing, but can be used to reboot a cycle without any adverse effects
+def dummy(xmlFile, expdir):
+  task_id='dummy'
+  cycledefs='prod'
+  xml_task(xmlFile,expdir,task_id,cycledefs)
+### end of dummy --------------------------------------------------------
+
 ### begin of clean --------------------------------------------------------
 def clean(xmlFile, expdir):
   task_id='clean'
   cycledefs='prod'
-  # Task-specific EnVars beyond the task_common_vars
-  dcTaskEnv={
-    '_PLACEHOLDER_': 'This is a non-NCO task that will not needed in operation'
-  }
-  # dependencies
-  dependencies=""
-  #
-  xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies)
+  xml_task(xmlFile,expdir,task_id,cycledefs)
 ### end of clean --------------------------------------------------------
 
 ### begin of graphics --------------------------------------------------------

@@ -37,6 +37,8 @@ This Python script creates an experiment directory (i.e. `EXPDIR`), defines `CYC
 After that, it will ask `Do you want to create an xml file right now(y/n):`      
     
 In many situations, please answer `n` so that you get a chance to modify config files further to meet the needs of a target experiment.      
+   
+User usually need to setup `ACCOUT`, `QUEUE`,`PARTITION`, or `RESERVATION` by modifying `config/resources/config.${machine}` or you may export those variables in the current environment before running `setp_xml.py`.
 
 ### 2.3 setup_xml.py
 `./setup_xml.py EXPDIR`    
