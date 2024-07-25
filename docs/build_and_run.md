@@ -6,14 +6,14 @@
 build.all
 ```
 
-The above script compiles WPS (namely, ungrib.x), MPAS and RDAS simultaneously. Users can check the compiled executables at ../exec or check the log files for each component:
+The above script compiles WPS (namely, ungrib.x), MPAS and RDAS simultaneously. Users can check the compiled executables at `../exec` or check the log files for each component:
 ```
  log.build.mpas
  log.build.rdas
  log.build.wps
 ```
 
-Upon completion of the build, users should see the following executables under ../exec:
+Upon completion of the build, users should see the following executables under `../exec`:
 ```
  atmosphere_model.x
  init_atmosphere_model.x
