@@ -150,6 +150,11 @@ def fcst(xmlFile, expdir):
   starttime=get_cascade_env(f"STARTTIME_{task_id}".upper())
   if realtime.upper() == "TRUE":
     timedep=f'\n   <timedep><cyclestr offset="{starttime}">@Y@m@d@H@M00</cyclestr></timedep>'
+  #
+  DATAROOT=os.getenv("DATAROOT","DATAROOT_NOT_DEFINED")
+  RUN='rrfs'
+  NET=os.getenv("NET","NET_NOT_DEFINED")
+  VERSION=os.getenv("VERSION","VERSION_NOT_DEFINED")
   dependencies=f'''
   <dependency>
   <and>{timedep}
