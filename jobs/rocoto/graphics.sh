@@ -4,6 +4,7 @@ date
 export PS4='+ $SECONDS + '
 #
 export task_id=${task_id:-'graphics'}
+RUN='rrfs'
 # source the config cascade
 source ${EXPDIR}/exp.setup
 source ${EXPDIR}/config/config.base

@@ -15,6 +15,7 @@ COMMAND=$1  #get the JJOB name
 task_id=${COMMAND#*_}
 export task_id=${task_id,,} #to lower case
 export rrfs_ver=${VERSION}
+RUN='rrfs'
 # tweaks for non-NCO runs
 export cpreq="ln -snf" #use soft link instead of copy for non-NCO experiments
 export COMOUT="${COMROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}" # task_id not included as compath.py may not be able to find this subdirectory

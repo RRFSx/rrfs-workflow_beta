@@ -13,6 +13,7 @@ source ${EXPDIR}/config/config.base
 source ${EXPDIR}/config/config.${MACHINE}
 source ${EXPDIR}/config/config.${task_id}
 rrfs_ver=${VERSION}
+RUN=rrfs
 
 # for debugging
 #CDATE=2024072000
