@@ -13,4 +13,21 @@ export TAG=c1v01
 export REALTIME=true      # true, false
 export REALTIME_DAYS=90   # eg. 90 means to do real-time runs for 90 days
 #
-export CONFIG_PRE="jet_${NET}"
+export ACCOUNT="rtwrfruc"
+export ACCOUNT2="nrtrr"
+export QUEUE="rth"
+export QUEUE2="batch"
+export PARTITION=kjet
+export PARTITION2=kjet
+export RESERVATION="rrfsens"
+export RESERVATION2=""
+#
+export STARTTIME_IC="00:55:00"
+export STARTTIME_LBC="00:00:01"
+export STARTTIME_BUFRIODA="00:00:01"
+export STARTTIME_ENSBE="00:00:01"
+export STARTTIME_DA="00:00:01"
+export STARTTIME_FCST="00:00:01"
+export STARTTIME_MPASSIT="00:00:01"
+export STARTTIME_UPP="00:00:01"
+#

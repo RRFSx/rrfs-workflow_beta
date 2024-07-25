@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # Aloha!
+print('Aloha!')
 #
 import os, sys, shutil, glob
 from xml_funcs.base import source, get_yes_or_no
 from xml_funcs.smart_cycledefs import smart_cycledefs
-from setup_xml import setup_xml
+from xml_funcs.setup_xml import setup_xml
 
 if len(sys.argv) == 2:
   EXPin = sys.argv[1]
@@ -15,7 +16,11 @@ else:
 HOMErrfs=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.system(f'{HOMErrfs}/ush/init.sh')
 #
-source(EXPin)
+if os.path.exists(EXPin):
+  source(EXPin)
+else:
+  print(f'{EXPin}: no such file')
+  exit()
 user_id=os.getlogin()
 # create comroot (no matter exists or not)
 comroot=os.getenv('COMROOT',f'/tmp/${user_id}/com')
@@ -43,7 +48,7 @@ if os.path.exists(expdir):
 else:
   os.makedirs(expdir)
 
-# copy the default config first and then sub to substitute the default one
+# copy the config file, excluding the resources subdirectory
 configdir=f'{HOMErrfs}/workflow/config'
 exp_configdir=f'{expdir}/config'
 if os.path.exists(exp_configdir):
@@ -51,65 +56,47 @@ if os.path.exists(exp_configdir):
     os.remove(exp_configdir)
   else:
     shutil.rmtree(exp_configdir)
-shutil.copytree(configdir,exp_configdir)
-#
-pre=os.getenv("CONFIG_PRE","default")
-if os.path.exists(f'{exp_configdir}/config.pre.{pre}'):
-  shutil.copy(f'{exp_configdir}/config.pre.{pre}',f'{exp_configdir}/config.pre')
-if os.path.exists(f'{exp_configdir}/resources/config.pre.{pre}'):
-  shutil.copy(f'{exp_configdir}/resources/config.pre.{pre}',f'{exp_configdir}/resources/config.pre')
-
-# generate cycledefs
-# the goal is to create cycledefs smartly
-# 
-realtime=os.getenv('REALTIME','false')
-realtime_days=os.getenv('REALTIME_DAYS','60')
-retro_period=os.getenv('RETRO_PERIOD','2024070200-2024071200')
-smart_cycledefs_text=smart_cycledefs(realtime,realtime_days,retro_period)
+os.makedirs(exp_configdir,exist_ok=True)
+for cfile in glob.glob(f'{configdir}/config.*'):
+  shutil.copy(cfile,exp_configdir)
 
 # generate exp.setup under $expdir
 source(f'{HOMErrfs}/ush/detect_machine.sh')
 machine=os.getenv('MACHINE')
 if machine=='UNKNOWN':
     print(f'WARNING: machine is UNKNOWN! ')
-tag=os.getenv('TAG','rrfs')
-net=os.getenv('NET','rrfs')
-retro_cyclethrottle=os.getenv('RETRO_CYCLETHROTTLE','6')
-retro_taskthrottle=os.getenv('RETRO_TASKTHROTTLE','100')
-text=f'''#!/usr/bin/env bash
-export EXPDIR={expdir}
-export COMROOT={comroot}
-export DATAROOT={dataroot}
+text=f'''#=== Auto-generation of HOMErrfs, MACHINE, EXPDIR
 export HOMErrfs={HOMErrfs}
-export VERSION={version}
 export MACHINE={machine}
-export NET={net}
-export TAG={tag}
-export REALTIME={realtime}
+export EXPDIR={expdir}
+#===
 '''
 #
-if realtime.upper() == "FALSE": 
-  text=text+f'\
-export RETRO_CYCLETHROTTLE={retro_cyclethrottle}\n\
-export RETRO_TASKTHROTTLE={retro_taskthrottle}\n\
-'
-#
-text=text+f'{smart_cycledefs_text}\n'
 EXPout=f'{expdir}/exp.setup'
-with open(EXPout, 'w') as file:
-  file.write(text)
+with open(EXPin, 'r') as infile, open(EXPout, 'w') as outfile:
+  # add HOMErrfs, MACHINE, EXPDIR to the beginning of the exp.setup file under expdir/
+  header=""
+  still_header=True
+  for line in infile:
+    if still_header:
+      if line.strip().startswith('#'):
+        header=header+line
+      else:
+        still_header=False
+        outfile.write(header)
+        outfile.write(text)
+        outfile.write(line)
+    else:
+      rm_list=('EXP_BASEDIR=','EXP_NAME=','REALTIME=','REALTIME_DAYS=','RETRO_PERIOD=','RETRO_CYCLETHROTTLE=',
+        'RETRO_TASKTHROTTLE=','ACCOUNT','QUEUE','PARTITION','RESERVATION','STARTTIME','NODES','WALLTIME'
+          )
+      found=False
+      for rmstr in rm_list:
+        if rmstr in line:
+          found=True; break
+      if not found:
+        outfile.write(line)
 
-# print out information for users
-print(f'''
-Aloha!
-expdir created at:
-  {expdir}
-We can now create a rocoto xml file if no intention to further fine-tune configurations,
-Or we can exit this program, fine-tune configurations under expdir, and then run "set_xml.py expdir" to create an xml file''')
-response=get_yes_or_no('Do you want to create an xml file right now(y/n):\n')
-if response in ['yes', 'y']:
-  setup_xml(expdir) 
-else:
-  print(f'when you complete fine-tuning configurations, run\n  ./setup_xml.py {expdir}\nto generate a rocoto xml file')
+setup_xml(HOMErrfs, expdir) 
 #
 # end of setup_exp.py

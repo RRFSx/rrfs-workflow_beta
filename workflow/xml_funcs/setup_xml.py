@@ -3,32 +3,31 @@
 import os, sys, stat
 from xml_funcs.base import header_begin, header_entities, header_end, source, \
   wflow_begin, wflow_log, wflow_cycledefs, wflow_end
+from xml_funcs.smart_cycledefs import smart_cycledefs
 from xml_funcs.tasks1 import ic, lbc, da, fcst
 from xml_funcs.tasks2 import mpassit, upp, ungrib_lbc, ungrib_ic
 from xml_funcs.tasks3 import ioda_bufr
 from xml_funcs.tasksX import dummy, clean, graphics #archive
 
 ### setup_xml
-def setup_xml(expdir):
+def setup_xml(HOMErrfs, expdir):
   # source the config cascade
   source(f'{expdir}/exp.setup')
   machine=os.getenv('MACHINE').lower()
   #
-  source(f'{expdir}/config/config.pre',optional=True)
   source(f"{expdir}/config/config.{machine}")
   source(f"{expdir}/config/config.base")
   #
-  source(f'{expdir}/config/resources/config.pre',optional=True)
-  source(f"{expdir}/config/resources/config.{machine}")
-  source(f"{expdir}/config/resources/config.base")
+  source(f"{HOMErrfs}/workflow/config/resources/config.{machine}")
+  source(f"{HOMErrfs}/workflow/config/resources/config.base")
   if os.getenv("REALTIME").upper() == "TRUE":
-    source(f"{expdir}/config/resources/config.realtime")
+    source(f"{HOMErrfs}/workflow/config/resources/config.realtime")
   #
-  dcCycledef={}
-  dcCycledef['ic']=os.getenv('CYCLEDEF_IC')
-  dcCycledef['lbc']=os.getenv('CYCLEDEF_LBC')
-  #dcCycledef['spinup']=os.getenv('CYCLEDEF_SPINUP')
-  dcCycledef['prod']=os.getenv('CYCLEDEF_PROD') #gge.debug
+  # create cycledefs smartly
+  realtime=os.getenv('REALTIME','false')
+  realtime_days=os.getenv('REALTIME_DAYS','60')
+  retro_period=os.getenv('RETRO_PERIOD','2024070200-2024071200')
+  dcCycledef=smart_cycledefs(realtime,realtime_days,retro_period)
   
   COMROOT=os.getenv('COMROOT','COMROOT_not_defined')
   TAG=os.getenv('TAG','TAG_not_defined')
@@ -44,9 +43,11 @@ def setup_xml(expdir):
     log_fpath=f'{COMROOT}/{NET}/{VERSION}/logs/rrfs.@Y@m@d/@H/rrfs_{TAG}.log'
     wflow_log(xmlFile,log_fpath)
     wflow_cycledefs(xmlFile,dcCycledef)
+
     
 # ---------------------------------------------------------------------------
 # create tasks for an experiment (i.e. setup/generate an xml file)
+
     ioda_bufr(xmlFile,expdir)
     ungrib_ic(xmlFile,expdir)
     ungrib_lbc(xmlFile,expdir)
@@ -65,7 +66,9 @@ def setup_xml(expdir):
   
     dummy(xmlFile,expdir) # a dummy task to be used to reboot a cycle without adverse effects
     wflow_end(xmlFile)
+
 # ---------------------------------------------------------------------------
+
 
   fPath=f"{expdir}/run_rocoto.sh"
   with open(fPath,'w') as rocotoFile:
@@ -82,20 +85,5 @@ rocotorun -w rrfs.xml -d rrfs.db
   st = os.stat(fPath)
   os.chmod(fPath, st.st_mode | stat.S_IEXEC)
 
-  print(f'rrfs.xml and run_rocoto.sh have been created at:\n  {expdir}')
+  print(f'rrfs.xml and run_rocoto.sh created at:\n  {expdir}')
 ### end of setup_xml
-
-### run setup_xml.py from the command line
-if __name__ == "__main__":
-  # get the expdir from the command line
-  if len(sys.argv) != 2:
-    print("Usage: setup_xml.py expdir")
-    sys.exit(1)
-  
-  # Retrieve arguments - the path to the exp_setting file
-  expdir = sys.argv[1]
-  if not os.path.isdir(expdir):
-    print(f'"{expdir}" is not a directory')
-    sys.exit(1)
-
-  setup_xml(expdir)

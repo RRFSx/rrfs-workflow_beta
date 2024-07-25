@@ -24,10 +24,10 @@ def smart_cycledefs(realtime,realtime_days,retro_period):
   else:
     ic_bgn='15'
     lbc_bgn='12'
-  text=f'\
-export CYCLEDEF_IC="{pdy}{ic_bgn}00 {pdy2}{hr_end}00 12:00:00"\n\
-export CYCLEDEF_LBC="{pdy}{lbc_bgn}00 {pdy2}{hr_end}00 06:00:00"\n\
-export CYCLEDEF_PROD="{pdy}{ic_bgn}00 {pdy2}{hr_end}00 01:00:00"\n\
-'
-  return text
-#export CYCLEDEF_PROD="00 00-23 26,27 05 2024 *"\n\
+
+  dcCycledef={}
+  #CYCLEDEF_PROD="00 00-23 26,27 05 2024 *"\n\
+  dcCycledef['ic']=f'{pdy}{ic_bgn}00 {pdy2}{hr_end}00 12:00:00'
+  dcCycledef['lbc']=f'{pdy}{lbc_bgn}00 {pdy2}{hr_end}00 06:00:00'
+  dcCycledef['prod']=f'{pdy}{ic_bgn}00 {pdy2}{hr_end}00 01:00:00'
+  return dcCycledef
