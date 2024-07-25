@@ -22,11 +22,11 @@ def setup_xml(expdir):
   if os.getenv("REALTIME").upper() == "TRUE":
     source(f"{expdir}/config/resources/config.realtime")
   #
-  dcCycledef={}
-  dcCycledef['ic']=os.getenv('CYCLEDEF_IC')
-  dcCycledef['lbc']=os.getenv('CYCLEDEF_LBC')
-  #dcCycledef['spinup']=os.getenv('CYCLEDEF_SPINUP')
-  dcCycledef['prod']=os.getenv('CYCLEDEF_PROD') #gge.debug
+  # create cycledefs smartly
+  realtime=os.getenv('REALTIME','false')
+  realtime_days=os.getenv('REALTIME_DAYS','60')
+  retro_period=os.getenv('RETRO_PERIOD','2024070200-2024071200')
+  dcCycledef=smart_cycledefs(realtime,realtime_days,retro_period)
   
   COMROOT=os.getenv('COMROOT','COMROOT_not_defined')
   TAG=os.getenv('TAG','TAG_not_defined')

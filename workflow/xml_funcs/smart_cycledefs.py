@@ -24,6 +24,11 @@ def smart_cycledefs(realtime,realtime_days,retro_period):
   else:
     ic_bgn='15'
     lbc_bgn='12'
+
+  dcCycledef['ic']=os.getenv('CYCLEDEF_IC')
+  dcCycledef['lbc']=os.getenv('CYCLEDEF_LBC')
+  #dcCycledef['spinup']=os.getenv('CYCLEDEF_SPINUP')
+  dcCycledef['prod']=os.getenv('CYCLEDEF_PROD') #gge.debug
   text=f'\
 export CYCLEDEF_IC="{pdy}{ic_bgn}00 {pdy2}{hr_end}00 12:00:00"\n\
 export CYCLEDEF_LBC="{pdy}{lbc_bgn}00 {pdy2}{hr_end}00 06:00:00"\n\
