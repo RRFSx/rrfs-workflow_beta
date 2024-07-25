@@ -48,7 +48,7 @@ if os.path.exists(expdir):
 else:
   os.makedirs(expdir)
 
-# copy the default config first and then sub to substitute the default one
+# copy the config file, excluding the resources subdirectory
 configdir=f'{HOMErrfs}/workflow/config'
 exp_configdir=f'{expdir}/config'
 if os.path.exists(exp_configdir):
@@ -56,22 +56,25 @@ if os.path.exists(exp_configdir):
     os.remove(exp_configdir)
   else:
     shutil.rmtree(exp_configdir)
-shutil.copytree(configdir,exp_configdir)
+os.makedirs(exp_configdir,exist_ok=True)
+for cfile in glob.glob(f'{configdir}/config.*'):
+  shutil.copy(cfile,exp_configdir)
 
 # generate exp.setup under $expdir
 source(f'{HOMErrfs}/ush/detect_machine.sh')
 machine=os.getenv('MACHINE')
 if machine=='UNKNOWN':
     print(f'WARNING: machine is UNKNOWN! ')
-text=f'''#=== auto-generation of HOMErrfs, MACHINE, EXPDIR, CYCLEDEF_*
+text=f'''#=== Auto-generation of HOMErrfs, MACHINE, EXPDIR
 export HOMErrfs={HOMErrfs}
 export MACHINE={machine}
 export EXPDIR={expdir}
+#===
 '''
 #
 EXPout=f'{expdir}/exp.setup'
 with open(EXPin, 'r') as infile, open(EXPout, 'w') as outfile:
-  # add HOMErrfs, MACHINE, EXPDIR, CYCLEDEF_* to the beginning of the exp.setup file under expdir/
+  # add HOMErrfs, MACHINE, EXPDIR to the beginning of the exp.setup file under expdir/
   header=""
   still_header=True
   for line in infile:
@@ -94,6 +97,6 @@ with open(EXPin, 'r') as infile, open(EXPout, 'w') as outfile:
       if not found:
         outfile.write(line)
 
-setup_xml(expdir) 
+setup_xml(HOMErrfs, expdir) 
 #
 # end of setup_exp.py
