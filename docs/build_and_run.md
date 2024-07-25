@@ -15,10 +15,11 @@ The above script compiles WPS (namely, ungrib.x), MPAS and RDAS simultaneously. 
 
 Upon completion of the build, users should see the following executables under `../exec`:
 ```
- atmosphere_model.x
- init_atmosphere_model.x
- mpasjedi_variational.x
  ungrib.x
+ init_atmosphere_model.x
+ atmosphere_model.x
+ mpasjedi_variational.x
+ bufr2ioda.x
 ```
 
 More RDAS executables can be found at `sorc/RDASApp/build/bin`.
