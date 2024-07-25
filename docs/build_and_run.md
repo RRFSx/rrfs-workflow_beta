@@ -24,8 +24,6 @@ Upon completion of the build, users should see the following executables under `
 More RDAS executables can be found at `sorc/RDASApp/build/bin`.
 
 
-```
-
 # 2. Setup and run experiments:
 ### 2.1. copy and modify exp.setup
 ```
