@@ -20,6 +20,8 @@ observations:
               transforms:
                 - scale: 3600
               referenceTime: 2024-05-26T19:00:00Z
+          timeOffset:
+            query: "*/DHR"
           longitude:
             query: "*/XOB"
           latitude:
@@ -142,6 +144,12 @@ observations:
           source: variables/timestamp
           longName: "Observation Time"
           units: "seconds since 1970-01-01T00:00:00Z"
+
+        - name: "MetaData/timeOffset"
+          coordinates: "longitude latitude"
+          source: variables/timeOffset
+          longName: "Observation Time Offset from Reference Time"
+          units: "Seconds"
 
         - name: "MetaData/stationIdentification"
           coordinates: "longitude latitude"
