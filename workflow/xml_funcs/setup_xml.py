@@ -44,9 +44,11 @@ def setup_xml(expdir):
     log_fpath=f'{COMROOT}/{NET}/{VERSION}/logs/rrfs.@Y@m@d/@H/rrfs_{TAG}.log'
     wflow_log(xmlFile,log_fpath)
     wflow_cycledefs(xmlFile,dcCycledef)
+
     
 # ---------------------------------------------------------------------------
 # create tasks for an experiment (i.e. setup/generate an xml file)
+
     ioda_bufr(xmlFile,expdir)
     ungrib_ic(xmlFile,expdir)
     ungrib_lbc(xmlFile,expdir)
@@ -65,7 +67,9 @@ def setup_xml(expdir):
   
     dummy(xmlFile,expdir) # a dummy task to be used to reboot a cycle without adverse effects
     wflow_end(xmlFile)
+
 # ---------------------------------------------------------------------------
+
 
   fPath=f"{expdir}/run_rocoto.sh"
   with open(fPath,'w') as rocotoFile:
@@ -82,20 +86,5 @@ rocotorun -w rrfs.xml -d rrfs.db
   st = os.stat(fPath)
   os.chmod(fPath, st.st_mode | stat.S_IEXEC)
 
-  print(f'rrfs.xml and run_rocoto.sh have been created at:\n  {expdir}')
+  print(f'rrfs.xml and run_rocoto.sh created at:\n  {expdir}')
 ### end of setup_xml
-
-### run setup_xml.py from the command line
-if __name__ == "__main__":
-  # get the expdir from the command line
-  if len(sys.argv) != 2:
-    print("Usage: setup_xml.py expdir")
-    sys.exit(1)
-  
-  # Retrieve arguments - the path to the exp_setting file
-  expdir = sys.argv[1]
-  if not os.path.isdir(expdir):
-    print(f'"{expdir}" is not a directory')
-    sys.exit(1)
-
-  setup_xml(expdir)
