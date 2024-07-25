@@ -74,7 +74,6 @@ if machine=='UNKNOWN':
     print(f'WARNING: machine is UNKNOWN! ')
 tag=os.getenv('TAG','rrfs')
 net=os.getenv('NET','rrfs')
-run=os.getenv('RUN','rrfs')
 retro_cyclethrottle=os.getenv('RETRO_CYCLETHROTTLE','6')
 retro_taskthrottle=os.getenv('RETRO_TASKTHROTTLE','100')
 text=f'''#!/usr/bin/env bash
@@ -85,7 +84,6 @@ export HOMErrfs={HOMErrfs}
 export VERSION={version}
 export MACHINE={machine}
 export NET={net}
-export RUN={run}
 export TAG={tag}
 export REALTIME={realtime}
 '''
