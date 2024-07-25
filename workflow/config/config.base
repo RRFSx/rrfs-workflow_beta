@@ -18,7 +18,7 @@ export PROD_BGN_HRS=${PROD_BGN_HRS:-"3 15"} # HRS to begin a new PROD cycle
 #   such as FCST_LENGTH_HRS, IC_PREFIX, etc, they still need to stay in config.base
 #
 # fcst settings:
-export FCST_LENGTH_HRS=${FCST_LENGTH_HRS:-12}
+export FCST_LENGTH_HRS=${FCST_LENGTH_HRS:-6}
 export PHYSICS_SUITE=${PHYSICS_SUITE:-"mesoscale_reference"} # mesoscale_reference, convection_permitting
 
 # ic settings:
@@ -29,6 +29,5 @@ export IC_OFFSET_HRS=${IC_OFFSET_HRS:-"3"}
 export LBC_PREFIX=${LBC_PREFIX:-"GFS"}
 export LBC_OFFSET_HRS=${LBC_OFFSET_HRS:-"6"}
 export LBC_INTERVAL_HRS=${LBC_INTERVAL_HRS:-"1"}
-export LBC_LENGTH_HRS=${FCST_LENGTH_HRS:-"12"}
-export LBC_LENGTH_HRS=$((LBC_LENGTH_HRS+6)) # lbc runs every 6 hours # this variable means how many hours going forward from the LBC CDATE
+export LBC_LENGTH_HRS=$((FCST_LENGTH_HRS+6)) # lbc runs every 6 hours # this variable means how many hours going forward from the LBC CDATE
 #
