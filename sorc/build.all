@@ -4,8 +4,8 @@ HOMErrfs="$(dirname "$rundir")"
 
 cd ${HOMErrfs}/sorc
 
-./build.wps  | tee ./log.build.wps
-./build.mpas | tee ./log.build.mpas
-./build.rdas | tee ./log.build.rdas
+./build.wps  &> ./log.build.wps 2>&1 &
+./build.mpas &> ./log.build.mpas 2>&1 &
+./build.rdas &> ./log.build.rdas 2>&1 &
 
 exit 0
