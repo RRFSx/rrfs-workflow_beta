@@ -14,11 +14,9 @@ def setup_xml(expdir):
   source(f'{expdir}/exp.setup')
   machine=os.getenv('MACHINE').lower()
   #
-  source(f'{expdir}/config/config.pre',optional=True)
   source(f"{expdir}/config/config.{machine}")
   source(f"{expdir}/config/config.base")
   #
-  source(f'{expdir}/config/resources/config.pre',optional=True)
   source(f"{expdir}/config/resources/config.{machine}")
   source(f"{expdir}/config/resources/config.base")
   if os.getenv("REALTIME").upper() == "TRUE":

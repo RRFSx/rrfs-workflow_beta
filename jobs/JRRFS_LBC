@@ -7,7 +7,6 @@ export task_id=${task_id:-'lbc'}
 #
 # source the config cascade
 source ${EXPDIR}/exp.setup
-[[ -s ${EXPDIR}/config/config.pre  ]] && source ${EXPDIR}/config/config.pre
 source ${EXPDIR}/config/config.${MACHINE}
 source ${EXPDIR}/config/config.base
 [[ -s ${EXPDIR}/config/config.${task_id} ]] && source ${EXPDIR}/config/config.${task_id}
