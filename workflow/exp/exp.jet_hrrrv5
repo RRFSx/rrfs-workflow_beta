@@ -18,6 +18,7 @@ export PHYSICS_SUITE="convection_permitting" # mesoscale_reference, convection_p
 export COMINgfs='/lfs5/BMC/nrtrr/NCO_data/gfs'
 export COMINrap='/lfs5/BMC/nrtrr/NCO_data/rap'
 #
+export FCST_LENGTH_HRS=12
 export IC_PREFIX='RAP'
 export IC_OFFSET_HRS=1
 export LBC_PREFIX='RAP'
