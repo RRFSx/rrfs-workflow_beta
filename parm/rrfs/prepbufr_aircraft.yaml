@@ -19,16 +19,16 @@ observations:
           #MetaData
           timestamp:
             timeoffset:
-              timeOffset: "*/PRSLEVLA/DRFTINFO/HRDR"
+              timeOffset: "*/DHR"
               transforms:
                 - scale: 3600
               referenceTime: 2024-05-26T19:00:00Z
           timeOffset:
-            query: "*/PRSLEVLA/DRFTINFO/HRDR"
+            query: "*/DHR"
           longitude:
-            query: "*/PRSLEVLA/DRFTINFO/XDR"
+            query: "*/XOB"
           latitude:
-            query: "*/PRSLEVLA/DRFTINFO/YDR"
+            query: "*/YOB"
           stationIdentification:
             query: "*/SID"
           aircraftFlightNumber:
