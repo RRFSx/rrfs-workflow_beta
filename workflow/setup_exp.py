@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # Aloha!
+print('Aloha!')
 #
 import os, sys, shutil, glob
 from xml_funcs.base import source, get_yes_or_no
 from xml_funcs.smart_cycledefs import smart_cycledefs
 from xml_funcs.setup_xml import setup_xml
-print(f'\nAloha!')
 
 if len(sys.argv) == 2:
   EXPin = sys.argv[1]
