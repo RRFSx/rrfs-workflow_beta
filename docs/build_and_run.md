@@ -1,19 +1,29 @@
 # 1. Build
 `git clone --recursive git@github.com:rrfs2/rrfs-workflow.git`
 
-`cd sorc` and run the following command to build the system. This will take a very long time at the moment:    
+`cd sorc` and run the following command to build the system:
 ```
 build.all
 ```
 
-or you may open 3 terminals, with each terminal running one of the following commands:  
-
+The above script compiles WPS (namely, ungrib.x), MPAS and RDAS simultaneously. Users can check the compiled executables at `../exec` or check the log files for each component:
 ```
-./build.wps  | tee ./log.build.wps
-./build.mpas | tee ./log.build.mpas
-./build.rdas | tee ./log.build.rdas
-
+ log.build.mpas
+ log.build.rdas
+ log.build.wps
 ```
+
+Upon completion of the build, users should see the following executables under `../exec`:
+```
+ ungrib.x
+ init_atmosphere_model.x
+ atmosphere_model.x
+ mpasjedi_variational.x
+ bufr2ioda.x
+```
+
+More RDAS executables can be found at `sorc/RDASApp/build/bin`.
+
 
 # 2. Setup and run experiments:
 ### 2.1. copy and modify exp.setup
