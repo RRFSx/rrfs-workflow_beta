@@ -38,20 +38,20 @@ Refer to [this guide](https://github.com/rrfs2/rrfs-workflow/wiki/deploy-a-Jet-r
     
 This Python script creates an experiment directory (i.e. `EXPDIR`), writes out a runtime version of `exp.setup` under EXPDIR, and  then copies runtime config files from `HOMErrfs` to `EXPDIR`.
        
-User usually need to setup `ACCOUT`, `QUEUE`,`PARTITION`, or `RESERVATION` by modifying `config/resources/config.${machine}` or you may export those variables in the current environment before running setp_exp.py, or export those variables in `exp.setup`.  
+Users usually need to set up `ACCOUT`, `QUEUE`, `PARTITION`, or `RESERVATION` by modifying `config/resources/config.${machine}` or you may export those variables in the current environment before running setp_exp.py, or export those variables in `exp.setup`.  
     
-The workflow uses a cascade config structure to separate concerns so that a task/job/application/function_group only defines required environmental variables in runtime. Refer to [this guide](https://github.com/rrfs2/rrfs-workflow/wiki/The-cascade-config-structure) for more information.
+The workflow uses a cascade config structure to separate concerns so that a task/job/application/function_group only defines relevant environmental variables required in runtime. Refer to [this guide](https://github.com/rrfs2/rrfs-workflow/wiki/The-cascade-config-structure) for more information.
 
 ### 2.3 run and monitor experiments using rocoto commands
 
-Go to `EXPDIR`, and open `rrfs.xml` to make sure it has all required tasks and settings.
+Go to `EXPDIR`, open `rrfs.xml`, and make sure it has all the required tasks and settings.
     
 Use `./run_rocoto.sh` to run the experiment. Add an entry to your crontab similar to the following to run the experiment continuously.
 ```
 */5 * * * * /home/role.rtrr/RRFS/1.0.1/conus3km/run_rocoto.sh
 ```
-Check the first few tasks/cycles to make sure everything works well.
+Check the first few tasks/cycles to make sure everything works well. You may use [this handy rocoto tool](https://github.com/rrfs2/qrocoto/wiki/qrocoto) to check the workflow running status.
 
 ### note
-The workflow depends on the environmental variables. If your environment defines and exports rrfs-workflow-specific environmental variables in an unexpected way or your environment is corrupt, the setup step may fail or generate unexpected results. Check the `rrfs.xml` file before `run_rocoto.sh`. Starting from a fresh terminal or `module purge` usually solves the problem.
+The workflow depends on the environmental variables. If your environment defines and exports rrfs-workflow-specific environmental variables in an unexpected way or your environment is corrupt, the setup step may fail or generate unexpected results. Check the `rrfs.xml` file before `run_rocoto.sh`. Starting from a fresh terminal or `module purge` usually solves the above problem.
 
