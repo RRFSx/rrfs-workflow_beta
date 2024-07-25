@@ -2,7 +2,9 @@
 `git clone --recursive git@github.com:rrfs2/rrfs-workflow.git`
 
 `cd sorc` and run the following command to build the system. This will take a very long time at the moment:    
-`build.all`
+```
+build.all
+```
 
 or you may open 3 terminals, with each terminal running one of the following commands:  
 
@@ -20,44 +22,36 @@ cd workflow
 cp exp/exp.setup .
 vi exp.setup
 ```
-In retro runs, for simplicity, `OPSROOT` provides a top directory for `COMROOT`, `DATAROOT` and `EXPDIR`. But this is NOT a must and you may set them separately without a shared top directory.
+In retro runs, for simplicity, `OPSROOT` provides a top directory for `COMROOT`, `DATAROOT` and `EXP_BASEDIR`. But this is NOT a must and you may set them separately without a shared top directory.
     
 Users don't set `EXPDIR` directly. `setup_exp.py` will set it automatically following this rule: `EXP_BASEDIR/VERSION/EXP_NAME`.     
    
-Set `REALTIME=false`, a corresponding `RETRO_PERIOD`, and then `setup_exp.py` will automatically set up `CYCLEDEF_*` variables and write them into the exp.setup file under `EXPDIR`  
+`setup_exp.py` will smartly computes CYCLEDEFS based on the `REALTIME`, `REALTIME_DAYS`, `RETRO_PERIOD` settings.  
 `RETRO_CYCLETHROTTLE` and `RETRO_TASKTHROTTLE` can be modified as needed.
 
 Refer to [this guide](https://github.com/rrfs2/rrfs-workflow/wiki/deploy-a-Jet-realtime-run-in-Jet) for setting up realtime runs. Note: realtime runs under role accounts should be coordinated with the POC of each realtime run.
 
 ### 2.2 setup_exp.py
-`./setup_exp.py`   
+```
+./setup_exp.py
+```   
     
-This Python script creates an experiment directory (i.e. `EXPDIR`), defines `CYCLEDEF_*` variables smartly, writes out a final copy of `exp.setup`, and  then copies all config files from `HOMErrfs` to `EXPDIR`.
+This Python script creates an experiment directory (i.e. `EXPDIR`), writes out a runtime version of `exp.setup` under EXPDIR, and  then copies runtime config files from `HOMErrfs` to `EXPDIR`.
+       
+Users usually need to set up `ACCOUT`, `QUEUE`, `PARTITION`, or `RESERVATION` by modifying `config/resources/config.${machine}` or you may export those variables in the current environment before running setp_exp.py, or export those variables in `exp.setup`.  
     
-After that, it will ask `Do you want to create an xml file right now(y/n):`      
-    
-In many situations, please answer `n` so that you get a chance to modify config files further to meet the needs of a target experiment.      
-   
-User usually need to setup `ACCOUT`, `QUEUE`,`PARTITION`, or `RESERVATION` by modifying `config/resources/config.${machine}` or you may export those variables in the current environment before running `setp_xml.py`.
+The workflow uses a cascade config structure to separate concerns so that a task/job/application/function_group only defines relevant environmental variables required in runtime. Refer to [this guide](https://github.com/rrfs2/rrfs-workflow/wiki/The-cascade-config-structure) for more information.
 
-### 2.3 setup_xml.py
-`./setup_xml.py EXPDIR`    
-replace `EXPDIR` with the actual path printed out in step 2.2
-    
-It creates an `rrfs.xml` file based on `exp.setup` and config files.   
-    
-The workflow uses a cascade config structure to separate concerns so that a task/job/application/function_group only defines required environmental variables in runtime. Refer to [this guide](https://github.com/rrfs2/rrfs-workflow/wiki/The-cascade-config-structure) for more information.
+### 2.3 run and monitor experiments using rocoto commands
 
-### 2.4 run and monitor experiments using rocoto commands
-
-Go to `EXPDIR`, and open `rrfs.xml` to make sure it has all required tasks and settings.
+Go to `EXPDIR`, open `rrfs.xml`, and make sure it has all the required tasks and settings.
     
-Use `./run_rocoto.sh` to run the experiment. Add an entry to your crontab similar as follows to run the experiment continuously.
+Use `./run_rocoto.sh` to run the experiment. Add an entry to your crontab similar to the following to run the experiment continuously.
 ```
 */5 * * * * /home/role.rtrr/RRFS/1.0.1/conus3km/run_rocoto.sh
 ```
-Check the first few tasks/cycles to make sure everything works well.
+Check the first few tasks/cycles to make sure everything works well. You may use [this handy rocoto tool](https://github.com/rrfs2/qrocoto/wiki/qrocoto) to check the workflow running status.
 
 ### note
-The workflow depends on the environmental variables. If your environment defines and exports rrfs-workflow-specific environmental variables in an unexpected way or your environment is corrupt, the setup step may fail or generate unexpected results. Check the `rrfs.xml` file before `run_rocoto.sh`. Starting from a fresh terminal or `module purge` usually solves the problem.
+The workflow depends on the environmental variables. If your environment defines and exports rrfs-workflow-specific environmental variables in an unexpected way or your environment is corrupt, the setup step may fail or generate unexpected results. Check the `rrfs.xml` file before `run_rocoto.sh`. Starting from a fresh terminal or `module purge` usually solves the above problem.
 
