@@ -58,13 +58,6 @@ if os.path.exists(exp_configdir):
     shutil.rmtree(exp_configdir)
 shutil.copytree(configdir,exp_configdir)
 
-# generate cycledefs
-# the goal is to create cycledefs smartly
-realtime=os.getenv('REALTIME','false')
-realtime_days=os.getenv('REALTIME_DAYS','60')
-retro_period=os.getenv('RETRO_PERIOD','2024070200-2024071200')
-smart_cycledefs_text=smart_cycledefs(realtime,realtime_days,retro_period)
-
 # generate exp.setup under $expdir
 source(f'{HOMErrfs}/ush/detect_machine.sh')
 machine=os.getenv('MACHINE')
@@ -76,7 +69,6 @@ export MACHINE={machine}
 export EXPDIR={expdir}
 '''
 #
-text=text+f'{smart_cycledefs_text}#\n'
 EXPout=f'{expdir}/exp.setup'
 with open(EXPin, 'r') as infile, open(EXPout, 'w') as outfile:
   # add HOMErrfs, MACHINE, EXPDIR, CYCLEDEF_* to the beginning of the exp.setup file under expdir/
