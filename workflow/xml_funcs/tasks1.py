@@ -97,7 +97,7 @@ def da(xmlFile, expdir):
     timedep=f'\n    <timedep><cyclestr offset="{starttime}">@Y@m@d@H@M00</cyclestr></timedep>'
   #
   DATAROOT=os.getenv("DATAROOT","DATAROOT_NOT_DEFINED")
-  RUN=rrfs
+  RUN='rrfs'
   NET=os.getenv("NET","NET_NOT_DEFINED")
   VERSION=os.getenv("VERSION","VERSION_NOT_DEFINED")
   dependencies=f'''
@@ -173,7 +173,7 @@ def fcst(xmlFile, expdir):
       <and>
 {strneqs}
       </and>
-      <taskdep task="da"/>
+      <datadep age="00:05:00"><cyclestr offset="-1:00:00">{DATAROOT}/{NET}/{VERSION}/{RUN}.@Y@m@d/@H/fcst/</cyclestr><cyclestr>restart.@Y-@m-@d_@H.@M.@S.nc</cyclestr></datadep>
     </and>
    </or>
   </and>
