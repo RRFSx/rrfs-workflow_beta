@@ -171,7 +171,7 @@ def xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv={},dependencies="",metat
   # It is recommended to use separate tasks (i.e. non-metatask) for spinup and prod cycles for simplicity
   COMROOT=os.getenv('COMROOT','/COMROOT_NOT_DEFINED')
   HOMErrfs=os.getenv('HOMErrfs','HOMErrfs_not_defined')
-  RUN=os.getenv('RUN','RUN_NOT_DEFINED')
+  RUN='rrfs'
   TAG=os.getenv('TAG','TAG_NOT_DEFINED')
   NET=os.getenv('NET','NET_NOT_DEFINED')
   VERSION=os.getenv('VERSION','VERSION_NOT_DEFINED')

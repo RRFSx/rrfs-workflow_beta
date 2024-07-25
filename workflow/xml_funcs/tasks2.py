@@ -140,7 +140,7 @@ def mpassit(xmlFile, expdir):
     timedep=f'\n  <timedep><cyclestr offset="{starttime}">@Y@m@d@H@M00</cyclestr></timedep>'
   #
   DATAROOT=os.getenv("DATAROOT","DATAROOT_NOT_DEFINED")
-  RUN=os.getenv("RUN","RUN_NOT_DEFINED")
+  RUN='rrfs'
   NET=os.getenv("NET","NET_NOT_DEFINED")
   VERSION=os.getenv("VERSION","VERSION_NOT_DEFINED")
   dependencies=f'''
@@ -182,7 +182,7 @@ f'''
     timedep=f'\n  <timedep><cyclestr offset="{starttime}">@Y@m@d@H@M00</cyclestr></timedep>'
   #
   COMROOT=os.getenv("COMROOT","COMROOT_NOT_DEFINED")
-  RUN=os.getenv("RUN","RUN_NOT_DEFINED")
+  RUN='rrfs'
   NET=os.getenv("NET","NET_NOT_DEFINED")
   VERSION=os.getenv("VERSION","VERSION_NOT_DEFINED")
   dependencies=f'''
