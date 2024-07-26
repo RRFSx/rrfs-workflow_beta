@@ -15,7 +15,7 @@ case ${NET} in
     nvertlevels=55
     nsoillevels=4
     ;;
-  hrrrv5)
+  conus3km)
     nvertlevels=59
     nsoillevels=9
     ;;

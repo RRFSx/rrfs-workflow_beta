@@ -16,7 +16,7 @@ mkdir -p ${DATA}/nclprd
 fhr=${FHR:-0}  # use this line or the next line
 #fhr=$((10#${FHR:-0})) # remove leading zeros
 area=${AERA:-full}
-grafdir=/lfs5/BMC/nrtrr/FIX_RRFS2/exec/pygraf_hrrrv5
+grafdir=/lfs5/BMC/nrtrr/FIX_RRFS2/exec/pygraf
 YYJJJHH=$(date +%y%j%H -d "${CDATE:0:8} ${CDAE:8:2}")
 
 cd ${grafdir}
