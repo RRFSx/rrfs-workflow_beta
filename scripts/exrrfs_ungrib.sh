@@ -62,7 +62,7 @@ CDATEout=$($NDATE ${FHR} ${CDATE})
 start_time=$(date -d "${CDATEout:0:8} ${CDATEout:8:2}" +%Y-%m-%d_%H:%M:%S) 
 end_time=${start_time}
 interval_seconds=3600
-if [[ "${NET}" == "hrrrv5"   ]]; then
+if [[ "${NET}" == "conus3km"   ]]; then
   dx=3; dy=3
 else
   dx=12; dy=12

@@ -39,7 +39,7 @@ jedi_da="false" #true
 if [[ "${NET}" == "conus12km" ]]; then
   pio_num_iotasks=6
   pio_stride=20
-elif [[ "${NET}" == "hrrrv5" ]]; then
+elif [[ "${NET}" == "conus3km" ]]; then
   pio_num_iotasks=40
   pio_stride=20
 fi
