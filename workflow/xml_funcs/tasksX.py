@@ -4,7 +4,7 @@ import os
 from xml_funcs.base import xml_task, source, get_cascade_env
 
 ### begin of dummy --------------------------------------------------------
-### this dummy task does nothing, but can be used to reboot a cycle without any adverse effects
+### this dummy task does nothing, but may be used to reboot a cycle without any adverse effects
 def dummy(xmlFile, expdir):
   task_id='dummy'
   cycledefs='prod'
