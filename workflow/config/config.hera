@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # machine-specific settings
-export PS4="+ $(basename ${BASH_SOURCE})[${LINENO}]:"
 #
 topdir=/scratch2/BMC/rtrr/FIX_RRFS2/staged_data/ops
 export COMINgfs=${COMINgfs:-"${topdir}/GFS"}

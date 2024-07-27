@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export PS4="+ $(basename ${BASH_SOURCE})[${LINENO}]:"
+declare -rx PS4='+ $(basename ${BASH_SOURCE[0]:-${FUNCNAME[0]:-"Unknown"}})[${LINENO}]${id}: '
 set -x
 cpreq=${cpreq:-cpreq}
 cd ${DATA}

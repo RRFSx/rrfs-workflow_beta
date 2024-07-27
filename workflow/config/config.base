@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-export PS4="+ $(basename ${BASH_SOURCE})[${LINENO}]:"
 #
 export HOMErrfs=${HOMErrfs} #comes from the workflow at runtime
 export EXECrrfs="${HOMErrfs}/exec"
