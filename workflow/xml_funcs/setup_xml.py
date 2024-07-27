@@ -64,7 +64,7 @@ def setup_xml(HOMErrfs, expdir):
     if os.getenv("REALTIME").upper() == "TRUE": # write out the clean task for realtime runs and retros don't need it
       clean(xmlFile,expdir)
   
-    dummy(xmlFile,expdir) # a dummy task to be used to reboot a cycle without adverse effects
+    #dummy(xmlFile,expdir) # a dummy task to be used to reboot a cycle without adverse effects
     wflow_end(xmlFile)
 
 # ---------------------------------------------------------------------------
