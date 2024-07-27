@@ -2,6 +2,7 @@
 # load modules for the rocoto workflow manager
 # This script will NOT be needed by NCO
 #
+export PS4="+ $(basename ${BASH_SOURCE})[${LINENO}]:"
 set +x # supress messy output in the module load process
 source /etc/profile
 source ${EXPDIR}/exp.setup

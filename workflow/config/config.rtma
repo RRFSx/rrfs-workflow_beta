@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
 # config for RTMA-specific settings
+export PS4="+ $(basename ${BASH_SOURCE})[${LINENO}]:"
+#

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export PS4="+ $(basename ${BASH_SOURCE})[${LINENO}]:"
 set -x
 cpreq=${cpreq:-cpreq}
 cd ${DATA}

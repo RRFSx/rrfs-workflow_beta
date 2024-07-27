@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
+export PS4="+ $(basename ${BASH_SOURCE})[${LINENO}]:"
 set -x
 date
-export PS4='+ $SECONDS + '
 #
 # for debugging
 #EXPDIR=/home/role.rtrr/RRFS/1.0.1/conus12km
