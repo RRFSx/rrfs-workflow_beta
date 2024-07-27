@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+declare -rx PS4='+ $(basename ${BASH_SOURCE[0]:-${FUNCNAME[0]:-"Unknown"}})[${LINENO}]${id}: '
 set -x
 cpreq=${cpreq:-cpreq}
 if [[ "${TYPE}" == "IC" ]] || [[ "${TYPE}" == "ic" ]]; then

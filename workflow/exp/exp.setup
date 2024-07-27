@@ -14,3 +14,8 @@ export REALTIME=false     # true, false
 export RETRO_PERIOD=2024052700-2024052800
 export RETRO_CYCLETHROTTLE=5
 export RETRO_TASKTHROTTLE=100
+#
+# preempt some settings
+#export ACCOUNT="TBD"
+#export QUEUE="TBD"
+#export PARTITION="TBD"

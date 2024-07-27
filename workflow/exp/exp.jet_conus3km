@@ -13,7 +13,7 @@ export TAG=c1v01
 export REALTIME=true      # true, false
 export REALTIME_DAYS=90   # eg. 90 means to do real-time runs for 90 days
 #
-### preamp some settings for conus3km realtime runs on jet
+### preempt some settings for conus3km realtime runs on jet
 export PHYSICS_SUITE="convection_permitting" # mesoscale_reference, convection_permitting
 export COMINgfs='/lfs5/BMC/nrtrr/NCO_data/gfs'
 export COMINrap='/lfs5/BMC/nrtrr/NCO_data/rap'
@@ -24,7 +24,7 @@ export IC_OFFSET_HRS=1
 export LBC_PREFIX='RAP'
 export LBC_OFFSET_HRS=1
 
-# preamp resource settings
+# preempt some resource settings
 export ACCOUNT="rtwrfruc"
 export ACCOUNT2="nrtrr"
 export QUEUE="rth"

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # convert a number to the ungrib file naming convention: GRIBFILE.AAA
+declare -rx PS4='+ $(basename ${BASH_SOURCE[0]:-${FUNCNAME[0]:-"Unknown"}})[${LINENO}]${id}: '
 num=$((10#$1))
 [[ "${num}" == "0" ]] && exit
 num=$((10#$num-1))
