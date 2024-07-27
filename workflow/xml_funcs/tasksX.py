@@ -32,7 +32,7 @@ f'''
 
   # Task-specific EnVars beyond the task_common_vars
   dcTaskEnv={
-    'FHR': os.getenv('FCST_LENGTH_HRS','6'),
+    'FHR': os.getenv('FCST_LENGTH','6'),
     'AREA': '#area#'
   }
   task_id=f'{meta_id}_#area#'

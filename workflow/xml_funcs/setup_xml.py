@@ -53,7 +53,8 @@ def setup_xml(HOMErrfs, expdir):
     ungrib_lbc(xmlFile,expdir)
     ic(xmlFile,expdir)
     lbc(xmlFile,expdir)
-    da(xmlFile,expdir)
+    if os.getenv("FCST_ONLY","FALSE").upper()=="FALSE":
+      da(xmlFile,expdir)
     fcst(xmlFile,expdir)
     #
     if machine == "jet": #currently only support mpassit on jet using pre-compiled mpassit

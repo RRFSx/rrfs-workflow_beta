@@ -33,10 +33,10 @@ def lbc(xmlFile, expdir):
   meta_id='lbc'
   cycledefs='lbc'
   # metatask (nested or not)
-  fhr=os.getenv('FCST_LENGTH_HRS','12')
-  offset=int(os.getenv('LBC_OFFSET_HRS','6'))
-  length=int(os.getenv('LBC_LENGTH_HRS','18'))
-  interval=int(os.getenv('LBC_INTERVAL_HRS','3'))
+  fhr=os.getenv('FCST_LENGTH','12')
+  offset=int(os.getenv('LBC_OFFSET','6'))
+  length=int(os.getenv('LBC_LENGTH','18'))
+  interval=int(os.getenv('LBC_INTERVAL','3'))
   meta_hr= ''.join(f'{i:02d} ' for i in range(0,int(length)+1,int(interval))).strip()
   comin_hr=''.join(f'{i:02d} ' for i in range(int(offset),int(length)+int(offset)+1,int(interval))).strip()
   meta_bgn=f'''
@@ -77,7 +77,7 @@ def da(xmlFile, expdir):
     '_PLACEHOLDER_': 'just a place holder',
   }
   # dependencies
-  hrs=os.getenv('PROD_BGN_HRS', '3 15')
+  hrs=os.getenv('PROD_BGN_AT_HRS', '3 15')
   hrs=hrs.split(' ')
   streqs=""; strneqs=""; first=True
   for hr in hrs:
@@ -132,7 +132,7 @@ def fcst(xmlFile, expdir):
     '_PLACEHOLDER_': 'just a place holder',
   }
   # dependencies
-  hrs=os.getenv('PROD_BGN_HRS', '3 15')
+  hrs=os.getenv('PROD_BGN_AT_HRS', '3 15')
   hrs=hrs.split(' ')
   streqs=""; strneqs=""; first=True
   for hr in hrs:

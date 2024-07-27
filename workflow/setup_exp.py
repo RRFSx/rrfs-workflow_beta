@@ -88,7 +88,8 @@ with open(EXPin, 'r') as infile, open(EXPout, 'w') as outfile:
         outfile.write(line)
     else:
       rm_list=('EXP_BASEDIR=','EXP_NAME=','REALTIME=','REALTIME_DAYS=','RETRO_PERIOD=','RETRO_CYCLETHROTTLE=',
-        'RETRO_TASKTHROTTLE=','ACCOUNT','QUEUE','PARTITION','RESERVATION','STARTTIME','NODES','WALLTIME'
+        'RETRO_TASKTHROTTLE=','ACCOUNT','QUEUE','PARTITION','RESERVATION','STARTTIME','NODES','WALLTIME',
+        'FCST_ONLY=',
           )
       found=False
       for rmstr in rm_list:

@@ -13,7 +13,7 @@ def ungrib_ic(xmlFile, expdir):
   }
   # dependencies
   prefix=os.getenv('IC_PREFIX','IC_PREFIX_not_defined')
-  offset=os.getenv('IC_OFFSET_HRS','3')
+  offset=os.getenv('IC_OFFSET','3')
   COMINgfs=os.getenv("COMINgfs",'COMINgfs_not_defined')
   COMINrrfs=os.getenv("COMINrrfs",'COMINrrfs_not_defined')
   COMINrap=os.getenv("COMINrap",'COMINrap_not_defined')
@@ -51,10 +51,10 @@ def ungrib_lbc(xmlFile, expdir):
   meta_id='ungrib_lbc'
   cycledefs='lbc'
   # metatask (nested or not)
-  fhr=os.getenv('FCST_LENGTH_HRS','12')
-  offset=int(os.getenv('LBC_OFFSET_HRS','6'))
-  length=int(os.getenv('LBC_LENGTH_HRS','18'))
-  interval=int(os.getenv('LBC_INTERVAL_HRS','3'))
+  fhr=os.getenv('FCST_LENGTH','12')
+  offset=int(os.getenv('LBC_OFFSET','6'))
+  length=int(os.getenv('LBC_LENGTH','18'))
+  interval=int(os.getenv('LBC_INTERVAL','3'))
   meta_hr= ''.join(f'{i:02d} ' for i in range(0,int(length)+1,int(interval))).strip()
   comin_hr=''.join(f'{i:02d} ' for i in range(int(offset),int(length)+int(offset)+1,int(interval))).strip()
   meta_bgn=f'''
@@ -110,7 +110,7 @@ def mpassit(xmlFile, expdir):
   meta_id='mpassit'
   cycledefs='prod'
   # metatask (nested or not)
-  fhr=os.getenv('FCST_LENGTH_HRS','3')
+  fhr=os.getenv('FCST_LENGTH','3')
   #meta_hr=''.join(f'{i:02d} ' for i in range(int(fhr)+1)).strip()
   meta_hr=''.join(f'{i:02d} ' for i in range(int(fhr)+1)).strip()[3:] #remove '00 ' as no f00 diag and history files for restart cycles, gge.debug
   meta_bgn=f'''
@@ -159,7 +159,7 @@ def upp(xmlFile, expdir):
   meta_id='upp'
   cycledefs='prod'
   # metatask (nested or not)
-  fhr=os.getenv('FCST_LENGTH_HRS','9')
+  fhr=os.getenv('FCST_LENGTH','9')
   #meta_hr=''.join(f'{i:02d} ' for i in range(int(fhr)+1)).strip()
   meta_hr=''.join(f'{i:02d} ' for i in range(int(fhr)+1)).strip()[3:] #remove '000 ' as no f000 diag and history files for restart cycles, gge.debug
   meta_bgn= \

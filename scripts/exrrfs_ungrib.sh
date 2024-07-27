@@ -4,10 +4,10 @@ set -x
 cpreq=${cpreq:-cpreq}
 if [[ "${TYPE}" == "IC" ]] || [[ "${TYPE}" == "ic" ]]; then
   prefix=${IC_PREFIX:-IC_PREFIX_not_defined}
-  offset=${IC_OFFSET_HRS:-3}
+  offset=${IC_OFFSET:-3}
 else #lbc
   prefix=${LBC_PREFIX:-LBC_PREFIX_not_defined}
-  offset=${LBC_OFFSET_HRS:-6}
+  offset=${LBC_OFFSET:-6}
 fi
 CDATEin=$($NDATE -${offset} ${CDATE}) #CDATEinput
 FHRin=$(( 10#${FHR}+10#${offset} )) #FHRinput

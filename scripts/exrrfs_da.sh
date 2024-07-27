@@ -10,7 +10,7 @@ CDATEm1=$($NDATE -1 ${CDATE})
 start_time=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H:%M:%S) 
 timestr=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H.%M.%S) 
 # determine whether to begin new cycles
-IFS=' ' read -r -a array <<< "${PROD_BGN_HRS}"
+IFS=' ' read -r -a array <<< "${PROD_BGN_AT_HRS}"
 begin="NO"
 for hr in "${array[@]}"; do
   if [[ "${cyc}" == "$(printf '%02d' ${hr})" ]]; then
