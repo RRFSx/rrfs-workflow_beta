@@ -7,7 +7,7 @@
     interp_diag          = .true.
     interp_hist          = .true.
     wrf_mod_vars         = .true.
-    esmf_log             = .true.
+    esmf_log             = .false.
     nx = 480
     ny = 280
     dx = 12000.0
