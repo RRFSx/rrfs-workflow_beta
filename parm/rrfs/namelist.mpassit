@@ -2,10 +2,19 @@
     grid_file_input_grid = "mpassit.init.nc"
     hist_file_input_grid = "history.@timestr@.nc"
     diag_file_input_grid = "diag.@timestr@.nc"
-    file_target_grid     = "geo_em.d01.nc"
     output_file          = "mpassit.@timestr@.nc"
+    target_grid_type     = 'lambert'
     interp_diag          = .true.
     interp_hist          = .true.
     wrf_mod_vars         = .true.
-    esmf_log             = .false.
+    esmf_log             = .true.
+    nx = 480
+    ny = 280
+    dx = 12000.0
+    dy = 12000.0
+    ref_lat = 39.0
+    ref_lon = -97.5
+    truelat1 = 39.0
+    truelat2 = 39.0
+    stand_lon = -97.5
 /

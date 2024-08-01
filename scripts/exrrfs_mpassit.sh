@@ -37,7 +37,8 @@ module list
 set -x  
 ### temporarily solution since mpassit uses different modules files that other components
 source prep_step
-srun /lfs5/BMC/nrtrr/FIX_RRFS2/exec/mpassit.x namelist.mpassit  #gge.debug temp solution
+#srun /lfs5/BMC/nrtrr/FIX_RRFS2/exec/mpassit.x namelist.mpassit  #gge.debug temp solution
+srun /lfs4/BMC/wrfruc/ejames/MPASSIT/bin/mpassit namelist.mpassit
 # check the status copy output to COMOUT
 if [[ -s "./mpassit.${timestr}.nc" ]]; then
   ${cpreq} ${DATA}/${FHR}/mpassit.${timestr}.nc ${COMOUT}/${task_id}/
