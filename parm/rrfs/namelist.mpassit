@@ -8,13 +8,13 @@
     interp_hist          = .true.
     wrf_mod_vars         = .true.
     esmf_log             = .false.
-    nx = 480
-    ny = 280
-    dx = 12000.0
-    dy = 12000.0
-    ref_lat = 39.0
+    nx = @nx@
+    ny = @ny@
+    dx = @dx@.0
+    dy = @dx@.0
+    ref_lat = @lat@.@lat2@
     ref_lon = -97.5
-    truelat1 = 39.0
-    truelat2 = 39.0
+    truelat1 = @lat@.@lat2@
+    truelat2 = @lat@.@lat2@
     stand_lon = -97.5
 /

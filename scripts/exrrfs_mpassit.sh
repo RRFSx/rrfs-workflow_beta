@@ -12,7 +12,21 @@ ${cpreq} ${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/fcst/history.${time
 ${cpreq} ${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/fcst/diag.${timestr}.nc .
 ${cpreq} ${FIXrrfs}/mpassit/${NET}/* .
 # generate the namelist on the fly
-sed -e "s/@timestr@/${timestr}/" ${PARMrrfs}/rrfs/namelist.mpassit > namelist.mpassit
+if [[ "${NET}" == "conus12km" ]]; then
+  nx=480
+  ny=280
+  dx=12000
+  lat=39
+  lat2=0
+elif [[ "${NET}" == "conus3km" ]]; then
+  nx=1601
+  ny=961
+  dx=3000
+  lat=38
+  lat2=5
+fi
+sed -e "s/@timestr@/${timestr}/" -e "s/@nx@/${nx}/" -e "s/@ny@/${ny}/" -e "s/@dx@/${dx}/" \
+    -e "s/@lat@/${lat}/" -e "s/@lat2@/${lat2}/" ${PARMrrfs}/rrfs/namelist.mpassit > namelist.mpassit
 
 # run the MPAS model
 ulimit -s unlimited
@@ -37,8 +51,7 @@ module list
 set -x  
 ### temporarily solution since mpassit uses different modules files that other components
 source prep_step
-#srun /lfs5/BMC/nrtrr/FIX_RRFS2/exec/mpassit.x namelist.mpassit  #gge.debug temp solution
-srun /lfs4/BMC/wrfruc/ejames/MPASSIT/bin/mpassit namelist.mpassit
+srun /lfs5/BMC/nrtrr/FIX_RRFS2/exec/mpassit_20240801.x namelist.mpassit
 # check the status copy output to COMOUT
 if [[ -s "./mpassit.${timestr}.nc" ]]; then
   ${cpreq} ${DATA}/${FHR}/mpassit.${timestr}.nc ${COMOUT}/${task_id}/
