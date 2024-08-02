@@ -32,4 +32,4 @@ for yaml in ${yaml_list[@]}; do
 done
 
 # copy ioda*.nc to COMOUT
-${cpreq} ${DATA}/ioda*.nc ${COMOUT}/${task_id}/
+${cpreq} ${DATA}/ioda*.nc ${COMOUT}/${task_id}/${subdir}

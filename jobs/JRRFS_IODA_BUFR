@@ -22,7 +22,7 @@ fi
 mkdir -p ${DATA}
 #
 export COMOUT=${COMOUT:-$(compath.py -o ${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc})}
-mkdir -p ${COMOUT}/${task_id}
+mkdir -p ${COMOUT}/${task_id}/${subdir}
 #
 #----------------------------------------
 # Execute the script.

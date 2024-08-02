@@ -15,15 +15,16 @@ for hr in "${array[@]}"; do
   fi
 done
 if [[ "${begin}" == "YES" ]]; then
-  ${cpreq} ${COMINrrfs}/${RUN}.${PDY}/${cyc}/ic/init.nc .
+  ${cpreq} ${COMINrrfs}/${RUN}.${PDY}/${cyc}/ic/${subdir}/init.nc .
   do_restart='false'
 else
-  ${cpreq} ${COMINrrfs}/${RUN}.${PDY}/${cyc}/da/restart.${timestr}.nc .
+  ${cpreq} ${COMINrrfs}/${RUN}.${PDY}/${cyc}/da/${subdir}/restart.${timestr}.nc .
   do_restart='true'
 fi
-offset=$((10#${cyc}%6))
+# offset=$((10#${cyc}%6))
+offset=0
 CDATElbc=$($NDATE -${offset} ${CDATE})
-${cpreq} ${COMINrrfs}/${RUN}.${CDATElbc:0:8}/${CDATElbc:8:2}/lbc/lbc*.nc .
+${cpreq} ${COMINrrfs}/${RUN}.${CDATElbc:0:8}/${CDATElbc:8:2}/lbc/${subdir}/lbc*.nc .
 ${cpreq} ${FIXrrfs}/physics/${PHYSICS_SUITE}/* .
 ln -snf VEGPARM.TBL.fcst VEGPARM.TBL #gge.debug temp
 mkdir -p graphinfo stream_list
@@ -39,6 +40,9 @@ jedi_da="false" #true
 
 if [[ "${NET}" == "conus12km" ]]; then
   pio_num_iotasks=6
+  pio_stride=20
+elif [[ "${NET}" == "atl12km" ]]; then
+  pio_num_iotasks=6 
   pio_stride=20
 elif [[ "${NET}" == "conus3km" ]]; then
   pio_num_iotasks=40
@@ -80,6 +84,6 @@ fi
 # copy output to COMOUT
 CDATEp1=$($NDATE 1 ${CDATE})
 timestr=$(date -d "${CDATEp1:0:8} ${CDATEp1:8:2}" +%Y-%m-%d_%H.%M.%S) 
-${cpreq} ${DATA}/restart.${timestr}.nc ${COMOUT}/${task_id}/
-${cpreq} ${DATA}/diag.*.nc ${COMOUT}/${task_id}/
-${cpreq} ${DATA}/history.*.nc ${COMOUT}/${task_id}/
+${cpreq} ${DATA}/restart.${timestr}.nc ${COMOUT}/${task_id}/${subdir}
+${cpreq} ${DATA}/diag.*.nc ${COMOUT}/${task_id}/${subdir}
+${cpreq} ${DATA}/history.*.nc ${COMOUT}/${task_id}/${subdir}

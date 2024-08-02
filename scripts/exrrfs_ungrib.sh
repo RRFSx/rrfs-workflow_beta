@@ -11,6 +11,7 @@ else #lbc
 fi
 CDATEin=$($NDATE -${offset} ${CDATE}) #CDATEinput
 FHRin=$(( 10#${FHR}+10#${offset} )) #FHRinput
+jul=$( date -d "${CDATEin:8:2} ${CDATEin:0:8}" +%j)
 
 cd ${DATA}
 ${cpreq} ${FIXrrfs}/Vtables/Vtable.${prefix} Vtable
@@ -20,6 +21,9 @@ WGRIB2=/apps/wgrib2/2.0.8/intel/18.0.5.274/bin/wgrib2
 if [[ "${prefix}" == "GFS" ]]; then
   fstr=$(printf %03d ${FHRin})
   ${cpreq} ${COMINgfs}/gfs.${CDATEin:0:8}/${CDATEin:8:2}/gfs.t${CDATEin:8:2}z.pgrb2.0p25.f${fstr} GRIBFILE.AAA
+elif [[ "${prefix}" == "GEFS" ]]; then
+  fstr=$(printf %03d ${FHRin})
+  ${cpreq} ${COMINgefs}/${gefsMEM}/${CDATEin:2:2}${jul}${CDATEin:8:2}000${fstr} GRIBFILE.AAA
 elif [[ "${prefix}" == "RAP" ]]; then
   fstr=$(printf %02d ${FHRin})
   GRIBFILE=${COMINrap}/rap.${CDATEin:0:8}/rap.t${CDATEin:8:2}z.wrfnatf${fstr}.grib2
@@ -78,7 +82,7 @@ ${EXECrrfs}/ungrib.x
 # check the status
 outfile="${prefix}:$(date -d "${CDATEout:0:8} ${CDATEout:8:2}" +%Y-%m-%d_%H)"
 if [[ -s ${outfile} ]]; then
-  ${cpreq} ${DATA}/${outfile} ${COMOUT}/${task_id}/
+  ${cpreq} ${DATA}/${outfile} ${COMOUT}/${task_id}/${subdir}
 else
   echo "FATAR ERROR: ungrib failed"
   export err=99

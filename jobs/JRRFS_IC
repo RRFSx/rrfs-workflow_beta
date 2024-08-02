@@ -22,8 +22,9 @@ fi
 mkdir -p ${DATA}
 #
 export COMINgfs=${COMINgfs:-$(compath.py $envir/gfs/$gfs_ver)}
+export COMINgefs=${COMINgefs:-$(compath.py $envir/gefs/$gefs_ver)}
 export COMOUT=${COMOUT:-$(compath.py -o ${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc})}
-mkdir -p ${COMOUT}/${task_id}
+mkdir -p ${COMOUT}/${task_id}/${subdir}
 #
 #----------------------------------------
 # Execute the script.

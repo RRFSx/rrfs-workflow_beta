@@ -3,7 +3,7 @@ declare -rx PS4='+ $(basename ${BASH_SOURCE[0]:-${FUNCNAME[0]:-"Unknown"}})[${LI
 set -x
 date
 #
-export task_id='ungrib'
+# export task_id='ungrib_ic'
 #
 # source the config cascade
 source ${EXPDIR}/exp.setup
@@ -23,16 +23,17 @@ fi
 mkdir -p ${DATA}
 #
 export COMINgfs=${COMINgfs:-$(compath.py $envir/gfs/$gfs_ver)}
+export COMINgefs=${COMINgefs:-$(compath.py $envir/gefs/$gefs_ver)}
 export COMINrap=${COMINrap:-$(compath.py $envir/rap/$rap_ver)}
 export COMINrrfs1=${COMINrrfs1:-$(compath.py $envir/rrfs1/$rrfs1_ver)}
 export COMOUT=${COMOUT:-$(compath.py -o ${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc})}
-mkdir -p ${COMOUT}/${task_id}
+mkdir -p ${COMOUT}/${task_id}/${subdir}
 #
 #----------------------------------------
 # Execute the script.
 #----------------------------------------
 export pgmout="${DATA}/OUTPUT.${task_id}"
-$SCRIPTSrrfs/exrrfs_${task_id}.sh
+$SCRIPTSrrfs/exrrfs_ungrib.sh
 export err=$?; err_chk
 
 if [ -e "$pgmout" ]; then

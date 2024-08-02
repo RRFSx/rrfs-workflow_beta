@@ -26,7 +26,7 @@ def ungrib_ic(xmlFile, expdir):
   elif prefix == "RAP":
     fpath=f'{COMINrap}/rap.@Y@m@d/rap.t@Hz.wrfnatf{offset:>02}.grib2'
   elif prefix == "GEFS":
-    fpath=f'{COMINgefs}/gefs.@Y@m@d/@H/gefs.t@Hz.pgrb2.0p25.f{offset:>03}'
+    fpath=f'{COMINgefs}/@y@j@H000{offset:>03}'
   else:
     fpath=f'/not_supported_LBC_PREFIX={prefix}'
 
@@ -43,7 +43,7 @@ def ungrib_ic(xmlFile, expdir):
   </and>
   </dependency>'''
   #
-  xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies,False,"", "", "","UNGRIB")
+  xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies,False,"", "", "","UNGRIB_IC")
 ### end of ungrib_ic --------------------------------------------------------
 
 ### begin of ungrib_lbc --------------------------------------------------------
@@ -85,7 +85,8 @@ def ungrib_lbc(xmlFile, expdir):
   elif prefix == "RAP":
     fpath=f'{COMINrap}/rap.@Y@m@d/rap.t@Hz.wrfnatf#fhr_in#.grib2'
   elif prefix == "GEFS":
-    fpath=f'{COMINgefs}/gefs.@Y@m@d/@H/gefs.t@Hz.pgrb2.0p25.f#0fhr_in#'
+#    fpath=f'{COMINgefs}/gefs.@Y@m@d/@H/gefs.t@Hz.pgrb2.0p25.f0#fhr_in#'
+    fpath=f'{COMINgefs}/@y@j@H0000#fhr_in#'
   else:
     fpath=f'/not_supported_LBC_PREFIX={prefix}'
 
@@ -102,7 +103,7 @@ def ungrib_lbc(xmlFile, expdir):
   </and>
   </dependency>'''
   #
-  xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies,True,meta_id,meta_bgn,meta_end,"UNGRIB")
+  xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies,True,meta_id,meta_bgn,meta_end,"UNGRIB_LBC")
 ### end of ungrib_lbc --------------------------------------------------------
 
 ### begin of mpassit --------------------------------------------------------
