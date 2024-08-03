@@ -29,7 +29,7 @@ elif  [[ "${prefix}" == "GEFS" ]]; then
 fi
 interval_seconds=3600 # just a place holder as we use metatask to run lbc hour by hour
 zeta_levels=${FIXrrfs}/meshes/L60.txt
-decomp_file_prefix="${NET}_mpas.graph.info.part."
+decomp_file_prefix="${NET}.graph.info.part."
 #
 physics_suite=${PHYSICS_SUITE:-'PHYSICS_SUITE_not_defined'}
 file_content=$(< ${PARMrrfs}/rrfs/${physics_suite}/namelist.init_atmosphere) # read in all content
@@ -43,7 +43,7 @@ sed -e "s/@input_stream@/init.nc/" -e "s/@output_stream@/foo.nc/" \
 ln -snf ${COMINrrfs}/${RUN}.${PDY}/${cyc}/ungrib/${prefix}:${start_time:0:13} .
 ln -snf ${COMINrrfs}/${RUN}.${PDY}/${cyc}/ic/init.nc .
 ${cpreq} ${FIXrrfs}/meshes/${NET}.static.nc static.nc
-${cpreq} ${FIXrrfs}/graphinfo/${NET}_mpas.graph.info.part.${NTASKS} .
+${cpreq} ${FIXrrfs}/graphinfo/${NET}.graph.info.part.${NTASKS} .
 
 # run init_atmosphere_model
 ### temporarily solution since mpas model uses different modules files that other components
