@@ -34,7 +34,7 @@ if [[ "${begin}" == "YES" ]]; then
   # mpasjedi cannot run on init.nc due to the miss of pressure values
   : #do nothing
 else
-  ${cpreq} ${COMINrrfs}/${RUN}.${CDATEm1:0:8}/${CDATEm1:8:2}/fcst/restart.${timestr}.nc .
+  cpfs ${COMINrrfs}/${RUN}.${CDATEm1:0:8}/${CDATEm1:8:2}/fcst/restart.${timestr}.nc .
 fi
 #${cpreq} ${COMINioda}/..../obs/* obs/                            
 #${cpreq} ${COMINgdas}/..../ens/* ens/
