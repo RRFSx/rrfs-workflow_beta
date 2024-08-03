@@ -15,6 +15,7 @@ export RETRO_PERIOD=2024052700-2024052800
 export RETRO_CYCLETHROTTLE=5
 export RETRO_TASKTHROTTLE=100
 #
+export FCST_ONLY=${FCST_ONLY:-false}
 # preempt some settings
 #export ACCOUNT="TBD"
 #export QUEUE="TBD"

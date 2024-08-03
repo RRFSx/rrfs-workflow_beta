@@ -7,7 +7,7 @@ from xml_funcs.smart_cycledefs import smart_cycledefs
 from xml_funcs.tasks1 import ic, lbc, da, fcst
 from xml_funcs.tasks2 import mpassit, upp, ungrib_lbc, ungrib_ic
 from xml_funcs.tasks3 import ioda_bufr
-from xml_funcs.tasksX import dummy, clean, graphics #archive
+from xml_funcs.tasksX import clean, graphics #archive
 
 ### setup_xml
 def setup_xml(HOMErrfs, expdir):
@@ -53,7 +53,8 @@ def setup_xml(HOMErrfs, expdir):
     ungrib_lbc(xmlFile,expdir)
     ic(xmlFile,expdir)
     lbc(xmlFile,expdir)
-    da(xmlFile,expdir)
+    if os.getenv("FCST_ONLY","FALSE").upper()=="FALSE":
+      da(xmlFile,expdir)
     fcst(xmlFile,expdir)
     #
     if machine == "jet": #currently only support mpassit on jet using pre-compiled mpassit
@@ -64,7 +65,6 @@ def setup_xml(HOMErrfs, expdir):
     if os.getenv("REALTIME").upper() == "TRUE": # write out the clean task for realtime runs and retros don't need it
       clean(xmlFile,expdir)
   
-    dummy(xmlFile,expdir) # a dummy task to be used to reboot a cycle without adverse effects
     wflow_end(xmlFile)
 
 # ---------------------------------------------------------------------------

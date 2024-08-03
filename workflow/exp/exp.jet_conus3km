@@ -18,11 +18,14 @@ export PHYSICS_SUITE="convection_permitting" # mesoscale_reference, convection_p
 export COMINgfs='/lfs5/BMC/nrtrr/NCO_data/gfs'
 export COMINrap='/lfs5/BMC/nrtrr/NCO_data/rap'
 #
-export FCST_LENGTH_HRS=12
+export PROD_BGN_AT_HRS="00 03 06 09 12 15 18 21"
+export FCST_LENGTH=24
+export FCST_LENGTH_LONG=42
+export FCST_LONG_AT_HRS="00 06 12 18"
 export IC_PREFIX='RAP'
-export IC_OFFSET_HRS=1
+export IC_OFFSET=1
 export LBC_PREFIX='RAP'
-export LBC_OFFSET_HRS=1
+export LBC_OFFSET=1
 
 # preempt some resource settings
 export ACCOUNT="rtwrfruc"
