@@ -311,5 +311,5 @@ def ens_da(xmlFile, expdir):
   </and>
   </dependency>'''
   #
-  xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv,dependencies)
+  xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv=dcTaskEnv,dependencies=dependencies,do_ensemble=True)
 ### end of da --------------------------------------------------------

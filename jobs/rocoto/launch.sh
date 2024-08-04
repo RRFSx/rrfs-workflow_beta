@@ -17,11 +17,11 @@ COMMAND=$1  #get the JJOB name
 task_id=${COMMAND#*_}
 export task_id=${task_id,,} #to lower case
 export rrfs_ver=${VERSION}
-if [[ -z "${ENS_INDEX}" ]]; then
-  RUN='rrfs'
+if [[ -z "${ENS_INDEX}" ]] && [[ ! "${task_id}" == "ens_da"   ]]; then
+  export RUN='rrfs'
   export DATA=${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/${task_id}
 else
-  RUN='ens'
+  export RUN='ens'
   if [[ "${task_id}" == "ens_da"  ]]; then
     export DATA=${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/${task_id}
   else

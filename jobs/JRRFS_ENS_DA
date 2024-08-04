@@ -13,7 +13,7 @@ source ${EXPDIR}/config/config.base
 [[ -s ${EXPDIR}/config/config.${task_id} ]] && source ${EXPDIR}/config/config.${task_id}
 #
 export pid=${pid:-$$}
-export RUN=${RUN:-rrfs}
+export RUN=${RUN:-ens}
 export jobid=${jobid:-${RUN}_${task_id}_${cyc}}
 
 export DATA=${DATA:-${DATAROOT}/${jobid}}
@@ -34,7 +34,7 @@ export pgmout="${DATA}/OUTPUT.${task_id}"
 $SCRIPTSrrfs/exrrfs_${task_id}.sh
 export err=$?; err_chk
 
-if [ -e "$pgmout" ]; then
+if [ -s "$pgmout" ]; then
   cat $pgmout
 fi
 #
