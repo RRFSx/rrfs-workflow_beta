@@ -8,7 +8,7 @@ def ungrib_ic(xmlFile, expdir):
   cycledefs='ic'
   # Task-specific EnVars beyond the task_common_vars
   dcTaskEnv={
-    'FHR': '00',
+    'FHR': '000',
     'TYPE': 'IC'
   }
   # dependencies
@@ -145,18 +145,16 @@ def mpassit(xmlFile, expdir):
   cycledefs='prod'
   # metatask (nested or not)
   fhr=os.getenv('FCST_LENGTH','3')
+  if int(fhr) >=100:
+    print(f'FCST_LENGTH>=100 not supported: {fhr}')
+    exit()
   #meta_hr=''.join(f'{i:03d} ' for i in range(int(fhr)+1)).strip()
   meta_hr=''.join(f'{i:03d} ' for i in range(int(fhr)+1)).strip()[4:] #remove '000 ' as no f000 diag and history files for restart cycles yet, gge.debug
+  fhr2=''.join(f'{i:02d} ' for i in range(int(fhr)+1)).strip()[3:] #remove '00 '
   meta_bgn=f'''
 <metatask name="{meta_id}">
-<var name="fhr">{meta_hr}</var>'''
-    #  <metatask name="{meta_id}_f#fhr#">
-    #  <var name="mem">ctl</var>
-    #  <var name="mp_scheme">mp_thompson</var>
-    #    <task name="{meta_id}_#mem#_f#fhr#" cycledefs="fcst,fcst_long" maxtries="3">
-    #    </task>
-    #  </metatask>
-    #</metatask>
+<var name="fhr">{meta_hr}</var>
+<var name="fhr2">{fhr2}</var>'''
 
   meta_end=f'\
 </metatask>\n'
@@ -180,8 +178,8 @@ def mpassit(xmlFile, expdir):
   dependencies=f'''
   <dependency>
   <and>{timedep}
-  <datadep age="00:05:00"><cyclestr>{DATAROOT}/{NET}/{VERSION}/{RUN}.@Y@m@d/@H/fcst/</cyclestr><cyclestr offset="#fhr#:00:00">diag.@Y-@m-@d_@H.@M.@S.nc</cyclestr></datadep>
-  <datadep age="00:05:00"><cyclestr>{DATAROOT}/{NET}/{VERSION}/{RUN}.@Y@m@d/@H/fcst/</cyclestr><cyclestr offset="#fhr#:00:00">history.@Y-@m-@d_@H.@M.@S.nc</cyclestr></datadep>
+  <datadep age="00:05:00"><cyclestr>{DATAROOT}/{NET}/{VERSION}/{RUN}.@Y@m@d/@H/fcst/</cyclestr><cyclestr offset="#fhr2#:00:00">diag.@Y-@m-@d_@H.@M.@S.nc</cyclestr></datadep>
+  <datadep age="00:05:00"><cyclestr>{DATAROOT}/{NET}/{VERSION}/{RUN}.@Y@m@d/@H/fcst/</cyclestr><cyclestr offset="#fhr2#:00:00">history.@Y-@m-@d_@H.@M.@S.nc</cyclestr></datadep>
   </and>
   </dependency>'''
   #
@@ -222,7 +220,7 @@ f'''
   dependencies=f'''
   <dependency>
   <and>{timedep}
-  <datadep age="00:05:00"><cyclestr>{COMROOT}/{NET}/{VERSION}/{RUN}.@Y@m@d/@H/mpassit/</cyclestr><cyclestr offset="#fhr#:00:00">mpassit.@Y-@m-@d_@H.@M.@S.nc</cyclestr></datadep>
+  <taskdep task="mpassit_f#fhr#"/>
   </and>
   </dependency>'''
   #

@@ -20,7 +20,7 @@ def ic(xmlFile, expdir):
   <and>{timedep}
   <or>
     <taskdep task="ungrib_ic"/>
-    <taskdep task="ungrib_lbc_f00"/>
+    <taskdep task="ungrib_lbc_f000"/>
   </or>
   </and>
   </dependency>'''
@@ -37,8 +37,8 @@ def lbc(xmlFile, expdir):
   offset=int(os.getenv('LBC_OFFSET','6'))
   length=int(os.getenv('LBC_LENGTH','18'))
   interval=int(os.getenv('LBC_INTERVAL','3'))
-  meta_hr= ''.join(f'{i:02d} ' for i in range(0,int(length)+1,int(interval))).strip()
-  comin_hr=''.join(f'{i:02d} ' for i in range(int(offset),int(length)+int(offset)+1,int(interval))).strip()
+  meta_hr= ''.join(f'{i:03d} ' for i in range(0,int(length)+1,int(interval))).strip()
+  comin_hr=''.join(f'{i:03d} ' for i in range(int(offset),int(length)+int(offset)+1,int(interval))).strip()
   meta_bgn=f'''
 <metatask name="{meta_id}">
 <var name="fhr">{meta_hr}</var>'''

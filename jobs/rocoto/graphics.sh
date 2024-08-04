@@ -25,6 +25,7 @@ source pre.sh
 module use /lfs5/BMC/nrtrr/FIX_RRFS2/modulefiles
 module load prod_util/2.1.1
 set -x
+# can pygraf handle fhr in 3 digits, e.g. 000, 100?
 python create_graphics.py \
   maps \
   --all_leads \
