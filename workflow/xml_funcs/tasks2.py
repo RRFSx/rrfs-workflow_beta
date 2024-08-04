@@ -74,12 +74,12 @@ def ungrib_lbc(xmlFile, expdir, do_ensemble=False):
     length=int(os.getenv('ENS_LBC_LENGTH','12'))
     interval=int(os.getenv('ENS_LBC_INTERVAL','3'))
     n_mem=int(os.getenv('ENS_NUM_OF_MEMBERS','2'))
-    imems=''.join(f'{i:03d} ' for i in range(0,int(n_mem))).strip()
-    gmems=''.join(f'{i:02d} ' for i in range(0,int(n_mem))).strip()
+    imems=''.join(f'{i:03d} ' for i in range(1,int(n_mem)+1)).strip()
+    gmems=''.join(f'{i:02d} ' for i in range(1,int(n_mem)+1)).strip()
     meta_hr= ''.join(f'{i:03d} ' for i in range(0,int(length)+1,int(interval))).strip()
     comin_hr=''.join(f'{i:03d} ' for i in range(int(offset),int(length)+int(offset)+1,int(interval))).strip()
     meta_bgn=f'''
-<metatask name=ens_{meta_id}>
+<metatask name="ens_{meta_id}">
 <var name="imem">{imems}</var>
 <var name="gmem">{gmems}</var>
 <metatask name="{meta_id}_m#imem#">
@@ -115,8 +115,8 @@ def ungrib_lbc(xmlFile, expdir, do_ensemble=False):
   elif prefix == "RAP":
     fpath=f'{COMINrap}/rap.@Y@m@d/rap.t@Hz.wrfnatf#fhr_in#.grib2'
   elif prefix == "GEFS":
-    fpath=f'{COMINgefs}/gefs.@Y@m@d/@H/gep#gmem#.t@Hz.pgrb2a.0p50.f#fhr_in#'
-    fpath2=f'{COMINgefs}/gefs.@Y@m@d/@H/gep#gmem#.t@Hz.pgrb2b.0p50.f#fhr_in#'
+    fpath=f'{COMINgefs}/gefs.@Y@m@d/@H/pgrb2ap5/gep#gmem#.t@Hz.pgrb2a.0p50.f#fhr_in#'
+    fpath2=f'{COMINgefs}/gefs.@Y@m@d/@H/pgrb2bp5/gep#gmem#.t@Hz.pgrb2b.0p50.f#fhr_in#'
   else:
     fpath=f'/not_supported_LBC_PREFIX={prefix}'
 
@@ -128,7 +128,7 @@ def ungrib_lbc(xmlFile, expdir, do_ensemble=False):
   #
   datadep=f'<datadep age="00:05:00"><cyclestr offset="-{offset}:00:00">{fpath}</cyclestr></datadep>'
   if do_ensemble:
-    datadep=datedep+f'\n  <datadep age="00:05:00"><cyclestr offset="-{offset}:00:00">{fpath2}</cyclestr></datadep>'
+    datadep=datadep+f'\n  <datadep age="00:05:00"><cyclestr offset="-{offset}:00:00">{fpath2}</cyclestr></datadep>'
   dependencies=f'''
   <dependency>
   <and>{timedep}

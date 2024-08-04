@@ -27,7 +27,12 @@ def smart_cycledefs(realtime,realtime_days,retro_period):
 
   dcCycledef={}
   #CYCLEDEF_PROD="00 00-23 26,27 05 2024 *"\n\
-  dcCycledef['ic']=f'{pdy}{ic_bgn}00 {pdy2}{hr_end}00 12:00:00'
-  dcCycledef['lbc']=f'{pdy}{lbc_bgn}00 {pdy2}{hr_end}00 06:00:00'
-  dcCycledef['prod']=f'{pdy}{ic_bgn}00 {pdy2}{hr_end}00 01:00:00'
+  if os.getenv('DO_DETERMINISTIC','TRUE').upper() == "TRUE":
+    dcCycledef['ic']=f'{pdy}{ic_bgn}00 {pdy2}{hr_end}00 12:00:00'
+    dcCycledef['lbc']=f'{pdy}{lbc_bgn}00 {pdy2}{hr_end}00 06:00:00'
+    dcCycledef['prod']=f'{pdy}{ic_bgn}00 {pdy2}{hr_end}00 01:00:00'
+  #
+  if os.getenv('DO_ENSEMBLE','FALSE').upper() == "TRUE":
+    dcCycledef['ens_ic']=f'{pdy}{lbc_bgn}00 {pdy2}{hr_end}00 12:00:00'
+    dcCycledef['ens_lbc']=f'{pdy}{lbc_bgn}00 {pdy2}{hr_end}00 06:00:00'
   return dcCycledef
