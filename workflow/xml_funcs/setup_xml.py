@@ -68,6 +68,7 @@ def setup_xml(HOMErrfs, expdir):
 # ---------------------------------------------------------------------------
 # create tasks for an ensemble run
     if do_ensemble == "TRUE":
+      ungrib_ic(xmlFile,expdir,do_ensemble=True)
       ungrib_lbc(xmlFile,expdir,do_ensemble=True)
 
 # ---------------------------------------------------------------------------
