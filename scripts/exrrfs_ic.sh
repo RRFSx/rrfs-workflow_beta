@@ -2,7 +2,11 @@
 declare -rx PS4='+ $(basename ${BASH_SOURCE[0]:-${FUNCNAME[0]:-"Unknown"}})[${LINENO}]${id}: '
 set -x
 cpreq=${cpreq:-cpreq}
-prefix=${IC_PREFIX:-IC_PREFIX_not_defined}
+if [[ -z "${ENS_INDEX}" ]]; then
+  prefix=${IC_PREFIX:-IC_PREFIX_not_defined}
+else
+  prefix=${ENS_IC_PREFIX:-ENS_IC_PREFIX_not_defined}
+fi
 cd ${DATA}
 
 # genereate the namelist on the fly
@@ -71,4 +75,8 @@ export err=$?
 err_chk
 
 # copy init.nc to COMOUT
-${cpreq} ${DATA}/init.nc ${COMOUT}/${task_id}/
+if [[ -z "${ENS_INDEX}" ]]; then
+  ${cpreq} ${DATA}/init.nc ${COMOUT}/${task_id}/
+else
+  ${cpreq} ${DATA}/init.nc ${COMOUT}/mem${ENS_INDEX}/${task_id}/
+fi

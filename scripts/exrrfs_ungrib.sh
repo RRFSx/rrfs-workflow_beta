@@ -2,12 +2,22 @@
 declare -rx PS4='+ $(basename ${BASH_SOURCE[0]:-${FUNCNAME[0]:-"Unknown"}})[${LINENO}]${id}: '
 set -x
 cpreq=${cpreq:-cpreq}
-if [[ "${TYPE}" == "IC" ]] || [[ "${TYPE}" == "ic" ]]; then
-  prefix=${IC_PREFIX:-IC_PREFIX_not_defined}
-  offset=${IC_OFFSET:-3}
-else #lbc
-  prefix=${LBC_PREFIX:-LBC_PREFIX_not_defined}
-  offset=${LBC_OFFSET:-6}
+if [[ -z "${ENS_INDEX}" ]]; then
+  if [[ "${TYPE}" == "IC" ]] || [[ "${TYPE}" == "ic" ]]; then
+    prefix=${IC_PREFIX:-IC_PREFIX_not_defined}
+    offset=${IC_OFFSET:-3}
+  else #lbc
+    prefix=${LBC_PREFIX:-LBC_PREFIX_not_defined}
+    offset=${LBC_OFFSET:-6}
+  fi
+else
+  if [[ "${TYPE}" == "IC" ]] || [[ "${TYPE}" == "ic" ]]; then
+    prefix=${ENS_IC_PREFIX:-ENS_IC_PREFIX_not_defined}
+    offset=${ENS_IC_OFFSET:-39}
+  else #lbc
+    prefix=${ENS_LBC_PREFIX:-ENS_LBC_PREFIX_not_defined}
+    offset=${ENS_LBC_OFFSET:-39}
+  fi
 fi
 CDATEin=$($NDATE -${offset} ${CDATE}) #CDATEinput
 FHRin=$(( 10#${FHR}+10#${offset} )) #FHRinput
@@ -20,6 +30,11 @@ WGRIB2=/apps/wgrib2/2.0.8/intel/18.0.5.274/bin/wgrib2
 if [[ "${prefix}" == "GFS" ]]; then
   fstr=$(printf %03d ${FHRin})
   ${cpreq} ${COMINgfs}/gfs.${CDATEin:0:8}/${CDATEin:8:2}/gfs.t${CDATEin:8:2}z.pgrb2.0p25.f${fstr} GRIBFILE.AAA
+elif [[ "${prefix}" == "GEFS" ]]; then
+  fstr=$(printf %03d ${FHRin})
+  filea=${COMINgefs}/gefs.${CDATEin:0:8}/${CDATEin:8:2}/ipgrb2ap5/gep${ENS_INDEX:1}.t${CDATEin:8:2}z.pgrb2a.0p50.f${fstr}
+  fileb=${COMINgefs}/gefs.${CDATEin:0:8}/${CDATEin:8:2}/ipgrb2bp5/gep${ENS_INDEX:1}.t${CDATEin:8:2}z.pgrb2b.0p50.f${fstr}
+  cat ${filea} ${fileb} > GRIBFILE.AAA
 elif [[ "${prefix}" == "RAP" ]]; then
   fstr=$(printf %02d ${FHRin})
   GRIBFILE=${COMINrap}/rap.${CDATEin:0:8}/rap.t${CDATEin:8:2}z.wrfnatf${fstr}.grib2
@@ -54,8 +69,11 @@ elif [[ "${prefix}" == "RRFS" ]]; then
     ln -snf tmp2.grib2 GRIBFILE.AAA
   else
     echo "tmp2.grib2 not created; exiting"
-    export err=99; err_chk
+    err_exit()
   fi
+elif
+  echo "ungrib PREFIX=${prefix} not supported"
+  err_exit()
 fi
 #
 # generate the namelist on the fly
@@ -85,6 +103,5 @@ if [[ -s ${outfile} ]]; then
   fi
 else
   echo "FATAR ERROR: ungrib failed"
-  export err=99
-  err_chk
+  err_exit
 fi

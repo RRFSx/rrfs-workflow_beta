@@ -7,6 +7,7 @@ export task_id='ungrib'
 #
 # source the config cascade
 source ${EXPDIR}/exp.setup
+[[ ! -z "${ENS_INDEX}" ]] && source ${EXPDIR}/config/config.ens
 source ${EXPDIR}/config/config.${MACHINE}
 source ${EXPDIR}/config/config.base
 [[ -s ${EXPDIR}/config/config.${task_id} ]] && source ${EXPDIR}/config/config.${task_id}

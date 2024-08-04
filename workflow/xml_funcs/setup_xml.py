@@ -70,6 +70,7 @@ def setup_xml(HOMErrfs, expdir):
     if do_ensemble == "TRUE":
       ungrib_ic(xmlFile,expdir,do_ensemble=True)
       ungrib_lbc(xmlFile,expdir,do_ensemble=True)
+      ic(xmlFile,expdir,do_ensemble=True)
 
 # ---------------------------------------------------------------------------
     if os.getenv("REALTIME").upper() == "TRUE": # write out the clean task for realtime runs and retros don't need it
