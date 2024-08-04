@@ -17,12 +17,12 @@ COMMAND=$1  #get the JJOB name
 task_id=${COMMAND#*_}
 export task_id=${task_id,,} #to lower case
 export rrfs_ver=${VERSION}
-if [[ -z "${IMEM}" ]]; then
+if [[ -z "${ENS_INDEX}" ]]; then
   RUN='rrfs'
   export DATA=${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/${task_id}
 else
   RUN='ens'
-  export DATA=${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/mem${IMEM}/${task_id}
+  export DATA=${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/mem${ENS_INDEX}/${task_id}
 fi
 export cpreq="ln -snf" #use soft link instead of copy for non-NCO experiments
 export COMOUT="${COMROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}" # task_id not included as compath.py may not be able to find this subdirectory

@@ -12,7 +12,7 @@ source ${EXPDIR}/config/config.base
 [[ -s ${EXPDIR}/config/config.${task_id} ]] && source ${EXPDIR}/config/config.${task_id}
 #
 export pid=${pid:-$$}
-if [[ -z "${IMEM}" ]]; then
+if [[ -z "${ENS_INDEX}" ]]; then
   export RUN="rrfs"
 else
   export RUN="ens"
@@ -31,10 +31,10 @@ export COMINgefs=${COMINgefs:-$(compath.py $envir/gefs/$gefs_ver)}
 export COMINrap=${COMINrap:-$(compath.py $envir/rap/$rap_ver)}
 export COMINrrfs1=${COMINrrfs1:-$(compath.py $envir/rrfs1/$rrfs1_ver)}
 export COMOUT=${COMOUT:-$(compath.py -o ${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc})}
-if [[ -z "${IMEM}" ]]; then
+if [[ -z "${ENS_INDEX}" ]]; then
   mkdir -p ${COMOUT}/${task_id}
 else
-  mkdir -p ${COMOUT}/mem${IMEM}/${task_id}
+  mkdir -p ${COMOUT}/mem${ENS_INDEX}/${task_id}
 fi
 #
 #----------------------------------------
