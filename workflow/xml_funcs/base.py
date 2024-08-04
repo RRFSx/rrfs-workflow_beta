@@ -165,14 +165,13 @@ def get_yes_or_no(prompt):
 ### end of get_yes_or_no
 
 ### xml_task
-def xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv={},dependencies="",metatask=False,meta_id='',meta_bgn="",meta_end="",command_id=""):
+def xml_task(xmlFile,expdir,task_id,cycledefs,dcTaskEnv={},dependencies="",metatask=False,meta_id='',meta_bgn="",meta_end="",command_id="",do_ensemble=False):
   # for non-meta tasks, task_id=meta_id; for meta tasks, task_id=${meta_id}_xxx
   # metatask is a group of tasks who share a very similar functionality at the same cycle, for example, post_f01, post_f02, ensembles, etc
   # It is recommended to use separate tasks (i.e. non-metatask) for spinup and prod cycles for simplicity
   COMROOT=os.getenv('COMROOT','/COMROOT_NOT_DEFINED')
   HOMErrfs=os.getenv('HOMErrfs','HOMErrfs_not_defined')
-  do_ensemble=os.getenv('DO_ENSEMBLE','false').upper()
-  if do_ensemble == "TRUE":
+  if do_ensemble:
     RUN='ens'
   else:
     RUN='rrfs'
