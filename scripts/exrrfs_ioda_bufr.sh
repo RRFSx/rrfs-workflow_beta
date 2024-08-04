@@ -19,7 +19,7 @@ yaml_list=(
 "prepbufr_rassda.yaml" 
 "prepbufr_satwnd.yaml" 
 "prepbufr_surface.yaml" 
-#"prepbufr_upperair.yaml"  # upperair has a problem gge.debug
+"prepbufr_upperair.yaml"
 )
 
 # run bufr2ioda.x
@@ -27,9 +27,11 @@ for yaml in ${yaml_list[@]}; do
  sed -e "s/@reference_time@/${REFERENCE_TIME}/" ${PARMrrfs}/rrfs/${yaml} > ${yaml}
  source prep_step
  srun ./bufr2ioda.x ${yaml}
- export err=$?
- err_chk
+ # some data may not be available at all cycles, so we don't check whether bufr2ioda.x runs successfully
 done
+ls ./ioda*nc  
+export err=$?
+err_chk
 
 # copy ioda*.nc to COMOUT
 ${cpreq} ${DATA}/ioda*.nc ${COMOUT}/${task_id}/

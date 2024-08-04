@@ -73,8 +73,10 @@ set -x
 ### temporarily solution since mpas model uses different modules files that other components
 source prep_step
 srun ${EXECrrfs}/init_atmosphere_model.x
-export err=$?
-err_chk
+if [[ ! -s './init.nc' ]]; then
+  echo "FATAL ERROR: failed to generate init.nc"
+  err_exit
+fi
 
 # copy init.nc to COMOUT
 ${cpreq} ${DATA}/init.nc ${COMOUT}${ensindexstr}/${task_id}/

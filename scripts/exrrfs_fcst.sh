@@ -78,7 +78,7 @@ set -x
 source prep_step
 srun ${EXECrrfs}/atmosphere_model.x 
 # check the status
-if [[ -s './log.atmosphere.0000.err' ]]; then
+if [[ -f './log.atmosphere.0000.err' ]]; then # has to use '-f" as the 0000 err file may be size 0
   echo "FATAL ERROR: MPAS model run failed"
   export err=99
   err_exit

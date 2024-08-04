@@ -62,6 +62,7 @@ set -x
 ### temporarily solution since mpas model uses different modules files that other components
 source prep_step
 srun ${EXECrrfs}/init_atmosphere_model.x
+ls ./lbc*.nc
 export err=$?
 err_chk
 

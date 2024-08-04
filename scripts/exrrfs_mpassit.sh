@@ -44,6 +44,5 @@ if [[ -s "./mpassit.${timestr}.nc" ]]; then
   ${cpreq} ${DATA}/${FHR}/mpassit.${timestr}.nc ${COMOUT}/${task_id}/
 else
   echo "FATAL ERROR: failed to genereate mpassit.${timestr}.nc"
-  export err=99
   err_exit
 fi
