@@ -18,7 +18,7 @@ def ic(xmlFile, expdir, do_ensemble=False):
     metatask=True
     meta_id='ic'
     task_id=f'{meta_id}_m#ens_index#'
-    cycledefs='ens_ic'
+    cycledefs='ens_ic,ens_lbc'
     dcTaskEnv['ENS_INDEX']="#ens_index#"
     ens_size=int(os.getenv('ENS_SIZE','2'))
     ens_indices=''.join(f'{i:03d} ' for i in range(1,int(ens_size)+1)).strip()
@@ -39,8 +39,8 @@ def ic(xmlFile, expdir, do_ensemble=False):
   <dependency>
   <and>{timedep}
   <or>
-    <taskdep task="ungrib{ensindexstr}_ic"/>
-    <taskdep task="ungrib{ensindexstr}_lbc_f000"/>
+    <taskdep task="ungrib_ic{ensindexstr}"/>
+    <taskdep task="ungrib_lbc{ensindexstr}_f000"/>
   </or>
   </and>
   </dependency>'''

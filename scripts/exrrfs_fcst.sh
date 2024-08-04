@@ -9,9 +9,11 @@ timestr=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H.%M.%S)
 if [[ -z "${ENS_INDEX}" ]]; then
   IFS=' ' read -r -a array <<< "${PROD_BGN_AT_HRS}"
   ensindexstr=""
+  lbc_interval=${LBC_INTERVAL:-3}
 else
   IFS=' ' read -r -a array <<< "${ENS_PROD_BGN_AT_HRS}"
   ensindexstr="/mem${ENS_INDEX}"
+  lbc_interval=${ENS_LBC_INTERVAL:-3}
 fi
 begin="NO"
 for hr in "${array[@]}"; do
@@ -53,10 +55,10 @@ file_content=$(< ${PARMrrfs}/rrfs/${physics_suite}/namelist.atmosphere) # read i
 eval "echo \"${file_content}\"" > namelist.atmosphere
 
 # generate the streams file on the fly using sed as this file contains "filename_template='lbc.$Y-$M-$D_$h.$m.$s.nc'"
+# lbc_interval is defined in the beginning
 restart_interval=${RESTART_INTERVAL:-1}
 history_interval=${HISTORY_INTERVAL:-1}
 diag_interval=${DIAG_INTERVAL:-1}
-lbc_interval=${LBC_INTERVAL:-3}
 sed -e "s/@restart_interval@/${restart_interval}/" -e "s/@history_interval@/${history_interval}/" \
     -e "s/@diag_interval@/${diag_interval}/" -e "s/@lbc_interval@/${lbc_interval}/" \
     ${PARMrrfs}/rrfs/streams.atmosphere_fcst > streams.atmosphere

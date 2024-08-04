@@ -4,8 +4,10 @@ set -x
 cpreq=${cpreq:-cpreq}
 if [[ -z "${ENS_INDEX}" ]]; then
   prefix=${LBC_PREFIX:-LBC_PREFIX_not_defined}
+  ensindexstr=""
 else
   prefix=${ENS_LBC_PREFIX:-ENS_LBC_PREFIX_not_defined}
+  ensindexstr="/mem${ENS_INDEX}"
 fi
 cd ${DATA}
 
@@ -44,8 +46,8 @@ sed -e "s/@input_stream@/init.nc/" -e "s/@output_stream@/foo.nc/" \
     -e "s/@lbc_interval@/1/" ${PARMrrfs}/rrfs/streams.init_atmosphere > streams.init_atmosphere
 
 #prepare for init_atmosphere
-ln -snf ${COMINrrfs}/${RUN}.${PDY}/${cyc}/ungrib/${prefix}:${start_time:0:13} .
-ln -snf ${COMINrrfs}/${RUN}.${PDY}/${cyc}/ic/init.nc .
+ln -snf ${COMINrrfs}/${RUN}.${PDY}/${cyc}${ensindexstr}/ungrib/${prefix}:${start_time:0:13} .
+ln -snf ${COMINrrfs}/${RUN}.${PDY}/${cyc}${ensindexstr}/ic/init.nc .
 ${cpreq} ${FIXrrfs}/meshes/${NET}.static.nc static.nc
 ${cpreq} ${FIXrrfs}/graphinfo/${NET}.graph.info.part.${NTASKS} .
 
@@ -64,8 +66,4 @@ export err=$?
 err_chk
 
 # copy lbc*.nc to COMOUT
-if [[ -z "${ENS_INDEX}" ]]; then
-  ${cpreq} ${DATA}/lbc*.nc ${COMOUT}/${task_id}/
-else
-  ${cpreq} ${DATA}/lbc*.nc ${COMOUT}/mem${ENS_INDEX}/${task_id}/
-fi
+${cpreq} ${DATA}/lbc*.nc ${COMOUT}${ensindexstr}/${task_id}/

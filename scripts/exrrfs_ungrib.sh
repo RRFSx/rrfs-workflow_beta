@@ -32,8 +32,8 @@ if [[ "${prefix}" == "GFS" ]]; then
   ${cpreq} ${COMINgfs}/gfs.${CDATEin:0:8}/${CDATEin:8:2}/gfs.t${CDATEin:8:2}z.pgrb2.0p25.f${fstr} GRIBFILE.AAA
 elif [[ "${prefix}" == "GEFS" ]]; then
   fstr=$(printf %03d ${FHRin})
-  filea=${COMINgefs}/gefs.${CDATEin:0:8}/${CDATEin:8:2}/ipgrb2ap5/gep${ENS_INDEX:1}.t${CDATEin:8:2}z.pgrb2a.0p50.f${fstr}
-  fileb=${COMINgefs}/gefs.${CDATEin:0:8}/${CDATEin:8:2}/ipgrb2bp5/gep${ENS_INDEX:1}.t${CDATEin:8:2}z.pgrb2b.0p50.f${fstr}
+  filea=${COMINgefs}/gefs.${CDATEin:0:8}/${CDATEin:8:2}/pgrb2ap5/gep${ENS_INDEX:1}.t${CDATEin:8:2}z.pgrb2a.0p50.f${fstr}
+  fileb=${COMINgefs}/gefs.${CDATEin:0:8}/${CDATEin:8:2}/pgrb2bp5/gep${ENS_INDEX:1}.t${CDATEin:8:2}z.pgrb2b.0p50.f${fstr}
   cat ${filea} ${fileb} > GRIBFILE.AAA
 elif [[ "${prefix}" == "RAP" ]]; then
   fstr=$(printf %02d ${FHRin})
@@ -69,11 +69,11 @@ elif [[ "${prefix}" == "RRFS" ]]; then
     ln -snf tmp2.grib2 GRIBFILE.AAA
   else
     echo "tmp2.grib2 not created; exiting"
-    err_exit()
+    err_exit
   fi
-elif
+else
   echo "ungrib PREFIX=${prefix} not supported"
-  err_exit()
+  err_exit
 fi
 #
 # generate the namelist on the fly
