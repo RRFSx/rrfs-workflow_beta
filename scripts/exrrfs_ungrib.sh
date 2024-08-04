@@ -78,7 +78,11 @@ ${EXECrrfs}/ungrib.x
 # check the status
 outfile="${prefix}:$(date -d "${CDATEout:0:8} ${CDATEout:8:2}" +%Y-%m-%d_%H)"
 if [[ -s ${outfile} ]]; then
-  ${cpreq} ${DATA}/${outfile} ${COMOUT}/${task_id}/
+  if [[ -z "${IMEM}" ]]; then
+    ${cpreq} ${DATA}/${outfile} ${COMOUT}/${task_id}/
+  else
+    ${cpreq} ${DATA}/${outfile} ${COMOUT}/mem${IMEM}/${task_id}/
+  fi
 else
   echo "FATAR ERROR: ungrib failed"
   export err=99
