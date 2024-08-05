@@ -10,5 +10,4 @@ expdir
 log*
 tmp.xml
 workflow/*db
-workflow/exp.setup*
-workflow/exp.jet*
+workflow/exp.*

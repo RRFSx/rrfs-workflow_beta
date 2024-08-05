@@ -7,12 +7,17 @@ export task_id=${task_id:-'mpassit'}
 #
 # source the config cascade
 source ${EXPDIR}/exp.setup
+[[ ! -z "${ENS_INDEX}" ]] && source ${EXPDIR}/config/config.ens
 source ${EXPDIR}/config/config.${MACHINE}
 source ${EXPDIR}/config/config.base
 [[ -s ${EXPDIR}/config/config.${task_id} ]] && source ${EXPDIR}/config/config.${task_id}
 #
 export pid=${pid:-$$}
-export RUN=${RUN:-rrfs}
+if [[ -z "${ENS_INDEX}" ]]; then
+  export RUN="rrfs"
+else
+  export RUN="ens"
+fi
 export jobid=${jobid:-${RUN}_${task_id}_${cyc}}
 
 export DATA=${DATA:-${DATAROOT}/${jobid}}
@@ -24,7 +29,11 @@ mkdir -p ${DATA}/${FHR}
 #
 export COMINrrfs=${COMINrrfs:-$(compath.py $envir/rrfs/$rrfs_ver)}
 export COMOUT=${COMOUT:-$(compath.py -o ${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc})}
-mkdir -p ${COMOUT}/${task_id}
+if [[ -z "${ENS_INDEX}" ]]; then
+  mkdir -p ${COMOUT}/${task_id}
+else
+  mkdir -p ${COMOUT}/mem${ENS_INDEX}/${task_id}
+fi
 #
 #----------------------------------------
 # Execute the script.

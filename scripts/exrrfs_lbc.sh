@@ -2,7 +2,13 @@
 declare -rx PS4='+ $(basename ${BASH_SOURCE[0]:-${FUNCNAME[0]:-"Unknown"}})[${LINENO}]${id}: '
 set -x
 cpreq=${cpreq:-cpreq}
-prefix=${LBC_PREFIX:-LBC_PREFIX_not_defined}
+if [[ -z "${ENS_INDEX}" ]]; then
+  prefix=${LBC_PREFIX:-LBC_PREFIX_not_defined}
+  ensindexstr=""
+else
+  prefix=${ENS_LBC_PREFIX:-ENS_LBC_PREFIX_not_defined}
+  ensindexstr="/mem${ENS_INDEX}"
+fi
 cd ${DATA}
 
 # generate the namelist on the fly
@@ -40,8 +46,8 @@ sed -e "s/@input_stream@/init.nc/" -e "s/@output_stream@/foo.nc/" \
     -e "s/@lbc_interval@/1/" ${PARMrrfs}/rrfs/streams.init_atmosphere > streams.init_atmosphere
 
 #prepare for init_atmosphere
-ln -snf ${COMINrrfs}/${RUN}.${PDY}/${cyc}/ungrib/${prefix}:${start_time:0:13} .
-ln -snf ${COMINrrfs}/${RUN}.${PDY}/${cyc}/ic/init.nc .
+ln -snf ${COMINrrfs}/${RUN}.${PDY}/${cyc}${ensindexstr}/ungrib/${prefix}:${start_time:0:13} .
+ln -snf ${COMINrrfs}/${RUN}.${PDY}/${cyc}${ensindexstr}/ic/init.nc .
 ${cpreq} ${FIXrrfs}/meshes/${NET}.static.nc static.nc
 ${cpreq} ${FIXrrfs}/graphinfo/${NET}.graph.info.part.${NTASKS} .
 
@@ -56,8 +62,9 @@ set -x
 ### temporarily solution since mpas model uses different modules files that other components
 source prep_step
 srun ${EXECrrfs}/init_atmosphere_model.x
+ls ./lbc*.nc
 export err=$?
 err_chk
 
 # copy lbc*.nc to COMOUT
-${cpreq} ${DATA}/lbc*.nc ${COMOUT}/${task_id}/
+${cpreq} ${DATA}/lbc*.nc ${COMOUT}${ensindexstr}/${task_id}/

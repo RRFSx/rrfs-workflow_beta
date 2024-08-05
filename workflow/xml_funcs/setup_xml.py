@@ -4,7 +4,7 @@ import os, sys, stat
 from xml_funcs.base import header_begin, header_entities, header_end, source, \
   wflow_begin, wflow_log, wflow_cycledefs, wflow_end
 from xml_funcs.smart_cycledefs import smart_cycledefs
-from xml_funcs.tasks1 import ic, lbc, da, fcst
+from xml_funcs.tasks1 import ic, lbc, da, fcst, ens_da
 from xml_funcs.tasks2 import mpassit, upp, ungrib_lbc, ungrib_ic
 from xml_funcs.tasks3 import ioda_bufr
 from xml_funcs.tasksX import clean, graphics #archive
@@ -14,6 +14,10 @@ def setup_xml(HOMErrfs, expdir):
   # source the config cascade
   source(f'{expdir}/exp.setup')
   machine=os.getenv('MACHINE').lower()
+  do_deterministic=os.getenv('DO_DETERMINISTIC','true').upper()
+  do_ensemble=os.getenv('DO_ENSEMBLE','false').upper()
+  if do_ensemble == "TRUE":
+    source(f"{expdir}/config/config.ens")
   #
   source(f"{expdir}/config/config.{machine}")
   source(f"{expdir}/config/config.base")
@@ -43,32 +47,44 @@ def setup_xml(HOMErrfs, expdir):
     log_fpath=f'{COMROOT}/{NET}/{VERSION}/logs/rrfs.@Y@m@d/@H/rrfs_{TAG}.log'
     wflow_log(xmlFile,log_fpath)
     wflow_cycledefs(xmlFile,dcCycledef)
-
     
 # ---------------------------------------------------------------------------
-# create tasks for an experiment (i.e. setup/generate an xml file)
-
-    ioda_bufr(xmlFile,expdir)
-    ungrib_ic(xmlFile,expdir)
-    ungrib_lbc(xmlFile,expdir)
-    ic(xmlFile,expdir)
-    lbc(xmlFile,expdir)
-    if os.getenv("FCST_ONLY","FALSE").upper()=="FALSE":
-      da(xmlFile,expdir)
-    fcst(xmlFile,expdir)
-    #
-    if machine == "jet": #currently only support mpassit on jet using pre-compiled mpassit
-      mpassit(xmlFile,expdir)
-      upp(xmlFile,expdir)
-      graphics(xmlFile,expdir)
-    #
-    if os.getenv("REALTIME").upper() == "TRUE": # write out the clean task for realtime runs and retros don't need it
-      clean(xmlFile,expdir)
-  
-    wflow_end(xmlFile)
+# create tasks for a deterministic experiment (i.e. setup/generate an xml file)
+    if do_deterministic == "TRUE":
+      ioda_bufr(xmlFile,expdir)
+      ungrib_ic(xmlFile,expdir)
+      ungrib_lbc(xmlFile,expdir)
+      ic(xmlFile,expdir)
+      lbc(xmlFile,expdir)
+      if os.getenv("FCST_ONLY","FALSE").upper()=="FALSE":
+        da(xmlFile,expdir)
+      fcst(xmlFile,expdir)
+      #
+      if machine == "jet": #currently only support mpassit on jet using pre-compiled mpassit
+        mpassit(xmlFile,expdir)
+        upp(xmlFile,expdir)
+        graphics(xmlFile,expdir)
+      #
+# ---------------------------------------------------------------------------
+# create tasks for an ensemble experiment
+    if do_ensemble == "TRUE":
+      ungrib_ic(xmlFile,expdir,do_ensemble=True)
+      ungrib_lbc(xmlFile,expdir,do_ensemble=True)
+      ic(xmlFile,expdir,do_ensemble=True)
+      lbc(xmlFile,expdir,do_ensemble=True)
+      if os.getenv("ENS_FCST_ONLY","FALSE").upper()=="FALSE":
+        ens_da(xmlFile,expdir)
+      fcst(xmlFile,expdir,do_ensemble=True)
+      if machine == "jet": #currently only support mpassit on jet using pre-compiled mpassit
+        mpassit(xmlFile,expdir,do_ensemble=True)
+        upp(xmlFile,expdir,do_ensemble=True)
 
 # ---------------------------------------------------------------------------
-
+    if os.getenv("REALTIME").upper() == "TRUE": # write out the clean task for realtime runs and retros don't need it
+      clean(xmlFile,expdir)
+    #
+    wflow_end(xmlFile)
+# ---------------------------------------------------------------------------
 
   fPath=f"{expdir}/run_rocoto.sh"
   with open(fPath,'w') as rocotoFile:

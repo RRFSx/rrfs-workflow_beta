@@ -12,15 +12,24 @@ module load RDAS/${MACHINE}.intel
 module list
 set -x
 #
+# tweaks for non-NCO runs
 COMMAND=$1  #get the JJOB name
 task_id=${COMMAND#*_}
 export task_id=${task_id,,} #to lower case
 export rrfs_ver=${VERSION}
-RUN='rrfs'
-# tweaks for non-NCO runs
+if [[ -z "${ENS_INDEX}" ]] && [[ ! "${task_id}" == "ens_da"   ]]; then
+  export RUN='rrfs'
+  export DATA=${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/${task_id}
+else
+  export RUN='ens'
+  if [[ "${task_id}" == "ens_da"  ]]; then
+    export DATA=${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/${task_id}
+  else
+    export DATA=${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/mem${ENS_INDEX}/${task_id}
+  fi
+fi
 export cpreq="ln -snf" #use soft link instead of copy for non-NCO experiments
 export COMOUT="${COMROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}" # task_id not included as compath.py may not be able to find this subdirectory
-export DATA=${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/${task_id}
 export COMINrrfs="${COMROOT}/${NET}/${rrfs_ver}" # we may need to use data from previous cycles
 export NTASKS=${SLURM_NTASKS}
 #

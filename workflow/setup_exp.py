@@ -89,7 +89,7 @@ with open(EXPin, 'r') as infile, open(EXPout, 'w') as outfile:
     else:
       rm_list=('EXP_BASEDIR=','EXP_NAME=','REALTIME=','REALTIME_DAYS=','RETRO_PERIOD=','RETRO_CYCLETHROTTLE=',
         'RETRO_TASKTHROTTLE=','ACCOUNT','QUEUE','PARTITION','RESERVATION','STARTTIME','NODES','WALLTIME',
-        'FCST_ONLY=',
+        'FCST_ONLY=','DO_DETERMINISTIC','DO_ENSEMBLE',
           )
       found=False
       for rmstr in rm_list:

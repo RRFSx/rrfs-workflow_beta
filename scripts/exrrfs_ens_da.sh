@@ -2,7 +2,6 @@
 declare -rx PS4='+ $(basename ${BASH_SOURCE[0]:-${FUNCNAME[0]:-"Unknown"}})[${LINENO}]${id}: '
 set -x
 cpreq=${cpreq:-cpreq}
-prefix='GFS'
 BUMPLOC=${BUMPLOC:-"conus12km-401km11levels"}
 
 cd ${DATA}
@@ -34,7 +33,10 @@ if [[ "${begin}" == "YES" ]]; then
   # mpasjedi cannot run on init.nc due to the miss of pressure values
   : #do nothing
 else
-  cpfs ${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${CDATEm1:0:8}/${CDATEm1:8:2}/fcst/restart.${timestr}.nc .
+  for index in $(seq -w 001 ${ENS_SIZE}); do
+    mkdir -p ens/mem${index}
+    cpfs ${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${CDATEm1:0:8}/${CDATEm1:8:2}/mem${index}/fcst/restart.${timestr}.nc ens/mem${index}
+  done
 fi
 #${cpreq} ${COMINioda}/..../obs/* obs/                            
 #${cpreq} ${COMINgdas}/..../ens/* ens/
@@ -63,5 +65,8 @@ if [[ "${begin}" == "YES" ]]; then
   # mpasjedi cannot run on init.nc due to the miss of pressure values
   : #do nothing
 else
-  ${cpreq} ${DATA}/data/restart.${timestr}.nc ${COMOUT}/${task_id}/
+  for index in $(seq -w 001 ${ENS_SIZE}); do
+    mkdir -p ${COMOUT}/mem${index}/da/
+    ${cpreq} ${DATA}/data/ens/mem${index}/restart.${timestr}.nc ${COMOUT}/mem${index}/da/
+  done
 fi
