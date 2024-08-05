@@ -205,7 +205,7 @@ def mpassit(xmlFile, expdir, do_ensemble=False):
 <var name="fhr">{meta_hr}</var>
 <var name="fhr2">{fhr2}</var>'''
     meta_end=f'</metatask>\n</metatask>\n'
-    task_id=f'{meta_id}_m#ens_index#__f#fhr#'
+    task_id=f'{meta_id}_m#ens_index#_f#fhr#'
     dcTaskEnv['ENS_INDEX']="#ens_index#"
     ensindexstr="_m#ens_index#"
     RUN='ens'
@@ -264,7 +264,7 @@ def upp(xmlFile, expdir, do_ensemble=False):
 <metatask name="{meta_id}_m#ens_index#">
 <var name="fhr">{meta_hr}</var>'''
     meta_end=f'</metatask>\n</metatask>\n'
-    task_id=f'{meta_id}_m#ens_index#__f#fhr#'
+    task_id=f'{meta_id}_m#ens_index#_f#fhr#'
     dcTaskEnv['ENS_INDEX']="#ens_index#"
     ensindexstr="_m#ens_index#"
 
