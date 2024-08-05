@@ -8,7 +8,12 @@ fhr=$((10#${FHR:-0})) # remove leading zeros
 CDATEp=$($NDATE ${fhr} ${CDATE} )
 timestr=$(date -d "${CDATEp:0:8} ${CDATEp:8:2}" +%Y-%m-%d_%H.%M.%S) 
 
-${cpreq} ${COMINrrfs}/${RUN}.${PDY}/${cyc}/mpassit/mpassit.${timestr}.nc .
+if [[ -z "${ENS_INDEX}" ]]; then
+  ensindexstr=""
+else
+  ensindexstr="/mem${ENS_INDEX}"
+fi
+${cpreq} ${COMINrrfs}/${RUN}.${PDY}/${cyc}${ensindexstr}/mpassit/mpassit.${timestr}.nc .
 ${cpreq} ${FIXrrfs}/upp/* .
 FIXcrtm=/mnt/lfs4/HFIP/hfv3gfs/nwprod/hpc-stack/libs/intel-18.0.5.274/crtm/2.4.0/fix #gge.debug temp soultin
 while read line; do
@@ -78,7 +83,7 @@ cat ${wrfnat} ${wrftwo} > ${wrfnat}.two
 mv ${wrfnat}.two ${wrfnat}
 
 # copy products to COMOUT # file name does not comply with NCO standards #gge.debug tmp
-${cpreq} ${wrfprs} ${COMOUT}/${RUN}_prs_${CDATE}_f${fhr}.grib2
-${cpreq} ${wrfnat} ${COMOUT}/${RUN}_nat_${CDATE}_f${fhr}.grib2
-${cpreq} ${wrftwo} ${COMOUT}/${RUN}_two_${CDATE}_f${fhr}.grib2
-${cpreq} ${wrfprs} ${COMOUT}/${YYJJJHH}0000${fhr}
+${cpreq} ${wrfprs} ${COMOUT}${ensindexstr}/${RUN}_prs_${CDATE}_f${fhr}.grib2
+${cpreq} ${wrfnat} ${COMOUT}${ensindexstr}/${RUN}_nat_${CDATE}_f${fhr}.grib2
+${cpreq} ${wrftwo} ${COMOUT}${ensindexstr}/${RUN}_two_${CDATE}_f${fhr}.grib2
+${cpreq} ${wrfprs} ${COMOUT}${ensindexstr}/${YYJJJHH}0000${fhr}

@@ -5,7 +5,6 @@ cpreq=${cpreq:-cpreq}
 
 cd ${DATA}
 timestr=$(date -d "${CDATE:0:8} ${CDATE:8:2}" +%Y-%m-%d_%H.%M.%S) 
-# determine whether to begin new cycles
 if [[ -z "${ENS_INDEX}" ]]; then
   IFS=' ' read -r -a array <<< "${PROD_BGN_AT_HRS}"
   ensindexstr=""
@@ -15,6 +14,7 @@ else
   ensindexstr="/mem${ENS_INDEX}"
   lbc_interval=${ENS_LBC_INTERVAL:-3}
 fi
+# determine whether to begin new cycles
 begin="NO"
 for hr in "${array[@]}"; do
   if [[ "${cyc}" == "$(printf '%02d' ${hr})" ]]; then

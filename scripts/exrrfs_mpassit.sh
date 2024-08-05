@@ -8,9 +8,14 @@ fhr=$((10#${FHR:-0})) # remove leading zeros
 CDATEp=$($NDATE ${fhr} ${CDATE} )
 timestr=$(date -d "${CDATEp:0:8} ${CDATEp:8:2}" +%Y-%m-%d_%H.%M.%S) 
 
+if [[ -z "${ENS_INDEX}" ]]; then
+  ensindexstr=""
+else
+  ensindexstr="/mem${ENS_INDEX}"
+fi
 #gge.debug: in operation, does UPP work on COMROOT(wait for the completion of all fcsts?)  or DATAROOT?
-${cpreq} ${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/fcst/history.${timestr}.nc .
-${cpreq} ${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}/fcst/diag.${timestr}.nc .
+${cpreq} ${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}${ensindexstr}/fcst/history.${timestr}.nc .
+${cpreq} ${DATAROOT}/${NET}/${rrfs_ver}/${RUN}.${PDY}/${cyc}${ensindexstr}/fcst/diag.${timestr}.nc .
 ${cpreq} ${FIXrrfs}/mpassit/${NET}/* .
 # generate the namelist on the fly
 sed -e "s/@timestr@/${timestr}/" ${PARMrrfs}/rrfs/namelist.mpassit > namelist.mpassit
@@ -41,7 +46,7 @@ source prep_step
 srun /lfs5/BMC/nrtrr/FIX_RRFS2/exec/mpassit.x namelist.mpassit  #gge.debug temp solution
 # check the status copy output to COMOUT
 if [[ -s "./mpassit.${timestr}.nc" ]]; then
-  ${cpreq} ${DATA}/${FHR}/mpassit.${timestr}.nc ${COMOUT}/${task_id}/
+  ${cpreq} ${DATA}/${FHR}/mpassit.${timestr}.nc ${COMOUT}${ensindexstr}/${task_id}/
 else
   echo "FATAL ERROR: failed to genereate mpassit.${timestr}.nc"
   err_exit
