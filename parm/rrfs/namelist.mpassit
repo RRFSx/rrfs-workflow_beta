@@ -10,11 +10,11 @@
     esmf_log             = .false.
     nx = @nx@
     ny = @ny@
-    dx = @dx@.0
-    dy = @dx@.0
-    ref_lat = @lat@.@lat2@
+    dx = @dx@
+    dy = @dx@
+    ref_lat = @ref_lat@
     ref_lon = -97.5
-    truelat1 = @lat@.@lat2@
-    truelat2 = @lat@.@lat2@
+    truelat1 = @ref_lat@
+    truelat2 = @ref_lat@
     stand_lon = -97.5
 /

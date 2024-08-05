@@ -15,18 +15,16 @@ ${cpreq} ${FIXrrfs}/mpassit/${NET}/* .
 if [[ "${NET}" == "conus12km" ]]; then
   nx=480
   ny=280
-  dx=12000
-  lat=39
-  lat2=0
+  dx=12000.0
+  ref_lat=39.0
 elif [[ "${NET}" == "conus3km" ]]; then
   nx=1601
   ny=961
-  dx=3000
-  lat=38
-  lat2=5
+  dx=3000.0
+  ref_lat=38.5
 fi
 sed -e "s/@timestr@/${timestr}/" -e "s/@nx@/${nx}/" -e "s/@ny@/${ny}/" -e "s/@dx@/${dx}/" \
-    -e "s/@lat@/${lat}/" -e "s/@lat2@/${lat2}/" ${PARMrrfs}/rrfs/namelist.mpassit > namelist.mpassit
+    -e "s/@ref_lat@/${ref_lat}/" ${PARMrrfs}/rrfs/namelist.mpassit > namelist.mpassit
 
 # run the MPAS model
 ulimit -s unlimited
