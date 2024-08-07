@@ -9,7 +9,7 @@ ln -snf ${OBSINprepbufr}/${CDATE}.rap.t${cyc}z.prepbufr.tm00 prepbufr
 ln -snf ${EXECrrfs}/bufr2ioda.x .
 
 # generate the namelist on the fly
-REFERENCE_TIME=${REFERENCE_TIME:-REFERENCE_TIME_not_defined}
+REFERENCE_TIME="${CDATE:0:4}-${CDATE:4:2}-${CDATE:6:2}T${CDATE:8:2}:00:00Z"
 yaml_list=(
 "prepbufr_aircraft.yaml" 
 "prepbufr_ascatw.yaml" 
@@ -18,13 +18,13 @@ yaml_list=(
 "prepbufr_profiler.yaml" 
 "prepbufr_rassda.yaml" 
 "prepbufr_satwnd.yaml" 
-"prepbufr_surface.yaml" 
-"prepbufr_upperair.yaml"
+"prepbufr_adpsfc.yaml" 
+"prepbufr_adpupa.yaml"
 )
 
 # run bufr2ioda.x
 for yaml in ${yaml_list[@]}; do
- sed -e "s/@reference_time@/${REFERENCE_TIME}/" ${PARMrrfs}/rrfs/${yaml} > ${yaml}
+ sed -e "s/@referenceTime@/${REFERENCE_TIME}/" ${PARMrrfs}/rrfs/${yaml} > ${yaml}
  source prep_step
  srun ./bufr2ioda.x ${yaml}
  # some data may not be available at all cycles, so we don't check whether bufr2ioda.x runs successfully
