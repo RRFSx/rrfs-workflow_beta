@@ -19,7 +19,7 @@ observations:
               timeOffset: "*/DHR"
               transforms:
                 - scale: 3600
-              referenceTime: 2024-05-26T19:00:00Z
+              referenceTime: @referenceTime@
           timeOffset:
             query: "*/DHR"
           longitude:
