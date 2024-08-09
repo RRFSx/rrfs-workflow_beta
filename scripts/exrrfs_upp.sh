@@ -4,9 +4,9 @@ set -x
 cpreq=${cpreq:-cpreq}
 
 cd ${DATA}/${FHR}
-fhr=$((10#${FHR:-0})) # remove leading zeros
+fhr=${FHR:1:2} # remove leading zeros
 CDATEp=$($NDATE ${fhr} ${CDATE} )
-timestr=$(date -d "${CDATEp:0:8} ${CDATEp:8:2}" +%Y-%m-%d_%H.%M.%S) 
+timestr=$(date -d "${CDATEp:0:8} ${CDATEp:8:2}" +%Y-%m-%d_%H:%M:%S) 
 
 if [[ -z "${ENS_INDEX}" ]]; then
   ensindexstr=""
@@ -50,11 +50,14 @@ module list
 set -x  
 ### temporarily solution as UPP uses modules different from other components
 source prep_step
-srun /lfs5/BMC/nrtrr/FIX_RRFS2/exec/upp.x #gge.debug temp solution
+#srun /lfs5/BMC/nrtrr/FIX_RRFS2/exec/upp.x #gge.debug temp solution
+srun /lfs4/BMC/wrfruc/ejames/coding/UPP/exec/upp.x
+#srun /lfs4/BMC/wrfruc/ejames/coding/UPP_hrrrv5/exec/upp.x
+#srun /lfs4/BMC/wrfruc/ejames/coding/UPP_jaymes/exec/upp.x
 # check the status copy output to COMOUT
-wrfprs="WRFPRS${fhr}.tm00"
-wrfnat="WRFNAT${fhr}.tm00"
-wrftwo="WRFTWO${fhr}.tm00"
+wrfprs="WRFPRS.Grb${fhr}"
+wrfnat="WRFNAT.Grb${fhr}"
+wrftwo="WRFTWO.Grb${fhr}"
 if [[ ! -s "./${wrfprs}" ]]; then
   echo "FATAL ERROR: failed to genereate WRF grib2 files"
   export err=99
