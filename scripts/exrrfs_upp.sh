@@ -52,8 +52,6 @@ set -x
 source prep_step
 #srun /lfs5/BMC/nrtrr/FIX_RRFS2/exec/upp.x #gge.debug temp solution
 srun /lfs4/BMC/wrfruc/ejames/coding/UPP/exec/upp.x
-#srun /lfs4/BMC/wrfruc/ejames/coding/UPP_hrrrv5/exec/upp.x
-#srun /lfs4/BMC/wrfruc/ejames/coding/UPP_jaymes/exec/upp.x
 # check the status copy output to COMOUT
 wrfprs="WRFPRS.GrbF${fhr}"
 wrfnat="WRFNAT.GrbF${fhr}"
