@@ -55,9 +55,9 @@ srun /lfs4/BMC/wrfruc/ejames/coding/UPP/exec/upp.x
 #srun /lfs4/BMC/wrfruc/ejames/coding/UPP_hrrrv5/exec/upp.x
 #srun /lfs4/BMC/wrfruc/ejames/coding/UPP_jaymes/exec/upp.x
 # check the status copy output to COMOUT
-wrfprs="WRFPRS.Grb${fhr}"
-wrfnat="WRFNAT.Grb${fhr}"
-wrftwo="WRFTWO.Grb${fhr}"
+wrfprs="WRFPRS.GrbF${fhr}"
+wrfnat="WRFNAT.GrbF${fhr}"
+wrftwo="WRFTWO.GrbF${fhr}"
 if [[ ! -s "./${wrfprs}" ]]; then
   echo "FATAL ERROR: failed to genereate WRF grib2 files"
   export err=99
