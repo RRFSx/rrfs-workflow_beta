@@ -1,5 +1,5 @@
 # 1. Build
-`git clone --recursive git@github.com:rrfs2/rrfs-workflow.git`
+`git clone --recursive git@github.com:rrfsx/rrfs-workflow.git`
 
 `cd sorc` and run the following command to build the system:
 ```
