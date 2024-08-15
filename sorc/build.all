@@ -8,5 +8,6 @@ cd ${HOMErrfs}/sorc
 ./build.mpas &> ./log.build.mpas 2>&1 &
 ./build.rdas &> ./log.build.rdas 2>&1 &
 ./build.upp  &> ./log.build.upp  2>&1 &
+./build.mpassit  &> ./log.build.mpassit  2>&1 &
 
 exit 0
