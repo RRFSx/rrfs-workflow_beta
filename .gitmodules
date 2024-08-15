@@ -18,3 +18,13 @@
 	url = https://github.com/NOAA-EMC/RDASApp.git
         branch = develop
         ignore = all
+[submodule "sorc/UPP"]
+	path = sorc/UPP
+	url = https://github.com/NOAA-EMC/UPP
+        branch = develop
+        ignore = all
+[submodule "sorc/MPASSIT"]
+	path = sorc/MPASSIT
+	url = https://github.com/LarissaReames-NOAA/MPASSIT
+        branch = master
+        ignore = all
