@@ -13,7 +13,7 @@ EXEC="${HOMErrfs}/sorc/WPS/ungrib/src/ungrib.exe"
 if [ "${MACHINE}" = "wcoss2" ]; then
   BUILD_VERSION_FILE="${HOMErrfs}/versions/build.ver"
   if [ -f ${BUILD_VERSION_FILE} ]; then
-    . ${BUILD_VERSION_FILE}
+    source ${BUILD_VERSION_FILE}
   fi
 fi
 
@@ -28,7 +28,7 @@ echo "compiling WPS..."
 cd ${HOMErrfs}/sorc/WPS
 ./clean
 if [ "${MACHINE}" = "wcoss2" ]; then
-  cp configure.wps_wcoss2 configure.wps
+  cp ../configure.wps_wcoss2 configure.wps
 else
   echo "19" | ./configure --nowrf
 fi

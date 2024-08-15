@@ -15,7 +15,7 @@ EXEC2="${HOMErrfs}/sorc/MPAS-Model/atmosphere_model"
 if [ "${MACHINE}" = "wcoss2" ]; then
   BUILD_VERSION_FILE="${HOMErrfs}/versions/build.ver"
   if [ -f ${BUILD_VERSION_FILE} ]; then
-    . ${BUILD_VERSION_FILE}
+    source ${BUILD_VERSION_FILE}
   fi
 fi
 
